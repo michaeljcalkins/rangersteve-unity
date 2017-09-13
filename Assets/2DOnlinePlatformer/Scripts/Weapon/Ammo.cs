@@ -34,6 +34,7 @@ public class Ammo : Photon.MonoBehaviour
         {
             col.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, col.transform.position);
         }
+
         // Otherwise if the player manages to shoot himself...
         else if (col.gameObject.tag != "Player")
         {

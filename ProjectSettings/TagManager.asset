@@ -10,6 +10,7 @@ TagManager:
   - WeaponBox
   - Grenade
   - SpawnPoint
+  - WeaponSpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Enemies
   - Pickups
   - Ground
-  - 
+  - Props
   - 
   - 
   - 
@@ -53,8 +54,14 @@ TagManager:
   - name: Background
     uniqueID: 1535931219
     locked: 0
+  - name: Props
+    uniqueID: 85952329
+    locked: 0
   - name: Character
     uniqueID: 2511236001
+    locked: 0
+  - name: Player
+    uniqueID: 1285127969
     locked: 0
   - name: Foreground
     uniqueID: 1024582385

@@ -67,7 +67,7 @@ public class BackgroundPropSpawner : MonoBehaviour
 		{
 			// ... and if it's facing left...
 			if(facingLeft)
-			{
+            {
 				// ... and if it's beyond the left spawn position...
 				if(propInstance.transform.position.x < leftSpawnPosX - 0.5f)
 					// ... destroy the prop.

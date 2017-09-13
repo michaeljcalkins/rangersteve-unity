@@ -10,19 +10,17 @@ public class ConnectRoom : Photon.MonoBehaviour
 {
     [HideInInspector]
     public GameObject player;
+
     public string Version;
     bool InConnectUpdate;
 
-    // the location of the three horizontal lines, the point positions the player spawn
-    float[] dropRange = { 5.8f, -1.4f, -5.6f };
-
+    // Array of empty objects that are used as location indicators of potential spawn points
     public GameObject[] spawnPoints;
 
     public virtual void Start()
     {
         PhotonNetwork.autoJoinLobby = true;
-        if (spawnPoints == null)
-            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoints");
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
     }
 
     void Update()
@@ -49,9 +47,6 @@ public class ConnectRoom : Photon.MonoBehaviour
         // Grab a random y coordinate
         Vector3 spawnPoint = Vector3.zero;
 
-        // int spawnPointPos = Random.Range(0, spawnPoints.Length);
-        // Debug.Log(spawnPoints[0]);
-
         // If there is a spawn point array and the array is not empty, pick a spawn point at random
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
@@ -60,11 +55,13 @@ public class ConnectRoom : Photon.MonoBehaviour
 
         // Pick a random x coordinate
         Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
-
         player = PhotonNetwork.Instantiate(Resources.Load("hero").name, dropPos, Quaternion.identity, 0);
 
         //in order that we did not go in prefabs other players in their scripts(PlayerControl,Hide_poiner) and did not interfere in their control
         player.GetComponent<PlayerControl>().enabled = true;
         player.GetComponentInChildren<Hide_poiner>().enabled = true;
+
+        // Make the camera follow the player
+        Camera.main.GetComponent<CameraFollow> ().setTarget (player.transform);
     }
 }

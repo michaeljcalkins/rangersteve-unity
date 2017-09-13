@@ -54,9 +54,6 @@ public class PlayerControl : MonoBehaviour {
         // Setting up references.
         groundCheck = transform.Find ("groundCheck");
         anim = GetComponent<Animator> ();
-
-        // Make the camera follow the player
-        Camera.main.GetComponent<CameraFollow> ().setTarget (gameObject.transform);
     }
 
     void Update () {

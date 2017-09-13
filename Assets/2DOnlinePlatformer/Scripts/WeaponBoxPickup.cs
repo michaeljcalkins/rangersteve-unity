@@ -13,9 +13,9 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
 	{
         // If the player enters the trigger zone...
         if (other.tag == "Player" && other.GetComponent<PhotonView>().isMine && other.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == null && GetComponent<SpriteRenderer>().enabled)
-        {  
+        {
             GetComponent<SpriteRenderer>().enabled = false;
-            other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());         
+            other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
             GetComponent<Weapons>().Initialization(other.transform.GetChild(0).GetComponent<Weapons>(),GetComponent<Weapons>());
             photonView.RPC("destroy_bonus", PhotonTargets.All);
         }
