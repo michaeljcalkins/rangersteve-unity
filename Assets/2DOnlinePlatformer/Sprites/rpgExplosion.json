@@ -1,0 +1,132 @@
+{"frames": [
+
+{
+	"filename": "destruction_air_0001.png",
+	"frame": {"x":1162,"y":352,"w":250,"h":117},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":65,"y":99,"w":250,"h":117},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0002.png",
+	"frame": {"x":865,"y":384,"w":295,"h":117},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":44,"y":96,"w":295,"h":117},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0003.png",
+	"frame": {"x":582,"y":1,"w":208,"h":210},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":114,"y":0,"w":208,"h":210},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0004.png",
+	"frame": {"x":1,"y":231,"w":243,"h":221},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":82,"y":14,"w":243,"h":221},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0005.png",
+	"frame": {"x":1,"y":1,"w":273,"h":228},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":39,"y":5,"w":273,"h":228},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0006.png",
+	"frame": {"x":246,"y":231,"w":318,"h":217},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":18,"w":318,"h":217},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0007.png",
+	"frame": {"x":566,"y":215,"w":297,"h":212},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":19,"w":297,"h":212},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0008.png",
+	"frame": {"x":276,"y":1,"w":304,"h":212},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":18,"w":304,"h":212},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0009.png",
+	"frame": {"x":792,"y":1,"w":291,"h":199},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":32,"w":291,"h":199},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0010.png",
+	"frame": {"x":865,"y":202,"w":283,"h":180},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":53,"w":283,"h":180},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0011.png",
+	"frame": {"x":1085,"y":1,"w":262,"h":174},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":61,"w":262,"h":174},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0012.png",
+	"frame": {"x":1150,"y":177,"w":239,"h":173},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":40,"y":62,"w":239,"h":173},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0013.png",
+	"frame": {"x":1349,"y":1,"w":198,"h":161},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":66,"y":67,"w":198,"h":161},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0014.png",
+	"frame": {"x":1391,"y":164,"w":57,"h":95},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":68,"y":106,"w":57,"h":95},
+	"sourceSize": {"w":355,"h":235}
+},
+{
+	"filename": "destruction_air_0015.png",
+	"frame": {"x":1,"y":454,"w":6,"h":7},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":119,"y":194,"w":6,"h":7},
+	"sourceSize": {"w":355,"h":235}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "rpgExplosion.png",
+	"format": "RGBA8888",
+	"size": {"w":1548,"h":502},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1c1032873bf47e9fe46c08e740dcee39:69f122ca31e369dccfbe09f2c96358a4:58347afed231199649608357d14055f7$"
+}
+}
