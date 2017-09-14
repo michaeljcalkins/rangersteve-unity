@@ -12,44 +12,45 @@ Description  */
 
 public class UI : MonoBehaviour
 {
-    public GameObject loading_panel; // loading bar
+    public GameObject loading_panel;
+    // loading bar
     public Text info_player_text;
     public Image body_color;
     string key_hat;
     string key_body_color;
 
-    void Start()
+    void Start ()
     {
+        
         // setting the default colors and hats
-        PhotonNetwork.player.SetCustomProperties(new Hashtable { { "Key_hats", "DefaultHat" } });
-        PhotonNetwork.player.SetCustomProperties(new Hashtable { { "Key_colors", "Default" } });
+//        PhotonNetwork.player.SetCustomProperties (new Hashtable { { "Key_hats", "DefaultHat" } });
+//        PhotonNetwork.player.SetCustomProperties (new Hashtable { { "Key_colors", "Default" } });
     }
 
-    void Update()
+    void Update ()
     {
-        info_player_text.text = PhotonNetwork.connectionStateDetailed.ToString();
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
+        info_player_text.text = PhotonNetwork.connectionStateDetailed.ToString ();
+        if (Input.GetKeyDown (KeyCode.Escape)) {
+            Application.Quit ();
         }
     }
 
-    void OnJoinedRoom()
+    void OnJoinedRoom ()
     {
-        loading_panel.SetActive(false);
+        loading_panel.SetActive (false);
     }
 
-    void OnLeftRoom()
+    void OnLeftRoom ()
     {
-        loading_panel.SetActive(true);
+        loading_panel.SetActive (true);
     }
 
-    public void SetNetworKey(Transform key)
+    public void SetNetworKey (Transform key)
     {
-        PhotonNetwork.player.SetCustomProperties(new Hashtable { { key.parent.name, key.name } });
+        PhotonNetwork.player.SetCustomProperties (new Hashtable { { key.parent.name, key.name } });
     }
 
-    public void ChangeColor(Image col)
+    public void ChangeColor (Image col)
     {
         body_color.color = col.color;
     }

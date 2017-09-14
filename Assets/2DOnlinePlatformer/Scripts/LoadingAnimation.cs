@@ -1,36 +1,42 @@
-﻿using UnityEngine;
+﻿/**
+ * Animation download. Adding points to the word loading
+ */
+
+using UnityEngine;
 using UnityEngine.UI;
-/* Description
 
-Animation download. Adding points to the word loading
-
-Description */
 public class LoadingAnimation : MonoBehaviour
 {
-    //// Dot animation during the boot
-    float time_ =0.5f;
-    int amount_of_points;
-    string line_without_points; // a line to which we add the dots
+	// Dot animation during the boot
+	float time = 0.5f;
+	int amountOfPoints;
 
-    void Start()
-    {
-        line_without_points = GetComponent<Text>().text;
-    }
+	// a line to which we add the dots
+	string lineWithoutPoints;
+
+	private Text connectingText;
+
+	void Start ()
+	{
+		connectingText = GameObject.Find ("ConnectingText").GetComponent<Text> ();
+		lineWithoutPoints = connectingText.text;
+	}
 
 	void Update ()
-    {
-        time_ += 0.01f;
+	{
+		connectingText.text += ".";
+		time += 0.01f;
 
-        if (time_ >= 1f)
-        {
-            GetComponent<Text>().text += ".";
-            if (amount_of_points == 3)
-            {
-                GetComponent<Text>().text = line_without_points;
-                amount_of_points = -1;
-            }
-            time_ = 0;
-            amount_of_points++;
-        }
-    }
+		if (time >= 1f) {
+			connectingText.text += ".";
+
+			if (amountOfPoints == 3) {
+				connectingText.text = lineWithoutPoints;
+				amountOfPoints = -1;
+			}
+
+			time = 0;
+			amountOfPoints++;
+		}
+	}
 }

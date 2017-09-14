@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 /* Network Description
 
 If this player dies or if there is one alive player in the room,
@@ -13,39 +14,41 @@ Each extra byte of the transmitted traffic is already a problem.
 Network Description */
 public class Remover : Photon.MonoBehaviour
 {
-	public GameObject splash; // animation River splash
+    // animation River splash
+    public GameObject splash;
 
-    void OnTriggerEnter2D(Collider2D col)
-	{
-        if (!col.GetComponent<PhotonView>().isMine || col.name == "inside") return;
+    void OnTriggerEnter2D (Collider2D col)
+    {
+        if (!col.GetComponent<PhotonView> ().isMine || col.name == "inside")
+            return;
+        
         col.name = "inside";
 
         // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
         // ... instantiate the splash where the player falls in.
-        PhotonNetwork.Instantiate(splash.name, col.transform.position, transform.rotation, 0);
+        PhotonNetwork.Instantiate (splash.name, col.transform.position, transform.rotation, 0);
 
         // If the player hits the trigger...
-        if (col.gameObject.tag == "Player")
-        {  // ... reload the level.
-            Invoke("Reloading", 2);
+        if (col.gameObject.tag == "Player") {  // ... reload the level.
+            Invoke ("Reloading", 2);
         }
         // ... destroy the player or bomb;
-        PhotonNetwork.Destroy(col.gameObject); // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
+        PhotonNetwork.Destroy (col.gameObject); // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
     }
 
-    void Reloading()
+    void Reloading ()
     {
-        if (GameObject.FindGameObjectsWithTag("Player").Length <= 1)
-            photonView.RPC("Reload", PhotonTargets.All);
+        if (GameObject.FindGameObjectsWithTag ("Player").Length <= 1)
+            photonView.RPC ("Reload", PhotonTargets.All);
     }
 
     [PunRPC]
-    void Reload()
+    void Reload ()
     {
-        ConnectRoom CR = FindObjectOfType<ConnectRoom>();
+        CreatePlayer CR = FindObjectOfType<CreatePlayer> ();
         if (CR.player != null)
-            PhotonNetwork.Destroy(CR.player);
+            PhotonNetwork.Destroy (CR.player);
 
-        CR.OnJoinedRoom();
+        CR.HandleCreatePlayerObject ();
     }
 }
