@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 258807778}
   - component: {fileID: 258807777}
   m_Layer: 5
-  m_Name: MainMenuButtonManager
+  m_Name: PlayButtonManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 258807776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e583d6cdcc48485fba45af7875760d6, type: 3}
+  m_Script: {fileID: 11500000, guid: d446b861975864e7e8a473f950480caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &258807778

@@ -54,7 +54,6 @@ public class PickupSpawner : Photon.MonoBehaviour
         }
 
         Vector3 dropPos = new Vector3 (weaponSpawnPoint.x, weaponSpawnPoint.y);
-        Debug.Log (dropPos);
 
         // weapons boxes should not spawn close to each other. Then player can take simultaneously two boxes (bug - infinite ammo)
         Collider2D[] enemies = Physics2D.OverlapCircleAll (dropPos, 5);
