@@ -180,7 +180,7 @@ MonoBehaviour:
   spawn_point: {x: 1.336, y: 0.211, z: 0}
   weapon_animation: 1
   front: 1
-  amount: 2
+  amount: 7
 --- !u!212 &212000011513166520
 SpriteRenderer:
   m_ObjectHideFlags: 1
