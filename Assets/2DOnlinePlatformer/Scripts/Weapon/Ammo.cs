@@ -12,7 +12,7 @@ using System.Collections;
 
 public class Ammo : Photon.MonoBehaviour
 {
-    public float ammoSpeed = 2000;
+    private float ammoSpeed = 9000;
 
     // Prefab of explosion effect.
     public GameObject explosion;
@@ -20,28 +20,60 @@ public class Ammo : Photon.MonoBehaviour
     // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
     bool flag;
 
-    Vector3 mouse_pos;
-    Transform target;
-
-    //Assign to the object you want to rotate
-    Vector3 object_pos;
-    float angle;
+    Vector3 mouseOnScreen;
+    Vector3 positionOnScreen;
+    Vector3 direction;
 
     void Awake ()
     {
         // Add force in the direction described
-        GetComponent<Rigidbody2D> ().AddForce (transform.up * ammoSpeed);
+        mouseOnScreen = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+        positionOnScreen = new Vector3 (transform.position.x, transform.position.y);
+        direction = mouseOnScreen - positionOnScreen;
+        direction.Normalize ();
+
+        // Get the angle between the points
+        float angle = AngleBetweenTwoPoints (positionOnScreen, mouseOnScreen);
+
+        // Ta Daaa
+        Flip ();
+        transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, angle));
+        GetComponent<Rigidbody2D> ().AddForce (direction * ammoSpeed);
     }
 
-    void Update ()
+    void FixedUpdate ()
     {  
+        // Add force in the direction described
+        positionOnScreen = new Vector3 (transform.position.x, transform.position.y);
+        direction = mouseOnScreen - positionOnScreen;
+        direction.Normalize ();
 
+        // Get the angle between the points
+        float angle = AngleBetweenTwoPoints (positionOnScreen, mouseOnScreen);
+
+        // Ta Daaa
+        transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, angle));
+        Flip ();
+    }
+
+    void Flip ()
+    {
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;   
+    }
+
+    private float AngleBetweenTwoPoints (Vector3 a, Vector3 b)
+    {
+        return Mathf.Atan2 (a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
     }
 
     void OnTriggerEnter2D (Collider2D col)
     {
         if (flag || !photonView.isMine || col.gameObject.tag == "Player" && col.transform.GetComponent<PhotonView> ().isMine)
             return;
+        
         flag = true;
 
         if (col.tag == "WeaponBox") {
@@ -60,10 +92,10 @@ public class Ammo : Photon.MonoBehaviour
                 PhotonNetwork.Instantiate (explosion.name, transform.position, Quaternion.Euler (0f, 0f, Random.Range (0f, 360f)), 0);
         }
 
-        StartCoroutine (bullet_self_destruct_ ());
+        StartCoroutine (BulletSelfDestruct ());
     }
 
-    IEnumerator bullet_self_destruct_ () // Without this there will be problems playing sound of a shot when the ammo is destroyed immediately after the spawn
+    IEnumerator BulletSelfDestruct () // Without this there will be problems playing sound of a shot when the ammo is destroyed immediately after the spawn
     {
         GetComponent<BoxCollider2D> ().enabled = false;
 

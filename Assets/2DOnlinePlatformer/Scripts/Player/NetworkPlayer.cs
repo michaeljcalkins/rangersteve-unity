@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+
 /* Network description 
 
 very good movement transmits through the network of slow, medium speeds
@@ -12,67 +13,64 @@ Owner prefab player sends behavior the player of other players through if (strea
 Players receive each iteration initialization of these variables from owner prefab player via stream.ReceiveNext (); in if stream.isReading
 
 Network description */
-[RequireComponent(typeof (PhotonView))]
+[RequireComponent (typeof(PhotonView))]
 public class NetworkPlayer : Photon.MonoBehaviour
 {
     string name_;
-    public static Dictionary<string, Sprite> box_weapon = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> box_weapon = new Dictionary<string, Sprite> ();
 
     private Vector3 latestCorrectPos;
     private Vector3 onUpdatePos;
     private float fraction;
 
-    void Awake()
+    void Awake ()
     {
         //Initialize the sprites of weapons that we can see the other players
-        if (box_weapon.Count != 0) return;
-        PickupSpawner pickupSpawner = GameObject.Find("pickupManager").GetComponent<PickupSpawner>();
+        if (box_weapon.Count != 0)
+            return;
+        PickupSpawner pickupSpawner = GameObject.Find ("PickupManager").GetComponent<PickupSpawner> ();
         foreach (GameObject boncr in pickupSpawner.WeaponBox)
-            box_weapon.Add(boncr.GetComponent<Weapons>().picture_weapon.name, boncr.GetComponent<Weapons>().picture_weapon);
+            box_weapon.Add (boncr.GetComponent<Weapons> ().picture_weapon.name, boncr.GetComponent<Weapons> ().picture_weapon);
 
         latestCorrectPos = transform.position;
         onUpdatePos = transform.position;
     }
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            if (transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null)
-            {
-                name_ = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name;
-            }
-            else
-                name_ = "null";
-            stream.Serialize(ref name_);
-            int sO = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null ? transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder : 0;
-            stream.SendNext(sO);
 
-            stream.SendNext(transform.localScale);
-            stream.SendNext(GetComponent<Rigidbody2D>().velocity); // for a smooth transfer of the network jump
+    void OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting) {
+            if (transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite != null) {
+                name_ = transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite.name;
+            } else
+                name_ = "null";
+            stream.Serialize (ref name_);
+            int sO = transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite != null ? transform.GetChild (0).GetComponent<SpriteRenderer> ().sortingOrder : 0;
+            stream.SendNext (sO);
+
+            stream.SendNext (transform.localScale);
+            stream.SendNext (GetComponent<Rigidbody2D> ().velocity); // for a smooth transfer of the network jump
 
             Vector3 pos = transform.localPosition;
             Quaternion rot = transform.localRotation;
-            stream.Serialize(ref pos);
-            stream.Serialize(ref rot);
-        }
-        else
-        {
-            stream.Serialize(ref name_);
-            if (box_weapon.ContainsKey(name_))
-                transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = box_weapon[name_];
+            stream.Serialize (ref pos);
+            stream.Serialize (ref rot);
+        } else {
+            stream.Serialize (ref name_);
+            if (box_weapon.ContainsKey (name_))
+                transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = box_weapon [name_];
             else
-                transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
-            transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = (int)stream.ReceiveNext();
+                transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = null;
+            transform.GetChild (0).GetComponent<SpriteRenderer> ().sortingOrder = (int)stream.ReceiveNext ();
 
-            transform.localScale = (Vector3)stream.ReceiveNext();
-            GetComponent<Rigidbody2D>().velocity = (Vector2)stream.ReceiveNext();// for a smooth transfer of the network jump
+            transform.localScale = (Vector3)stream.ReceiveNext ();
+            GetComponent<Rigidbody2D> ().velocity = (Vector2)stream.ReceiveNext ();// for a smooth transfer of the network jump
 
             // Receive latest state information
             Vector3 pos = Vector3.zero;
             Quaternion rot = Quaternion.identity;
 
-            stream.Serialize(ref pos);
-            stream.Serialize(ref rot);
+            stream.Serialize (ref pos);
+            stream.Serialize (ref rot);
 
             latestCorrectPos = pos;                // save this to move towards it in FixedUpdate()
             onUpdatePos = transform.localPosition; // we interpolate from here to latestCorrectPos
@@ -82,10 +80,9 @@ public class NetworkPlayer : Photon.MonoBehaviour
         }
     }
 
-    void Update()
+    void Update ()
     {
-        if (photonView.isMine)
-        {
+        if (photonView.isMine) {
             return;     // if this object is under our control, we don't need to apply received position-updates 
         }
         // We get 10 updates per sec. Sometimes a few less or one or two more, depending on variation of lag.
@@ -98,6 +95,6 @@ public class NetworkPlayer : Photon.MonoBehaviour
         // Our fraction variable should reach 1 in 100ms, so we should multiply deltaTime by 10.
         // We want it to take a bit longer, so we multiply with 9 instead!
         fraction = fraction + Time.deltaTime * 9;
-        transform.localPosition = Vector3.Lerp(onUpdatePos, latestCorrectPos, fraction); // set our pos between A and B
+        transform.localPosition = Vector3.Lerp (onUpdatePos, latestCorrectPos, fraction); // set our pos between A and B
     }
 }

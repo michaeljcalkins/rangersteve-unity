@@ -86,15 +86,8 @@ public class Weapons : MonoBehaviour
             if (weapon_animation)
                 anim.SetTrigger ("Shoot");
 
-            Vector3 pos = Input.mousePosition;
-            pos.z = transform.position.z - Camera.main.transform.position.z;
-            pos = Camera.main.ScreenToWorldPoint (pos);
-
-            // Quaternion.LookRotation (new Vector3 (0, 0, Mathf.Sign (transform.root.localScale.x)))
-            var q = Quaternion.FromToRotation (Vector3.up, pos - transform.position);
-            
             // ... instantiate the prefab facing right or left and set it's velocity to the right or left. 
-            PhotonNetwork.Instantiate ("Ammo/" + ammunition.name, Spawn_point, q, 0);
+            PhotonNetwork.Instantiate ("Ammo/" + ammunition.name, Spawn_point, Quaternion.identity, 0);
 
             Amount--;
         }

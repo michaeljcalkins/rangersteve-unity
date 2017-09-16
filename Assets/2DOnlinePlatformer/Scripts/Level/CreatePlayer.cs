@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CreatePlayer : MonoBehaviour
 {
@@ -31,9 +32,13 @@ public class CreatePlayer : MonoBehaviour
         Vector3 dropPos = new Vector3 (spawnPoint.x, spawnPoint.y);
         player = PhotonNetwork.Instantiate (Resources.Load ("hero").name, dropPos, Quaternion.identity, 0);
 
+        if (!player) {
+            SceneManager.LoadScene ("Loading");
+            return;
+        }
+
         //in order that we did not go in prefabs other players in their scripts(PlayerControl,Hide_poiner) and did not interfere in their control
         player.GetComponent<PlayerControl> ().enabled = true;
-        player.GetComponentInChildren<Hide_poiner> ().enabled = true;
 
         // Make the camera follow the player
         Camera.main.GetComponent<CameraFollow> ().setTarget (player.transform);

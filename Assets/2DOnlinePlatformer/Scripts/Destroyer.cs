@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 /* Network Description
 
 Only the owner(photonView.isMine == true) of an object can delete it
@@ -7,53 +8,56 @@ Only the owner(photonView.isMine == true) of an object can delete it
 Network Description */
 public class Destroyer : Photon.MonoBehaviour
 {
-	public bool destroyOnAwake;			// Whether or not this gameobject should destroyed after a delay, on Awake.
-	public float awakeDestroyDelay;		// The delay for destroying it on Awake.
-	public bool findChild = false;		// Find a child game object and delete it
-	public string namedChild;           // Name the child object in Inspector
+    // Whether or not this gameobject should destroyed after a delay, on Awake.
+    public bool destroyOnAwake;
 
-    void Awake()
+    // The delay for destroying it on Awake.
+    public float awakeDestroyDelay;
+
+    // Find a child game object and delete it
+    public bool findChild = false;
+
+    // Name the child object in Inspector
+    public string namedChild;
+
+    void Awake ()
     {
         // If the gameobject should be destroyed on awake,
-        if (destroyOnAwake)
-        {
-            if (findChild)
-            {
-                PhotonNetwork.Destroy(transform.Find(namedChild).gameObject);
-            }
-            else
-            {
+        if (destroyOnAwake) {
+            if (findChild) {
+                PhotonNetwork.Destroy (transform.Find (namedChild).gameObject);
+            } else {
                 // ... destroy the gameobject after the delay.
-                StartCoroutine(Destroy_(awakeDestroyDelay));
+                StartCoroutine (Destroy_ (awakeDestroyDelay));
             }
         }
     }
 
-    IEnumerator Destroy_(float awakeDestroyDelay)
+    IEnumerator Destroy_ (float awakeDestroyDelay)
     {
-        yield return new WaitForSeconds(awakeDestroyDelay);
+        yield return new WaitForSeconds (awakeDestroyDelay);
         if (photonView.isMine)
-            PhotonNetwork.Destroy(gameObject);
+            PhotonNetwork.Destroy (gameObject);
     }
 
-    void DestroyChildGameObject()
+    void DestroyChildGameObject ()
     {
         // Destroy this child gameobject, this can be called from an Animation Event.
-        if (transform.Find(namedChild).gameObject != null)
-            PhotonNetwork.Destroy(transform.Find(namedChild).gameObject);
+        if (transform.Find (namedChild).gameObject != null)
+            PhotonNetwork.Destroy (transform.Find (namedChild).gameObject);
     }
 
-    void DisableChildGameObject()
+    void DisableChildGameObject ()
     {
         // Destroy this child gameobject, this can be called from an Animation Event.
-        if (transform.Find(namedChild).gameObject.activeSelf == true)
-            transform.Find(namedChild).gameObject.SetActive(false);
+        if (transform.Find (namedChild).gameObject.activeSelf == true)
+            transform.Find (namedChild).gameObject.SetActive (false);
     }
 
-    void DestroyGameObject()
+    void DestroyGameObject ()
     {
         // Destroy this gameobject, this can be called from an Animation Event.
-       if(photonView.isMine)
-        PhotonNetwork.Destroy(gameObject);
+        if (photonView.isMine)
+            PhotonNetwork.Destroy (gameObject);
     }
 }
