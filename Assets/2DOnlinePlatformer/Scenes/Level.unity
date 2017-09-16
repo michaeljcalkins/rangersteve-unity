@@ -436,6 +436,7 @@ MonoBehaviour:
   - {fileID: 1508169165224806, guid: e1fb3c2568c1cf44fbbd7a954982d4ea, type: 2}
   - {fileID: 1000011848777576, guid: 4b3f3e55965aa56458d06a599c4a3656, type: 2}
   - {fileID: 1508169165224806, guid: f5d614fb5ed7a81409e15b219e23da01, type: 2}
+  - {fileID: 1508169165224806, guid: d21f0143961334cdaaa6dcc79b76a638, type: 2}
   quantity: 5
 --- !u!4 &284093541
 Transform:
