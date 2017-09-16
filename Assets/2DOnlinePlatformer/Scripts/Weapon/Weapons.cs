@@ -1,16 +1,12 @@
-﻿using UnityEngine;
+﻿/**
+ * Move point position spawn ammunition weapons if the player crouches (Vector3 Spawn_point)
+ * When the number of munitions weapons is zero, delete sprite weapons and remove components of weapons behavior(int Amount)
+ * when weapons component is hung up on the player(script WeaponBoxPickup) go in OnDisable()  and then to Start()
+ * in prefab box weapon script is disabled in order that we could not use the behavior of weapons (Input.GetButtonDown("Fire1"))
+ */
+using UnityEngine;
+using UnityEngine.UI;
 
-/* Description
-
-Move point position spawn ammunition weapons if the player crouches (Vector3 Spawn_point)
-
-When the number of munitions weapons is zero, delete sprite weapons and remove components of weapons behavior(int Amount)
-
-when weapons component is hung up on the player(script WeaponBoxPickup) go in OnDisable()  and then to Start()
-
-in prefab box weapon script is disabled in order that we could not use the behavior of weapons (Input.GetButtonDown("Fire1"))
-
-Description */
 public class Weapons : MonoBehaviour
 {
     // Use this for initialization Weapon
@@ -18,6 +14,8 @@ public class Weapons : MonoBehaviour
 
     // The player is currently shooting?
     protected Animator anim;
+
+    public Text remainingAmmoText;
 
     // Reference to the Animator component.
     public Sprite picture_weapon;
@@ -60,8 +58,31 @@ public class Weapons : MonoBehaviour
             if (amount == 0) {
                 GetComponent<SpriteRenderer> ().sprite = null;
                 Destroy (GetComponents<Behaviour> () [GetComponents<Behaviour> ().Length - 1]);
+                remainingAmmoText.text = "--";
+                return;
             }
+
+            remainingAmmoText.text = amount.ToString ();
         }
+    }
+
+    public void Initialization (Weapons new_, Weapons original)
+    {
+        new_.picture_weapon = original.picture_weapon;
+        new_.ammunition = original.ammunition;
+        new_.spawn_point = original.spawn_point;
+        new_.weapon_animation = original.weapon_animation;
+        new_.front = original.front;
+        new_.amount = original.amount;
+    }
+
+    protected virtual void Start ()
+    {
+        GetComponent<SpriteRenderer> ().sortingOrder = front ? 1 : 0;
+        anim = transform.root.GetComponent<Animator> ();
+        GetComponent<SpriteRenderer> ().sprite = picture_weapon;
+        remainingAmmoText = GameObject.Find ("RemainingAmmoText").GetComponent<Text> ();
+        remainingAmmoText.text = amount.ToString ();
     }
 
     protected virtual void Update ()
@@ -93,25 +114,8 @@ public class Weapons : MonoBehaviour
         }
     }
 
-    protected virtual void Start ()
-    {
-        GetComponent<SpriteRenderer> ().sortingOrder = front ? 1 : 0;
-        anim = transform.root.GetComponent<Animator> ();
-        GetComponent<SpriteRenderer> ().sprite = picture_weapon;
-    }
-
     private void OnDisable ()
     {
         GetComponents<Behaviour> () [GetComponents<Behaviour> ().Length - 1].enabled = true;
-    }
-
-    public void Initialization (Weapons new_, Weapons original)
-    {
-        new_.picture_weapon = original.picture_weapon;
-        new_.ammunition = original.ammunition;
-        new_.spawn_point = original.spawn_point;
-        new_.weapon_animation = original.weapon_animation;
-        new_.front = original.front;
-        new_.amount = original.amount;
     }
 }

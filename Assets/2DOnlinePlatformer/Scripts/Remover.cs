@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /* Network Description
 
@@ -17,6 +18,13 @@ public class Remover : Photon.MonoBehaviour
     // animation River splash
     public GameObject splash;
 
+    private Text remainingAmmoText;
+
+    void Start ()
+    {
+        remainingAmmoText = GameObject.Find ("RemainingAmmoText").GetComponent<Text> ();
+    }
+
     void OnTriggerEnter2D (Collider2D col)
     {
         if (!col.GetComponent<PhotonView> ().isMine || col.name == "inside")
@@ -32,8 +40,11 @@ public class Remover : Photon.MonoBehaviour
         if (col.gameObject.tag == "Player") {  // ... reload the level.
             Invoke ("Reloading", 2);
         }
+
         // ... destroy the player or bomb;
         PhotonNetwork.Destroy (col.gameObject); // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
+
+        remainingAmmoText.text = "--";
     }
 
     void Reloading ()

@@ -53,15 +53,6 @@ public class Ammo : Photon.MonoBehaviour
 
         // Ta Daaa
         transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, angle));
-        Flip ();
-    }
-
-    void Flip ()
-    {
-        // Multiply the player's x local scale by -1.
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;   
     }
 
     private float AngleBetweenTwoPoints (Vector3 a, Vector3 b)

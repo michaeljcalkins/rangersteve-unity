@@ -3,24 +3,32 @@ using System.Collections;
 
 public class BackgroundPropSpawner : MonoBehaviour
 {
-    public Rigidbody2D backgroundProp;
     // The prop to be instantiated.
-    public float leftSpawnPosX;
+    public Rigidbody2D backgroundProp;
+
     // The x coordinate of position if it's instantiated on the left.
-    public float rightSpawnPosX;
+    public float leftSpawnPosX;
+
     // The x coordinate of position if it's instantiated on the right.
-    public float minSpawnPosY;
+    public float rightSpawnPosX;
+
     // The lowest possible y coordinate of position.
-    public float maxSpawnPosY;
+    public float minSpawnPosY;
+
     // The highest possible y coordinate of position.
-    public float minTimeBetweenSpawns;
+    public float maxSpawnPosY;
+
     // The shortest possible time between spawns.
-    public float maxTimeBetweenSpawns;
+    public float minTimeBetweenSpawns;
+
     // The longest possible time between spawns.
-    public float minSpeed;
+    public float maxTimeBetweenSpawns;
+
     // The lowest possible speed of the prop.
-    public float maxSpeed;
+    public float minSpeed;
+
     // The highest possible speeed of the prop.
+    public float maxSpeed;
 
     void Start ()
     {
@@ -31,7 +39,8 @@ public class BackgroundPropSpawner : MonoBehaviour
     IEnumerator Spawn ()
     {
         // Create a random wait time before the prop is instantiated.
-        float waitTime = Random.Range (minTimeBetweenSpawns, maxTimeBetweenSpawns);
+        float waitTime = Random.Range (minTimeBetweenSpawns, maxTimeBetweenSpawns); 
+
         // Wait for the designated period.
         yield return new WaitForSeconds (waitTime);
 

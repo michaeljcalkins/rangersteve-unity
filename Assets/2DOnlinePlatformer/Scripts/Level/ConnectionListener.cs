@@ -7,10 +7,10 @@ public class ConnectionListener : Photon.MonoBehaviour
 
     void Update ()
     {
-        if (!loadingSceneFlag && !PhotonNetwork.connected) {
-            Debug.Log ("Disconnected!");
-            loadingSceneFlag = true;
-            SceneManager.LoadScene ("Loading");
-        }
+//        if (!loadingSceneFlag && !PhotonNetwork.connected) {
+//            Debug.Log ("Disconnected!");
+//            loadingSceneFlag = true;
+//            SceneManager.LoadScene ("Loading");
+//        }
     }
 }
