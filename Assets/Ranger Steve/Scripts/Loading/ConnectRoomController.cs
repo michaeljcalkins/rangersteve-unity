@@ -6,7 +6,6 @@
  * sees his prefab scripts(PlayerControl,Hide_poiner) disabled
  * because he has not visited in his OnJoinedRoom()
  */
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

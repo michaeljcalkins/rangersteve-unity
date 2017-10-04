@@ -4,13 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ground
   - Wall
   - Obstacle
   - WeaponBox
   - Grenade
-  - Weapon Spawn Point
-  - Player Spawn Point
+  - WeaponSpawnPoint
+  - PlayerSpawnPoint
+  - Ground
   layers:
   - Default
   - TransparentFX

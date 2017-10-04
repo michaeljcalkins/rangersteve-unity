@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayButtonController : MonoBehaviour
 {
-	public void HandleStartGame ()
+	public void HandlePlayNowClick ()
 	{
 		SceneManager.LoadScene ("Loading");
 	}

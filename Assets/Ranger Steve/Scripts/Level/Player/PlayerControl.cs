@@ -149,7 +149,7 @@ public class PlayerControl : MonoBehaviour
 		// Only flip the player once or you'll end up with infinite flipping
 		if (facingRight)
 			return;
-            
+
 		Flip ();
 
 		// Player is now facing right
@@ -163,7 +163,7 @@ public class PlayerControl : MonoBehaviour
 			return;
 
 		Flip ();
-            
+
 		// Player is now facing left
 		facingRight = false;
 	}
@@ -173,6 +173,6 @@ public class PlayerControl : MonoBehaviour
 		// Multiply the player's x local scale by -1.
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
-		transform.localScale = theScale;   
+		transform.localScale = theScale;
 	}
 }

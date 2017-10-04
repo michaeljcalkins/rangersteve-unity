@@ -108,51 +108,46 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &258807776
+--- !u!1 &193273789
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 258807778}
-  - component: {fileID: 258807777}
-  m_Layer: 5
-  m_Name: Play Button
+  - component: {fileID: 193273790}
+  - component: {fileID: 193273791}
+  m_Layer: 0
+  m_Name: PlayButtonManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &258807777
-MonoBehaviour:
+--- !u!4 &193273790
+Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 258807776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d446b861975864e7e8a473f950480caf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!224 &258807778
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 258807776}
+  m_GameObject: {fileID: 193273789}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3296875, y: 1.3296875, z: 1.3296875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 640, y: 324.98706}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &193273791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 193273789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134aa1b69686e4d86b29ec8473717040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &393313958
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +160,7 @@ GameObject:
   - component: {fileID: 393313961}
   - component: {fileID: 393313960}
   m_Layer: 5
-  m_Name: Background Image
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +232,7 @@ GameObject:
   - component: {fileID: 778375938}
   - component: {fileID: 778375937}
   m_Layer: 5
-  m_Name: Play Now Button
+  m_Name: PlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,8 +296,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 258807777}
-        m_MethodName: HandleStartGame
+      - m_Target: {fileID: 193273791}
+        m_MethodName: HandlePlayNowClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -310,7 +305,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -357,7 +352,7 @@ GameObject:
   - component: {fileID: 1108664953}
   - component: {fileID: 1108664954}
   m_Layer: 0
-  m_Name: Background Music
+  m_Name: MusicManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -387,7 +382,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 23c22137ae403463b81653d9ad87d2c6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -530,7 +525,7 @@ GameObject:
   - component: {fileID: 1210615580}
   - component: {fileID: 1210615582}
   m_Layer: 5
-  m_Name: Game Title Text
+  m_Name: GameTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -551,8 +546,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 63.000015}
-  m_SizeDelta: {x: 367.1, y: 500}
+  m_AnchoredPosition: {x: 0, y: 65}
+  m_SizeDelta: {x: 704.7, y: 151.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1210615580
 MonoBehaviour:

@@ -16,7 +16,7 @@ public class WeaponBoxSpawnerController : Photon.MonoBehaviour
 
 	void Start ()
 	{
-		weaponSpawnPoints = GameObject.FindGameObjectsWithTag ("Weapon Spawn Point");
+		weaponSpawnPoints = GameObject.FindGameObjectsWithTag ("WeaponSpawnPoint");
 
 		// Start the first delivery.
 		if (PhotonNetwork.isMasterClient) // spawn weapons boxes can only master client(scene objects)
@@ -50,7 +50,7 @@ public class WeaponBoxSpawnerController : Photon.MonoBehaviour
 		// weapons boxes should not spawn close to each other. Then player can take simultaneously two boxes (bug - infinite ammo)
 		Collider2D[] enemies = Physics2D.OverlapCircleAll (dropPos, 5);
 		foreach (Collider2D en in enemies) {
-			if (en.transform.tag == "Weapon Box") {
+			if (en.transform.tag == "WeaponBox") {
 				yield return new WaitForSeconds (0.001f);
 				StartCoroutine (DeliverPickup ());
 				yield break;

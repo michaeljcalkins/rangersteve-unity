@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CreatePlayerController : MonoBehaviour
@@ -18,7 +18,7 @@ public class CreatePlayerController : MonoBehaviour
 	// Use this for initialization
 	public void HandleCreatePlayerObject ()
 	{
-		spawnPoints = GameObject.FindGameObjectsWithTag ("Player Spawn Point");
+		spawnPoints = GameObject.FindGameObjectsWithTag ("PlayerSpawnPoint");
 
 		// Grab a random y coordinate
 		Vector3 spawnPoint = Vector3.zero;
@@ -40,7 +40,6 @@ public class CreatePlayerController : MonoBehaviour
 		//in order that we did not go in prefabs other players in their scripts(PlayerControl,Hide_poiner) and did not interfere in their control
 		player.GetComponent<PlayerControl> ().enabled = true;
 
-		// Make the camera follow the player
 		Camera.main.GetComponent<CameraFollowController> ().SetTarget (player.transform);
 	}
 }

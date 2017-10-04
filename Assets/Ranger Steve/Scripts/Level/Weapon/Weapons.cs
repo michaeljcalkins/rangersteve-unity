@@ -39,7 +39,7 @@ public class Weapons : MonoBehaviour
 
 	public string weaponName;
 
-	private Text activeWeaponNameText;
+	private Image activeWeaponNameImage;
 
 	private float nextFire = 0;
 
@@ -54,12 +54,14 @@ public class Weapons : MonoBehaviour
 				GetComponent<SpriteRenderer> ().sprite = null;
 				Destroy (GetComponents<Behaviour> () [GetComponents<Behaviour> ().Length - 1]);
 				remainingAmmoText.text = "--";
-				activeWeaponNameText.text = "";
+				activeWeaponNameImage.enabled = false;
 				return;
 			}
 
 			remainingAmmoText.text = amount.ToString ();
-			activeWeaponNameText.text = weaponName;
+			Debug.Log (weaponName);
+			activeWeaponNameImage.sprite = Resources.Load<Sprite> ("Ranger Steve/Sprites/Weapons/" + weaponName);
+			activeWeaponNameImage.enabled = true;
 		}
 	}
 		
@@ -94,12 +96,12 @@ public class Weapons : MonoBehaviour
 		anim = transform.root.GetComponent<Animator> ();
 		GetComponent<SpriteRenderer> ().sprite = picture_weapon;
 
-		remainingAmmoText = GameObject.Find ("Remaining Ammo Text").GetComponent<Text> ();
+		remainingAmmoText = GameObject.Find ("RemainingAmmoText").GetComponent<Text> ();
 		remainingAmmoText.text = amount.ToString ();
 
-		activeWeaponNameText = GameObject.Find ("Active Weapon Name Text").GetComponent<Text> ();
-		Debug.Log (weaponName);
-		activeWeaponNameText.text = weaponName;
+		activeWeaponNameImage = GameObject.Find ("ActiveWeaponImage").GetComponent<Image> ();
+		activeWeaponNameImage.sprite = Resources.Load<Sprite> ("Ranger Steve/Sprites/Weapons/" + weaponName);
+		activeWeaponNameImage.enabled = true;
 	}
 
 	protected virtual void Update ()
