@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /* Network Description
 
@@ -9,7 +10,15 @@ condition( GetComponent<SpriteRenderer>().enabled) to the player came here only 
 Network Description */
 public class WeaponBoxPickup : Photon.MonoBehaviour
 {
+	private Image activeWeaponNameImage;
+
 	public AudioClip pickupClip;
+
+	void Awake ()
+	{
+		activeWeaponNameImage = GameObject.Find ("ActiveWeaponImage").GetComponent<Image> ();
+	}
+
 	// Sound for when the bomb crate is picked up.
 	void OnTriggerEnter2D (Collider2D other)
 	{
@@ -17,8 +26,14 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
 		if (other.tag == "Player" && other.GetComponent<PhotonView> ().isMine && other.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite == null && GetComponent<SpriteRenderer> ().enabled) {
 			GetComponent<SpriteRenderer> ().enabled = false;
 			other.transform.GetChild (0).gameObject.AddComponent (GetComponent<Weapon> ().GetType ());
+
+			// Instantiate weapon firing logic
 			GetComponent<Weapons> ().Initialization (other.transform.GetChild (0).GetComponent<Weapons> (), GetComponent<Weapons> ());
 			photonView.RPC ("destroy_bonus", PhotonTargets.All);
+
+			// Set weapon image in UI
+			activeWeaponNameImage.overrideSprite = Resources.Load<Sprite> ("Sprites/Weapons/" + GetComponent<Weapons> ().weaponName);
+			activeWeaponNameImage.enabled = true;
 		}
 	}
 

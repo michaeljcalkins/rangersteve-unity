@@ -59,9 +59,6 @@ public class Weapons : MonoBehaviour
 			}
 
 			remainingAmmoText.text = amount.ToString ();
-			Debug.Log (weaponName);
-			activeWeaponNameImage.sprite = Resources.Load<Sprite> ("Ranger Steve/Sprites/Weapons/" + weaponName);
-			activeWeaponNameImage.enabled = true;
 		}
 	}
 		
@@ -100,8 +97,7 @@ public class Weapons : MonoBehaviour
 		remainingAmmoText.text = amount.ToString ();
 
 		activeWeaponNameImage = GameObject.Find ("ActiveWeaponImage").GetComponent<Image> ();
-		activeWeaponNameImage.sprite = Resources.Load<Sprite> ("Ranger Steve/Sprites/Weapons/" + weaponName);
-		activeWeaponNameImage.enabled = true;
+
 	}
 
 	protected virtual void Update ()
