@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /* Network Description
 
@@ -22,7 +23,7 @@ public class PlayerControl : MonoBehaviour
 
 	// Condition for whether the player should fly.
 	[HideInInspector]
-	public bool flying = false;
+	private bool flying = false;
 
 	// Amount of force added to move the player left and right.
 	public float moveForce = 365f;
@@ -32,9 +33,9 @@ public class PlayerControl : MonoBehaviour
 
 	// The fastest the player can travel in the x axis.
 	public float maxSpeedY = 20f;
-
-	// Array of clips for when the player jumps.
-	public AudioClip[] jumpClips;
+    
+	// The longest amount of time in seconds a player can fly.
+	public float maxFlyingTime = 4f;
 
 	// Amount of force added when the player jumps.
 	public float jumpForce = 1200f;
@@ -42,20 +43,27 @@ public class PlayerControl : MonoBehaviour
 	// Amount of force added when the player flys.
 	public float flyingForce = 150f;
 
+	public Slider remainingJetFuelSlider;
+
 	// A position marking where to check if the player is grounded.
 	private Transform groundCheck;
 
 	// Whether or not the player is grounded.
 	private bool grounded = false;
 
+	private float usedFlyingTime = 0f;
+
+	private AudioSource jetAudioSource;
+
 	// Reference to the player's animator component.
 	private Animator anim;
 
 	void Start ()
 	{
-		// Setting up references.
 		groundCheck = transform.Find ("groundCheck");
 		anim = GetComponent<Animator> ();
+		jetAudioSource = GetComponent<AudioSource> ();
+		remainingJetFuelSlider = GameObject.Find ("RemainingJetFuelSlider").GetComponent<Slider> ();
 	}
 
 	void Update ()
@@ -69,6 +77,7 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		sit = Input.GetKeyDown (KeyCode.S);
+		   
 
 		flying = Input.GetMouseButton (1);
 	}
@@ -92,26 +101,35 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		// If the player should fly...
-		if (flying) {
+		if (flying && usedFlyingTime < maxFlyingTime) {
 			// Set the Jump animator trigger parameter.
 			anim.SetTrigger ("Jump");
 
-			// Play a random jump audio clip.
-			int i = Random.Range (0, jumpClips.Length);
-			AudioSource.PlayClipAtPoint (jumpClips [i], transform.position);
+			// Play flying jet sound effect.
+			jetAudioSource.enabled = true;
+			jetAudioSource.loop = true;
+
+			usedFlyingTime += Time.fixedDeltaTime;
+
+			Debug.Log ("Flying");
 
 			// Add a vertical force to the player.
 			GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0f, flyingForce));
+		} else {
+			jetAudioSource.enabled = false;
+			jetAudioSource.loop = false;
+			usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
+			Debug.Log ("Not Flying");
 		}
+
+		remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
+
+		Debug.Log (usedFlyingTime);
 
 		// If the player should jump...
 		if (jump) {
 			// Set the Jump animator trigger parameter.
 			anim.SetTrigger ("Jump");
-
-			// Play a random jump audio clip.
-			int i = Random.Range (0, jumpClips.Length);
-			AudioSource.PlayClipAtPoint (jumpClips [i], transform.position);
 
 			// Add a vertical force to the player.
 			GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0f, jumpForce));

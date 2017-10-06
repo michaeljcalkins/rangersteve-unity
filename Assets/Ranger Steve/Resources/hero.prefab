@@ -569,11 +569,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: be74f26048476446bb9a17fa0ef399a7, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -671,16 +671,13 @@ MonoBehaviour:
   facingRight: 1
   jump: 0
   sit: 0
-  flying: 0
   moveForce: 365
   maxSpeedX: 20
   maxSpeedY: 30
-  jumpClips:
-  - {fileID: 8300000, guid: 50a8d8a939a0f4e77a0dac6ecd2e582b, type: 3}
-  - {fileID: 8300000, guid: fc55d077383484ac0ad66aa17fcd746f, type: 3}
-  - {fileID: 8300000, guid: dafa1cc4eb8714341a7c595abfba35d8, type: 3}
-  jumpForce: 2500
-  flyingForce: 250
+  maxFlyingTime: 3.6
+  jumpForce: 2000
+  flyingForce: 140
+  remainingJetFuelSlider: {fileID: 0}
 --- !u!114 &114000010461963620
 MonoBehaviour:
   m_ObjectHideFlags: 1
