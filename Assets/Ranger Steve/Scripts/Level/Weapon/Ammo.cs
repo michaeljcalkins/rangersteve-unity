@@ -85,7 +85,7 @@ public class Ammo : Photon.MonoBehaviour
 				PhotonNetwork.Instantiate (explosion.name, transform.position, Quaternion.Euler (0f, 0f, Random.Range (0f, 360f)), 0);
 			}
 		} else if (col.gameObject.tag == "Player" && !col.transform.GetComponent<PhotonView> ().isMine) {
-			int i = Random.Range (0, col.GetComponent<PlayerDeath> ().ouchClips.Length);
+			int i = Random.Range (0, col.GetComponent<Com.LavaEagle.RangerSteve.PlayerControl> ().ouchClips.Length);
 			col.gameObject.GetComponent<PhotonView> ().RPC ("Death", PhotonTargets.All, i);
 
 			if (explosion != null) {

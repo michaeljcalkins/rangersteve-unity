@@ -85,6 +85,7 @@ public class NetworkPlayer : Photon.MonoBehaviour
 		if (photonView.isMine) {
 			return;     // if this object is under our control, we don't need to apply received position-updates 
 		}
+
 		// We get 10 updates per sec. Sometimes a few less or one or two more, depending on variation of lag.
 		// Due to that we want to reach the correct position in a little over 100ms. We get a new update then.
 		// This way, we can usually avoid a stop of our interpolated cube movement.

@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Ranger Steve/_Scenes/MainMenu.unity
     guid: eefa32b8a699d40e1a89f5cdf70864f9
   - enabled: 1
+    path: Assets/Ranger Steve/_Scenes/Launcher.unity
+    guid: 07d62642eb6d94a52aa6e40a0b63ab98
+  - enabled: 1
     path: Assets/Ranger Steve/_Scenes/Level.unity
     guid: 69575e6f2904c4c7dafafe28c5ec7068
-  - enabled: 1
-    path: Assets/Ranger Steve/_Scenes/Loading.unity
-    guid: 07d62642eb6d94a52aa6e40a0b63ab98

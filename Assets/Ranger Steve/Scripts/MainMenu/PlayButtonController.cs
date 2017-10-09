@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayButtonController : MonoBehaviour
+namespace Com.LavaEagle.RangerSteve
 {
-	public void HandlePlayNowClick ()
+	public class PlayButtonController : MonoBehaviour
 	{
-		SceneManager.LoadScene ("Loading");
+		public void HandlePlayNowClick ()
+		{
+			SceneManager.LoadScene ("Launcher");
+		}
 	}
 }

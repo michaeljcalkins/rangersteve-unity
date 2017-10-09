@@ -51,7 +51,7 @@ public class KillTriggerController : Photon.MonoBehaviour
 	[PunRPC]
 	void Reload ()
 	{
-		CreatePlayerController CR = FindObjectOfType<CreatePlayerController> ();
+		Com.LavaEagle.RangerSteve.CreatePlayerController CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayerController> ();
 		if (CR.player != null)
 			PhotonNetwork.Destroy (CR.player);
 

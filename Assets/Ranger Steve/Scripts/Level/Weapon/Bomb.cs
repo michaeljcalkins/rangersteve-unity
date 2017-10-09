@@ -69,11 +69,12 @@ public class Bomb : Photon.MonoBehaviour
 						en.GetComponent<PhotonView> ().RPC ("Explode", PhotonTargets.All, en.transform.position);
 					}
 				}
+
 				// Check if it has a rigidbody (since there is only one per enemy, on the parent).
 				Rigidbody2D rb = en.GetComponent<Rigidbody2D> ();
 				if (rb != null) {
 					if (rb.tag == "Player") {
-						int i = Random.Range (0, rb.GetComponent<PlayerDeath> ().ouchClips.Length);
+						int i = Random.Range (0, rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerControl> ().ouchClips.Length);
 						rb.GetComponent<PhotonView> ().RPC ("Death", PhotonTargets.All, i);
 					}
 				}

@@ -2,8 +2,8 @@
 
 public class CameraFollowController : MonoBehaviour
 {
-	public Transform playerTransform;
 	public int depth;
+	private Transform playerTransform;
 
 	void Update ()
 	{
