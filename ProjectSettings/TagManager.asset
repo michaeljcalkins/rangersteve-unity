@@ -11,6 +11,8 @@ TagManager:
   - WeaponSpawnPoint
   - PlayerSpawnPoint
   - Ground
+  - Local Player
+  - Network Player
   layers:
   - Default
   - TransparentFX

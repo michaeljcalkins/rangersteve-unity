@@ -32,7 +32,7 @@ public class KillTriggerController : Photon.MonoBehaviour
 		PhotonNetwork.Instantiate (splash.name, col.transform.position, transform.rotation, 0);
 
 		// If the player hits the trigger...
-		if (col.gameObject.tag == "Player") {  // ... reload the level.
+		if (col.gameObject.tag == "Local Player") {  // ... reload the level.
 			Invoke ("Reloading", 2);
 		}
 
@@ -44,7 +44,7 @@ public class KillTriggerController : Photon.MonoBehaviour
 
 	void Reloading ()
 	{
-		if (GameObject.FindGameObjectsWithTag ("Player").Length <= 1)
+		if (GameObject.FindGameObjectsWithTag ("Local Player").Length <= 1)
 			photonView.RPC ("Reload", PhotonTargets.All);
 	}
 

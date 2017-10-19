@@ -37,7 +37,7 @@ namespace Com.LavaEagle.RangerSteve
 				return;
 			}
 
-			player.GetComponent<Com.LavaEagle.RangerSteve.PlayerControl> ().enabled = true;
+			player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager> ().enabled = true;
 		}
 	}
 }

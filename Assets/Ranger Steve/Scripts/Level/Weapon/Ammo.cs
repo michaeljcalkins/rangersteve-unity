@@ -68,25 +68,28 @@ public class Ammo : Photon.MonoBehaviour
 		return Mathf.Atan2 (a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
 	}
 
-	void OnTriggerEnter2D (Collider2D col)
+	void OnTriggerEnter2D (Collider2D other)
 	{
-		if (flag || !photonView.isMine || col.gameObject.tag == "Player" && col.transform.GetComponent<PhotonView> ().isMine)
+		if (flag || !photonView.isMine || other.gameObject.tag == "Local Player" && other.transform.GetComponent<PhotonView> ().isMine)
 			return;
         
 		flag = true;
 
-		if (col.tag == "WeaponBox") {
-			col.gameObject.GetComponent<PhotonView> ().RPC ("Explode", PhotonTargets.All, col.transform.position);
-		} else if (col.gameObject.tag != "Player") {
+		if (other.tag == "WeaponBox") {
+			other.gameObject.GetComponent<PhotonView> ().RPC ("Explode", PhotonTargets.All, other.transform.position);
+		} else if (other.gameObject.tag != "Local Player") {
 			// Otherwise if the player manages to shoot himself...
 			if (explosion != null) {
 				// Some ammunition does not leave explosions after the collision 
 				// They have an explosion = null
 				PhotonNetwork.Instantiate (explosion.name, transform.position, Quaternion.Euler (0f, 0f, Random.Range (0f, 360f)), 0);
 			}
-		} else if (col.gameObject.tag == "Player" && !col.transform.GetComponent<PhotonView> ().isMine) {
-			int i = Random.Range (0, col.GetComponent<Com.LavaEagle.RangerSteve.PlayerControl> ().ouchClips.Length);
-			col.gameObject.GetComponent<PhotonView> ().RPC ("Death", PhotonTargets.All, i);
+		} else if (other.gameObject.tag == "Local Player" && !other.transform.GetComponent<PhotonView> ().isMine) {
+
+			Debug.Log ("TEST TEST");
+
+			int i = Random.Range (0, other.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager> ().ouchClips.Length);
+			other.gameObject.GetComponent<PhotonView> ().RPC ("Death", PhotonTargets.All, i);
 
 			if (explosion != null) {
 				// Some ammunition does not leave explosions after the collision // They have an explosion = null
@@ -107,6 +110,7 @@ public class Ammo : Photon.MonoBehaviour
 			transform.GetChild (1).GetComponent<SpriteRenderer> ().enabled = false;
 			transform.GetChild (2).gameObject.SetActive (false);
 		}
+
 		while (GetComponent<AudioSource> ().isPlaying == true)
 			yield return new WaitForSeconds (0.1f);
 

@@ -55,7 +55,7 @@ PlayerSettings:
   androidShowActivityIndicatorOnLoading: -1
   tizenShowActivityIndicatorOnLoading: -1
   iosAppInBackgroundBehavior: 0
-  displayResolutionDialog: 1
+  displayResolutionDialog: 0
   iosAllowHTTPDownload: 1
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
@@ -237,7 +237,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 17c4e1ef93f4045698e60450c2e9be01, type: 3}
+      m_Icon: {fileID: 2800000, guid: cd688a44c5a204b8cb0e59284d6451db, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []
@@ -668,13 +668,13 @@ PlayerSettings:
     Game_Performance: 0
     Hub: 0
     Purchasing: 0
-    UNet: 0
+    UNet: 1
     Unity_Ads: 0
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
-  cloudProjectId: 5748f891-9d15-4770-b501-1762eee53f1a
-  projectName: 2D_Online_Pack
-  organizationId: aleksey-3955878
+  cloudProjectId: 789bc18f-c255-4275-ae9d-fed8def9602e
+  projectName: Ranger Steve (2)
+  organizationId: michaelcalkins
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
