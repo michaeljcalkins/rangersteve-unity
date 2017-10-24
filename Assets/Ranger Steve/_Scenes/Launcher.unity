@@ -135,8 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a9a3ae857c637f47a75ffc0a7d3c316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Version: 
   connectingText: {fileID: 2076915380}
+  Loglevel: 0
+  MaxPlayersPerRoom: 8
 --- !u!4 &393678415
 Transform:
   m_ObjectHideFlags: 0

@@ -12,7 +12,9 @@ TagManager:
   - PlayerSpawnPoint
   - Ground
   - Local Player
-  - Network Player
+  - Networked Player
+  - Local Ammo
+  - Networked Ammo
   layers:
   - Default
   - TransparentFX

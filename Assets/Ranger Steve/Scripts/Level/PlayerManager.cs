@@ -8,49 +8,46 @@ namespace Com.LavaEagle.RangerSteve
     {
         #region Public Variables
 
+        [Tooltip("The current Health of our player")]
+        public float Health;
+
+        // Amount of force added to move the player left and right.
+        public float moveForce;
+
+        // The fastest the player can travel in the x axis.
+        public float maxSpeedX;
+
+        // The fastest the player can travel in the x axis.
+        public float maxSpeedY;
+
+        // The longest amount of time in seconds a player can fly.
+        public float maxFlyingTime;
+
+        // Amount of force added when the player jumps.
+        public float jumpForce;
+
+        // Amount of force added when the player flys.
+        public float flyingForce;
+
         public Texture2D cursorTexture;
 
         public CursorMode cursorMode = CursorMode.Auto;
 
         public Vector2 hotSpot = Vector2.zero;
 
-        // Array of clips to play when the player is damaged.
-        public AudioClip[] ouchClips;
-
-        // Amount of force added to move the player left and right.
-        public float moveForce = 365f;
-
-        // The fastest the player can travel in the x axis.
-        public float maxSpeedX = 10f;
-
-        // The fastest the player can travel in the x axis.
-        public float maxSpeedY = 20f;
-
-        // The longest amount of time in seconds a player can fly.
-        public float maxFlyingTime = 4f;
-
-        // Amount of force added when the player jumps.
-        public float jumpForce = 1200f;
-
-        // Amount of force added when the player flys.
-        public float flyingForce = 150f;
-
-        Camera mainCamera;
-
-        public int mainCameraDepth = -20;
-
-        public Slider remainingJetFuelSlider;
-
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
-
-        [Tooltip("The current Health of our player")]
-        public float Health = 100f;
 
         #endregion
 
 
         #region Private Variables
+
+        Camera mainCamera;
+
+        private Slider remainingJetFuelSlider;
+
+        private int mainCameraDepth = -20;
 
         // For determining which way the player is currently facing.
         private bool facingRight = true;
@@ -326,14 +323,9 @@ namespace Com.LavaEagle.RangerSteve
             transform.localScale = theScale;
         }
 
-        [PunRPC]
-        void Death(int number_clip)
+        //[PunRPC]
+        public void Death()
         {
-            if (!photonView.isMine)
-            {
-                return;
-            }
-
             this.enabled = false;
 
             // ... disable the Weapon
@@ -355,20 +347,6 @@ namespace Com.LavaEagle.RangerSteve
             foreach (SpriteRenderer s in spr)
             {
                 s.sortingLayerName = "UI";
-            }
-        }
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.isWriting)
-            {
-                // We own this player: send the others our data
-                stream.SendNext(Health);
-            }
-            else
-            {
-                // Network player, receive data
-                this.Health = (float)stream.ReceiveNext();
             }
         }
 

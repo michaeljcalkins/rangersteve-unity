@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5000000}
   - component: {fileID: 11400000}
   - component: {fileID: 82000010912599010}
-  - component: {fileID: 114359044683477574}
+  - component: {fileID: 114587261292265186}
   m_Layer: 0
   m_Name: ak47Bullet
   m_TagString: Untagged
@@ -255,7 +255,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114359044683477574
+--- !u!114 &114587261292265186
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -275,7 +275,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 400000}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

@@ -12,108 +12,139 @@ using System.Collections;
 
 public class Ammo : Photon.MonoBehaviour
 {
-	// Prefab of explosion effect.
-	public GameObject explosion;
+    // Prefab of explosion effect.
+    public GameObject explosion;
 
-	public int damage;
+    public int damage;
 
-	public int bulletSpeed;
+    public int bulletSpeed;
 
-	// We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
-	bool flag;
+    // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. 
+    // It is necessary once
+    bool flag;
 
-	Vector3 mousePos;
-	Vector3 positionOnScreen;
-	Vector3 direction;
-	Vector3 mouseDirection;
+    Vector3 mousePos;
+    Vector3 positionOnScreen;
+    Vector3 direction;
+    Vector3 mouseDirection;
 
-	void Awake ()
-	{
-		// Add force in the direction described
-		mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		mouseDirection = mousePos - transform.position;
-      
-		// Get the angle between the points for rotation
-		positionOnScreen = new Vector3 (transform.position.x, transform.position.y);
-		direction = mousePos - positionOnScreen;
-		direction.Normalize ();
-		float angle = AngleBetweenTwoPoints (positionOnScreen, mousePos);
+    void Awake()
+    {
+        // Add force in the direction described
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseDirection = mousePos - transform.position;
 
-		// Rotate the bullet
-		transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, angle));
+        // Get the angle between the points for rotation
+        //positionOnScreen = new Vector3(transform.position.x, transform.position.y);
+        //direction = mousePos - positionOnScreen;
+        //direction.Normalize();
+        //float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
 
-		// Shoot the bullet
-		Vector3 mouseDir = mousePos - transform.position;
-		mouseDir.z = 0.0f;
-		mouseDir = mouseDir.normalized;
-		GetComponent<Rigidbody2D> ().AddForce (mouseDir * bulletSpeed);
-	}
+        // Rotate the bullet
+        //transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
 
-	void FixedUpdate ()
-	{  
-		// Add force in the direction described
-		positionOnScreen = new Vector3 (transform.position.x, transform.position.y);
-		direction = mousePos - positionOnScreen;
-		direction.Normalize ();
+        // Shoot the bullet
+        Vector3 mouseDir = mousePos - transform.position;
+        mouseDir.z = 0.0f;
+        mouseDir = mouseDir.normalized;
+        GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
 
-		// Get the angle between the points
-		float angle = AngleBetweenTwoPoints (positionOnScreen, mousePos);
+        if (photonView.isMine)
+        {
+            this.tag = "Local Ammo";
+        }
+        else
+        {
+            this.tag = "Networked Ammo";
+        }
+    }
 
-		// Ta Daaa
-		transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, angle));
-	}
+    void FixedUpdate()
+    {
+        // Add force in the direction described
+        //positionOnScreen = new Vector3(transform.position.x, transform.position.y);
+        //direction = mousePos - positionOnScreen;
+        //direction.Normalize();
 
-	private float AngleBetweenTwoPoints (Vector3 a, Vector3 b)
-	{
-		return Mathf.Atan2 (a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-	}
+        //// Get the angle between the points
+        //float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
 
-	void OnTriggerEnter2D (Collider2D other)
-	{
-		if (flag || !photonView.isMine || other.gameObject.tag == "Local Player" && other.transform.GetComponent<PhotonView> ().isMine)
-			return;
-        
-		flag = true;
+        //// Ta Daaa
+        //transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+    }
 
-		if (other.tag == "WeaponBox") {
-			other.gameObject.GetComponent<PhotonView> ().RPC ("Explode", PhotonTargets.All, other.transform.position);
-		} else if (other.gameObject.tag != "Local Player") {
-			// Otherwise if the player manages to shoot himself...
-			if (explosion != null) {
-				// Some ammunition does not leave explosions after the collision 
-				// They have an explosion = null
-				PhotonNetwork.Instantiate (explosion.name, transform.position, Quaternion.Euler (0f, 0f, Random.Range (0f, 360f)), 0);
-			}
-		} else if (other.gameObject.tag == "Local Player" && !other.transform.GetComponent<PhotonView> ().isMine) {
+    private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+    {
+        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+    }
 
-			Debug.Log ("TEST TEST");
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // This tells us we are already dealing with this collision.
+        if (flag)
+        {
+            print("Ignore collision if already being handled.");
+            return;
+        }
 
-			int i = Random.Range (0, other.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager> ().ouchClips.Length);
-			other.gameObject.GetComponent<PhotonView> ().RPC ("Death", PhotonTargets.All, i);
+        if (!photonView.isMine)
+        {
+            print("Ignore collision if view is not mine.");
+            return;
+        }
 
-			if (explosion != null) {
-				// Some ammunition does not leave explosions after the collision // They have an explosion = null
-				PhotonNetwork.Instantiate (explosion.name, transform.position, Quaternion.Euler (0f, 0f, Random.Range (0f, 360f)), 0);
-			}
-		}
+        if (other.tag == "Local Player" && this.tag == "Local Ammo")
+        {
+            print("Ignore collision if ammo and player are local.");
+            return;
+        }
 
-		StartCoroutine (BulletSelfDestruct ());
-	}
+        flag = true;
 
-	// Without this there will be problems playing sound of a shot when the ammo is destroyed immediately after the spawn
-	IEnumerator BulletSelfDestruct ()
-	{
-		GetComponent<BoxCollider2D> ().enabled = false;
+        if (other.tag == "WeaponBox")
+        {
+            print("Local player shot weapon box.");
+            other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
+        }
 
-		transform.GetChild (0).GetComponent<SpriteRenderer> ().enabled = false;
-		if (transform.childCount > 1) { // for rocket
-			transform.GetChild (1).GetComponent<SpriteRenderer> ().enabled = false;
-			transform.GetChild (2).gameObject.SetActive (false);
-		}
+        if (photonView.isMine && this.tag == "Networked Ammo")
+        {
+            print("Local player shot by a networked player.");
 
-		while (GetComponent<AudioSource> ().isPlaying == true)
-			yield return new WaitForSeconds (0.1f);
+            //other.gameObject.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
+            //GameObject localPlayer = GameObject.FindWithTag("Local Player");
+            //print(localPlayer);
+            //print(localPlayer.GetComponent(typeof(Com.LavaEagle.RangerSteve.PlayerManager)));
+            // Call this method on the localPlayer Com.LavaEagle.RangerSteve.PlayerManager.Death();
 
-		PhotonNetwork.Destroy (gameObject); // You can not go twice. There will be a red bug PUN - "Ev Destroy Failed."
-	}
+            if (explosion != null)
+            {
+                // Some ammunition does not leave explosions after the collision 
+                // They have an explosion = null
+                //PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
+            }
+        }
+
+        // Bullet hit the ground
+        StartCoroutine(BulletSelfDestruct());
+    }
+
+    // Without this there will be problems playing sound of a shot when the ammo is destroyed immediately after the spawn
+    IEnumerator BulletSelfDestruct()
+    {
+        GetComponent<BoxCollider2D>().enabled = false;
+        flag = false;
+
+        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        if (transform.childCount > 1)
+        { // for rocket
+            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        while (GetComponent<AudioSource>().isPlaying == true)
+            yield return new WaitForSeconds(0.1f);
+
+        PhotonNetwork.Destroy(gameObject); // You can not go twice. There will be a red bug PUN - "Ev Destroy Failed."
+    }
 }
