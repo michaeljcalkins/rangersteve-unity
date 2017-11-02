@@ -33,8 +33,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public CursorMode cursorMode = CursorMode.Auto;
 
-        public Vector2 hotSpot = Vector2.zero;
-
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
 
@@ -70,6 +68,8 @@ namespace Com.LavaEagle.RangerSteve
 
         // Reference to the player's animator component.
         private Animator anim;
+
+        private Vector2 cursorHotspot;
 
         #endregion
 
@@ -112,7 +112,8 @@ namespace Com.LavaEagle.RangerSteve
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
             // Turn cursor into crosshair
-            Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+            cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+            Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
         }
 
         /// <summary>

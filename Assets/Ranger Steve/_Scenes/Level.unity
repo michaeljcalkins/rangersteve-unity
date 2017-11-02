@@ -571,6 +571,7 @@ MonoBehaviour:
   maxNumberOfBoxes: 8
   weaponBoxes:
   - {fileID: 1508169165224806, guid: d21f0143961334cdaaa6dcc79b76a638, type: 2}
+  - {fileID: 1508169165224806, guid: 14a25235a0bc148ac990d5ed4ac97ad0, type: 2}
 --- !u!4 &284093541
 Transform:
   m_ObjectHideFlags: 0
