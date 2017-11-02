@@ -66,7 +66,6 @@ public class Weapons : Photon.MonoBehaviour
         new_.amount = original.amount;
         new_.fireRate = original.fireRate;
         new_.weaponName = original.weaponName;
-        print(original.weaponName);
     }
 
     protected virtual void Start()
@@ -92,13 +91,17 @@ public class Weapons : Photon.MonoBehaviour
             Destroy(GetComponents<Behaviour>()[GetComponents<Behaviour>().Length - 1]);
             remainingAmmoText.text = "";
             activeWeaponNameImage.enabled = false;
+            activeWeaponNameImage.overrideSprite = null;
             return;
         }
         else
         {
             // Set weapon image in UI
-            activeWeaponNameImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
-            activeWeaponNameImage.enabled = true;
+            if (!activeWeaponNameImage.overrideSprite)
+            {
+                activeWeaponNameImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
+            }
+
             remainingAmmoText.text = amount.ToString();
             activeWeaponNameImage.enabled = true;
         }

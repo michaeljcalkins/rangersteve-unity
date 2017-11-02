@@ -30,7 +30,7 @@ public class NetworkPlayer : Photon.MonoBehaviour
         WeaponBoxSpawnerController pickupSpawner = GameObject.Find("Weapon Box Spawner").GetComponent<WeaponBoxSpawnerController>();
         foreach (GameObject boncr in pickupSpawner.weaponBoxes)
         {
-            if (boncr.GetComponent<Weapons>())
+            if (boncr.GetComponent<Weapons>().picture_weapon)
             {
 
                 box_weapon.Add(boncr.GetComponent<Weapons>().picture_weapon.name, boncr.GetComponent<Weapons>().picture_weapon);
