@@ -7,133 +7,172 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Weapons : MonoBehaviour
+public class Weapons : Photon.MonoBehaviour
 {
-	// Use this for initialization Weapon
-	protected bool fire;
+    // Use this for initialization Weapon
+    protected bool fire;
 
-	// The player is currently shooting?
-	protected Animator anim;
+    // The player is currently shooting?
+    protected Animator anim;
 
-	private Text remainingAmmoText;
+    private Text remainingAmmoText;
 
-	// Reference to the Animator component.
-	public Sprite picture_weapon;
+    // Reference to the Animator component.
+    public Sprite picture_weapon;
 
-	// Sprite weapon
-	public GameObject ammunition;
+    // Sprite weapon
+    public GameObject ammunition;
 
-	// Ammunition weapon
-	public Vector3 spawn_point;
+    // Ammunition weapon
+    public Vector3 spawn_point;
 
-	// Point  spawn ammunition weapons
-	public bool weapon_animation;
+    // Point  spawn ammunition weapons
+    public bool weapon_animation;
 
-	// Animation of recoil of the weapon after a shot from it
-	public bool front;
+    // Animation of recoil of the weapon after a shot from it
+    public bool front;
 
-	// the number of weapons ammunition
-	public int amount;
+    // the number of weapons ammunition
+    public int amount;
 
-	public float fireRate;
+    public float fireRate;
 
-	public string weaponName;
+    public string weaponName;
 
-	private Image activeWeaponNameImage;
+    private Image activeWeaponNameImage;
 
-	private float nextFire = 0;
+    private float nextFire = 0;
 
-	protected int Amount {                    
-		get {
-			return amount;
-		}
+    protected Vector3 Spawn_point
+    {
+        get
+        {
+            Vector3 spawn = transform.parent.position + new Vector3(spawn_point.x * Mathf.Sign(transform.parent.localScale.x), spawn_point.y, spawn_point.z);
+            AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Base Layer.Sit"))
+                return spawn -= Vector3.up * 0.6f;
+            else
+                return spawn;
+        }
+    }
 
-		set {
-			amount = value;
-			if (amount == 0) {
-				GetComponent<SpriteRenderer> ().sprite = null;
-				Destroy (GetComponents<Behaviour> () [GetComponents<Behaviour> ().Length - 1]);
-				remainingAmmoText.text = "--";
-				activeWeaponNameImage.enabled = false;
-				return;
-			}
+    public void Initialization(Weapons new_, Weapons original)
+    {
+        new_.picture_weapon = original.picture_weapon;
+        new_.ammunition = original.ammunition;
+        new_.spawn_point = original.spawn_point;
+        new_.weapon_animation = original.weapon_animation;
+        new_.front = original.front;
+        new_.amount = original.amount;
+        new_.fireRate = original.fireRate;
+        new_.weaponName = original.weaponName;
+        print(original.weaponName);
+    }
 
-			remainingAmmoText.text = amount.ToString ();
-		}
-	}
-		
-	// Weapon in front of the player or behind the player's sprite?
-	// Point  spawn ammunition weapons
-	protected Vector3 Spawn_point {             
-		get {
-			Vector3 spawn = transform.parent.position + new Vector3 (spawn_point.x * Mathf.Sign (transform.parent.localScale.x), spawn_point.y, spawn_point.z);
-			AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo (0);
-			if (stateInfo.IsName ("Base Layer.Sit"))
-				return spawn -= Vector3.up * 0.6f;
-			else
-				return spawn;
-		}
-	}
+    protected virtual void Start()
+    {
+        GetComponent<SpriteRenderer>().sortingOrder = front ? 1 : 0;
+        anim = transform.root.GetComponent<Animator>();
+        GetComponent<SpriteRenderer>().sprite = picture_weapon;
 
-	public void Initialization (Weapons new_, Weapons original)
-	{
-		new_.picture_weapon = original.picture_weapon;
-		new_.ammunition = original.ammunition;
-		new_.spawn_point = original.spawn_point;
-		new_.weapon_animation = original.weapon_animation;
-		new_.front = original.front;
-		new_.amount = original.amount;
-		new_.fireRate = original.fireRate;
-		new_.weaponName = original.weaponName;
-	}
+        remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
+        remainingAmmoText.text = amount.ToString();
 
-	protected virtual void Start ()
-	{
-		GetComponent<SpriteRenderer> ().sortingOrder = front ? 1 : 0;
-		anim = transform.root.GetComponent<Animator> ();
-		GetComponent<SpriteRenderer> ().sprite = picture_weapon;
+        activeWeaponNameImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
+    }
 
-		remainingAmmoText = GameObject.Find ("RemainingAmmoText").GetComponent<Text> ();
-		remainingAmmoText.text = amount.ToString ();
+    protected virtual void Update()
+    {
+        // Starting firing once the left click is detected as down
+        fire = Input.GetMouseButton(0);
 
-		activeWeaponNameImage = GameObject.Find ("ActiveWeaponImage").GetComponent<Image> ();
+        if (amount <= 0)
+        {
+            GetComponent<SpriteRenderer>().sprite = null;
+            Destroy(GetComponents<Behaviour>()[GetComponents<Behaviour>().Length - 1]);
+            remainingAmmoText.text = "";
+            activeWeaponNameImage.enabled = false;
+            return;
+        }
+        else
+        {
+            // Set weapon image in UI
+            activeWeaponNameImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
+            activeWeaponNameImage.enabled = true;
+            remainingAmmoText.text = amount.ToString();
+            activeWeaponNameImage.enabled = true;
+        }
+    }
 
-	}
+    protected virtual void FixedUpdate()
+    {
+        // This is all necessary in order to correctly transmit over the 
+        // network " anim.SetTrigger("Shoot"); ". 
+        // Example - script Bazooka .
 
-	protected virtual void Update ()
-	{
-		// Starting firing once the left click is detected as down
-		fire = Input.GetMouseButton (0);
-	}
 
-	protected virtual void FixedUpdate ()
-	{
-		// This is all necessary in order to correctly transmit over the 
-		// network " anim.SetTrigger("Shoot"); ". 
-		// Example - script Bazooka .
+        // Only let the player shoot if they have ammo and they haven't exceeded their fire rate
+        if (!fire || Time.time < nextFire || amount <= 0)
+        {
+            fire = false;
+            return;
+        }
 
-		// In the Update, sometimes the transfer of this SetTrigger over 
-		// the network does not have time to transmit
-		if (!fire || Time.time < nextFire || Amount <= 0) {
-			fire = false;
-			return;
-		}
-		 
-		nextFire = Time.time + fireRate;
+        nextFire = Time.time + fireRate;
 
-		// Prevents double firing by accident
-		if (weapon_animation) {
-			anim.SetTrigger ("Shoot");
-		}
+        // Prevents double firing by accident
+        if (weapon_animation)
+        {
+            anim.SetTrigger("Shoot");
+        }
 
-		// ... instantiate the prefab facing right or left and set it's velocity to the right or left. 
-		PhotonNetwork.Instantiate ("Ammo/" + ammunition.name, Spawn_point, Quaternion.identity, 0);
+        if (photonView.isMine)
+        {
+            photonView.RPC("FireBullet", PhotonTargets.All, Spawn_point);
+        }
+    }
 
-		Amount--;
-	}
+    private void OnDisable()
+    {
+        GetComponents<Behaviour>()[GetComponents<Behaviour>().Length - 1].enabled = true;
+    }
 
-	private void OnDisable ()
-	{
-		GetComponents<Behaviour> () [GetComponents<Behaviour> ().Length - 1].enabled = true;
-	}
+    private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+    {
+        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+    }
+
+    [PunRPC]
+    public void FireBullet(Vector3 pos)
+    {
+        // 1. Local player fires weapon
+        // 2. Run fire function on all players
+        // 3. When Local Bullet hits Networked Player reduce health
+
+        // Add force in the direction described
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mouseDirection = mousePos - transform.position;
+
+        // Get the angle between the points for rotation
+        Vector3 positionOnScreen = new Vector3(transform.position.x, transform.position.y);
+        Vector3 direction = mousePos - positionOnScreen;
+        direction.Normalize();
+        float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
+
+        // Create the prefab instance
+        Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+        GameObject bulletInstance = PhotonNetwork.Instantiate("Ammo/" + ammunition.name, pos, bulletRotation, 0);
+
+        // Get the direction that the bullet will travel in
+        Vector3 mouseDir = mousePos - transform.position;
+        mouseDir.z = 0.0f;
+        mouseDir = mouseDir.normalized;
+
+        int bulletSpeed = bulletInstance.GetComponent<Ammo>().bulletSpeed;
+
+        bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
+
+        // Reduce amount of ammo left
+        amount--;
+    }
 }

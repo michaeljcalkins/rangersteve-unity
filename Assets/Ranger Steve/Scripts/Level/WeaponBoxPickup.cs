@@ -10,48 +10,39 @@ condition( GetComponent<SpriteRenderer>().enabled) to the player came here only 
 Network Description */
 public class WeaponBoxPickup : Photon.MonoBehaviour
 {
-	private Image activeWeaponNameImage;
+    public AudioClip pickupClip;
 
-	public AudioClip pickupClip;
+    // Sound for when the bomb crate is picked up.
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // If the player enters the trigger zone...
+        if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && other.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == null && GetComponent<SpriteRenderer>().enabled)
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
 
-	void Awake ()
-	{
-		activeWeaponNameImage = GameObject.Find ("ActiveWeaponImage").GetComponent<Image> ();
-	}
+            // Instantiate weapon firing logic
+            GetComponent<Weapons>().Initialization(other.transform.GetChild(0).GetComponent<Weapons>(), GetComponent<Weapons>());
+            photonView.RPC("DestroyBonus", PhotonTargets.All);
+        }
+    }
 
-	// Sound for when the bomb crate is picked up.
-	void OnTriggerEnter2D (Collider2D other)
-	{
-		// If the player enters the trigger zone...
-		if (other.tag == "Local Player" && other.GetComponent<PhotonView> ().isMine && other.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite == null && GetComponent<SpriteRenderer> ().enabled) {
-			GetComponent<SpriteRenderer> ().enabled = false;
-			other.transform.GetChild (0).gameObject.AddComponent (GetComponent<Weapon> ().GetType ());
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        // disable the physics of weapons to the box does not come to transmit it over the network
+        if (other.transform.tag == "Ground" || other.transform.tag == "WeaponBox" && !GetComponent<BoxCollider2D>().isTrigger)
+        {
+            GetComponent<BoxCollider2D>().isTrigger = true;
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+    }
 
-			// Instantiate weapon firing logic
-			GetComponent<Weapons> ().Initialization (other.transform.GetChild (0).GetComponent<Weapons> (), GetComponent<Weapons> ());
-			photonView.RPC ("DestroyBonus", PhotonTargets.All);
-
-			// Set weapon image in UI
-			activeWeaponNameImage.overrideSprite = Resources.Load<Sprite> ("Sprites/Weapons/" + GetComponent<Weapons> ().weaponName);
-			activeWeaponNameImage.enabled = true;
-		}
-	}
-
-	void OnCollisionEnter2D (Collision2D other)
-	{
-		// disable the physics of weapons to the box does not come to transmit it over the network
-		if (other.transform.tag == "Ground" || other.transform.tag == "WeaponBox" && !GetComponent<BoxCollider2D> ().isTrigger) {
-			GetComponent<BoxCollider2D> ().isTrigger = true;
-			GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
-		}
-	}
-
-	[PunRPC]
-	void DestroyBonus ()
-	{
-		GetComponent<SpriteRenderer> ().enabled = false;
-		AudioSource.PlayClipAtPoint (pickupClip, transform.position);
-		if (PhotonNetwork.isMasterClient)
-			PhotonNetwork.Destroy (transform.root.gameObject);
-	}
+    [PunRPC]
+    void DestroyBonus()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        AudioSource.PlayClipAtPoint(pickupClip, transform.position);
+        if (PhotonNetwork.isMasterClient)
+            PhotonNetwork.Destroy(transform.root.gameObject);
+    }
 }

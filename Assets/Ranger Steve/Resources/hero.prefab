@@ -677,7 +677,6 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   cursorMode: 0
   hotSpot: {x: 0, y: 0}
-  mainCameraDepth: -20
 --- !u!114 &114000010461963620
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -20,16 +20,16 @@ public class WeaponBoxSpawnerController : Photon.MonoBehaviour
 
         // Start the first delivery.
         if (PhotonNetwork.isMasterClient) // spawn weapons boxes can only master client(scene objects)
-            InvokeRepeating("test", 4, pickupDeliveryDelayTime);
+            InvokeRepeating("Test", 4, pickupDeliveryDelayTime);
     }
 
     void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
         // if the master client out of the room then pass the baton to spawn weapons boxes to another player
-        InvokeRepeating("test", 4, pickupDeliveryDelayTime);
+        InvokeRepeating("Test", 4, pickupDeliveryDelayTime);
     }
 
-    void test()
+    void Test()
     {
         if (FindObjectsOfType<WeaponBoxPickup>().Length < maxNumberOfBoxes)
             StartCoroutine(DeliverPickup());

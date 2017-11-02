@@ -29,7 +29,13 @@ public class NetworkPlayer : Photon.MonoBehaviour
 
         WeaponBoxSpawnerController pickupSpawner = GameObject.Find("Weapon Box Spawner").GetComponent<WeaponBoxSpawnerController>();
         foreach (GameObject boncr in pickupSpawner.weaponBoxes)
-            box_weapon.Add(boncr.GetComponent<Weapons>().picture_weapon.name, boncr.GetComponent<Weapons>().picture_weapon);
+        {
+            if (boncr.GetComponent<Weapons>())
+            {
+
+                box_weapon.Add(boncr.GetComponent<Weapons>().picture_weapon.name, boncr.GetComponent<Weapons>().picture_weapon);
+            }
+        }
 
         latestCorrectPos = transform.position;
         onUpdatePos = transform.position;

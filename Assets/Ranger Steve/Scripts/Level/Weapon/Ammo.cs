@@ -30,25 +30,6 @@ public class Ammo : Photon.MonoBehaviour
 
     void Awake()
     {
-        // Add force in the direction described
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseDirection = mousePos - transform.position;
-
-        // Get the angle between the points for rotation
-        //positionOnScreen = new Vector3(transform.position.x, transform.position.y);
-        //direction = mousePos - positionOnScreen;
-        //direction.Normalize();
-        //float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
-
-        // Rotate the bullet
-        //transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-
-        // Shoot the bullet
-        Vector3 mouseDir = mousePos - transform.position;
-        mouseDir.z = 0.0f;
-        mouseDir = mouseDir.normalized;
-        GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
-
         if (photonView.isMine)
         {
             this.tag = "Local Ammo";
@@ -95,7 +76,6 @@ public class Ammo : Photon.MonoBehaviour
 
         if (other.tag == "Local Player" && this.tag == "Local Ammo")
         {
-            print("Ignore collision if ammo and player are local.");
             return;
         }
 
@@ -107,9 +87,9 @@ public class Ammo : Photon.MonoBehaviour
             other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
         }
 
-        if (photonView.isMine && this.tag == "Networked Ammo")
+        if (other.tag == "Networked Player" && this.tag == "Local Ammo")
         {
-            print("Local player shot by a networked player.");
+            print("Networked player shot by local ammo.");
 
             //other.gameObject.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
             //GameObject localPlayer = GameObject.FindWithTag("Local Player");
