@@ -37,59 +37,59 @@ public class NetworkPlayer : Photon.MonoBehaviour
             }
         }
 
-        latestCorrectPos = transform.position;
-        onUpdatePos = transform.position;
+        //latestCorrectPos = transform.position;
+        //onUpdatePos = transform.position;
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
-            if (transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null)
-            {
-                name_ = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name;
-            }
-            else
-            {
-                name_ = "null";
-            }
+            //if (transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null)
+            //{
+            //    name_ = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name;
+            //}
+            //else
+            //{
+            //    name_ = "null";
+            //}
 
-            stream.Serialize(ref name_);
-            int sO = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null ? transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder : 0;
-            stream.SendNext(sO);
+            //stream.Serialize(ref name_);
+            //int sO = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null ? transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder : 0;
+            //stream.SendNext(sO);
 
-            stream.SendNext(transform.localScale);
-            stream.SendNext(GetComponent<Rigidbody2D>().velocity); // for a smooth transfer of the network jump
+            //stream.SendNext(transform.localScale);
+            //stream.SendNext(GetComponent<Rigidbody2D>().velocity); // for a smooth transfer of the network jump
 
-            Vector3 pos = transform.localPosition;
-            Quaternion rot = transform.localRotation;
-            stream.Serialize(ref pos);
-            stream.Serialize(ref rot);
+            //Vector3 pos = transform.localPosition;
+            //Quaternion rot = transform.localRotation;
+            //stream.Serialize(ref pos);
+            //stream.Serialize(ref rot);
         }
         else
         {
-            stream.Serialize(ref name_);
-            if (box_weapon.ContainsKey(name_))
-                transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = box_weapon[name_];
-            else
-                transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
-            transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = (int)stream.ReceiveNext();
+            //stream.Serialize(ref name_);
+            //if (box_weapon.ContainsKey(name_))
+            //    transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = box_weapon[name_];
+            //else
+            //    transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+            //transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = (int)stream.ReceiveNext();
 
-            transform.localScale = (Vector3)stream.ReceiveNext();
-            GetComponent<Rigidbody2D>().velocity = (Vector2)stream.ReceiveNext();// for a smooth transfer of the network jump
+            //transform.localScale = (Vector3)stream.ReceiveNext();
+            //GetComponent<Rigidbody2D>().velocity = (Vector2)stream.ReceiveNext();// for a smooth transfer of the network jump
 
-            // Receive latest state information
-            Vector3 pos = Vector3.zero;
-            Quaternion rot = Quaternion.identity;
+            //// Receive latest state information
+            //Vector3 pos = Vector3.zero;
+            //Quaternion rot = Quaternion.identity;
 
-            stream.Serialize(ref pos);
-            stream.Serialize(ref rot);
+            //stream.Serialize(ref pos);
+            //stream.Serialize(ref rot);
 
-            latestCorrectPos = pos;                // save this to move towards it in FixedUpdate()
-            onUpdatePos = transform.localPosition; // we interpolate from here to latestCorrectPos
-            fraction = 0;                          // reset the fraction we alreay moved. see Update()
+            //latestCorrectPos = pos;                // save this to move towards it in FixedUpdate()
+            //onUpdatePos = transform.localPosition; // we interpolate from here to latestCorrectPos
+            //fraction = 0;                          // reset the fraction we alreay moved. see Update()
 
-            transform.localRotation = rot;         // this sample doesn't smooth rotation
+            //transform.localRotation = rot;         // this sample doesn't smooth rotation
         }
     }
 }

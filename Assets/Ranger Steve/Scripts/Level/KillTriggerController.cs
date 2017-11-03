@@ -15,46 +15,47 @@ Each extra byte of the transmitted traffic is already a problem.
 Network Description */
 public class KillTriggerController : Photon.MonoBehaviour
 {
-	// animation River splash
-	public GameObject splash;
+    // animation River splash
+    public GameObject splash;
 
-	public Text remainingAmmoText;
+    public Text remainingAmmoText;
 
-	void OnTriggerEnter2D (Collider2D col)
-	{
-		if (!col.GetComponent<PhotonView> ().isMine || col.name == "inside")
-			return;
-        
-		col.name = "inside";
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (!col.GetComponent<PhotonView>().isMine || col.name == "inside")
+            return;
 
-		// We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
-		// ... instantiate the splash where the player falls in.
-		PhotonNetwork.Instantiate (splash.name, col.transform.position, transform.rotation, 0);
+        col.name = "inside";
 
-		// If the player hits the trigger...
-		if (col.gameObject.tag == "Local Player") {  // ... reload the level.
-			Invoke ("Reloading", 2);
-		}
+        // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
+        // ... instantiate the splash where the player falls in.
+        PhotonNetwork.Instantiate(splash.name, col.transform.position, transform.rotation, 0);
 
-		// ... destroy the player or bomb;
-		PhotonNetwork.Destroy (col.gameObject); // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
+        // If the player hits the trigger...
+        if (col.gameObject.tag == "Local Player")
+        {  // ... reload the level.
+            Invoke("Reloading", 2);
+        }
 
-		remainingAmmoText.text = "--";
-	}
+        // ... destroy the player or bomb;
+        PhotonNetwork.Destroy(col.gameObject); // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
 
-	void Reloading ()
-	{
-		if (GameObject.FindGameObjectsWithTag ("Local Player").Length <= 1)
-			photonView.RPC ("Reload", PhotonTargets.All);
-	}
+        remainingAmmoText.text = "";
+    }
 
-	[PunRPC]
-	void Reload ()
-	{
-		Com.LavaEagle.RangerSteve.CreatePlayerController CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayerController> ();
-		if (CR.player != null)
-			PhotonNetwork.Destroy (CR.player);
+    void Reloading()
+    {
+        if (GameObject.FindGameObjectsWithTag("Local Player").Length <= 1)
+            photonView.RPC("Reload", PhotonTargets.All);
+    }
 
-		CR.HandleCreatePlayerObject ();
-	}
+    [PunRPC]
+    void Reload()
+    {
+        Com.LavaEagle.RangerSteve.CreatePlayerController CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayerController>();
+        if (CR.player != null)
+            PhotonNetwork.Destroy(CR.player);
+
+        CR.HandleCreatePlayerObject();
+    }
 }

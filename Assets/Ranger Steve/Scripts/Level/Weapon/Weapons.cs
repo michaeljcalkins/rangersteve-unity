@@ -171,7 +171,7 @@ public class Weapons : Photon.MonoBehaviour
         mouseDir.z = 0.0f;
         mouseDir = mouseDir.normalized;
 
-        int bulletSpeed = bulletInstance.GetComponent<Ammo>().bulletSpeed;
+        int bulletSpeed = bulletInstance.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().bulletSpeed;
 
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
 

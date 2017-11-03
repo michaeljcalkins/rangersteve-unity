@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 namespace Com.LavaEagle.RangerSteve
 {
-    public class PlayerManager : Photon.MonoBehaviour
+    public class PlayerManager : Photon.PunBehaviour, IPunObservable
     {
         #region Public Variables
 
         [Tooltip("The current Health of our player")]
-        public float Health;
+        public int health;
 
         // Amount of force added to move the player left and right.
         public float moveForce;
@@ -44,6 +44,8 @@ namespace Com.LavaEagle.RangerSteve
         Camera mainCamera;
 
         private Slider remainingJetFuelSlider;
+
+        private Text healthText;
 
         private int mainCameraDepth = -20;
 
@@ -108,6 +110,8 @@ namespace Com.LavaEagle.RangerSteve
             // Displays remaining fuel until you can't fly
             remainingJetFuelSlider = GameObject.Find("Remaining Jet Fuel Slider").GetComponent<Slider>();
 
+            healthText = GameObject.Find("HealthText").GetComponent<Text>();
+
             // Make camera follow player
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
@@ -127,11 +131,6 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             ProcessInputs();
-
-            if (Health <= 0f)
-            {
-                GameManager.Instance.LeaveRoom();
-            }
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
@@ -217,47 +216,56 @@ namespace Com.LavaEagle.RangerSteve
         /// Note: when jumping and firing at the same, you'll find that the player's own beam intersects with itself
         /// One could move the collider further away to prevent this or check if the beam belongs to the player.
         /// </summary>
-        void OnTriggerEnter(Collider other)
+        void OnTriggerEnter2D(Collider2D other)
         {
-            if (!photonView.isMine)
+            if (other.tag != "Networked Ammo")
             {
                 return;
             }
 
-            // We are only interested in Beamers
-            // we should be using tags but for the sake of distribution, let's simply check by name.
-            if (!other.name.Contains("Weapon"))
-            {
-                return;
-            }
-
-            Health -= 0.1f;
+            int weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
+            HandleReduceHealth(weaponDamage);
         }
 
-        /// <summary>
-        /// MonoBehaviour method called once per frame for every Collider 'other' that is touching the trigger.
-        /// We're going to affect health while the beams are touching the player
-        /// </summary>
-        /// <param name="other">Other.</param>
-        void OnTriggerStay(Collider other)
+        #endregion
+
+
+        #region Public
+
+        public void HandleReduceHealth(int damage)
         {
-            // we dont' do anything if we are not the local player.
-            if (!photonView.isMine)
-            {
-                return;
-            }
+            print(damage);
+            health -= damage;
 
-            // We are only interested in Beamers
-            // we should be using tags but for the sake of distribution, let's simply check by name.
-            if (!other.name.Contains("Beam"))
-            {
-                return;
-            }
+            health = health < 0 ? 0 : health;
 
-            // we slowly affect health when beam is constantly hitting us, so player has to move to prevent death.
-            Health -= 0.1f * Time.deltaTime;
+            healthText.text = health.ToString();
+
+            if (health <= 0)
+            {
+                print("Player is dead." + health);
+                Death();
+            }
         }
 
+        #endregion
+
+
+        #region Photon
+
+        void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.isWriting)
+            {
+                // We own this player: send the others our data
+                stream.SendNext(health);
+            }
+            else
+            {
+                // Network player, receive data
+                this.health = (int)stream.ReceiveNext();
+            }
+        }
 
         #endregion
 
