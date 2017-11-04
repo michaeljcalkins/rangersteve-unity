@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 114000011968518014}
   - component: {fileID: 114000010461963620}
   - component: {fileID: 114289628258640756}
+  - component: {fileID: 114548738651054558}
   m_Layer: 9
   m_Name: hero
   m_TagString: Player
@@ -736,6 +737,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114289628258640756}
   - {fileID: 114000010461963620}
+  - {fileID: 114548738651054558}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -819,7 +821,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     ExtrapolateOption: 0
     ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateIncludingRoundTripTime: 0
     ExtrapolateNumberOfStoredPositions: 1
     DrawErrorGizmo: 1
   m_RotationModel:
@@ -828,10 +830,23 @@ MonoBehaviour:
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:
-    SynchronizeEnabled: 1
+    SynchronizeEnabled: 0
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114548738651054558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565703296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
 --- !u!212 &212000010415871196
 SpriteRenderer:
   m_ObjectHideFlags: 1
