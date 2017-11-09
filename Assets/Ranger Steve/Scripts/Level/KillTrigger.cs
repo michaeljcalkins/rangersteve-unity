@@ -13,7 +13,7 @@ Extra traffic costs. And in the PUN delay I attack quickly.
 Each extra byte of the transmitted traffic is already a problem.
 
 Network Description */
-public class KillTriggerController : Photon.MonoBehaviour
+public class KillTrigger : Photon.MonoBehaviour
 {
     // animation River splash
     public GameObject splash;
@@ -52,7 +52,7 @@ public class KillTriggerController : Photon.MonoBehaviour
     [PunRPC]
     void Reload()
     {
-        Com.LavaEagle.RangerSteve.CreatePlayerController CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayerController>();
+        Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
         if (CR.player != null)
             PhotonNetwork.Destroy(CR.player);
 

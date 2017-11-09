@@ -158,15 +158,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508169165224806}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  picture_weapon: {fileID: 21300000, guid: b6793db2d763b46a08c5dd94e74d7ee0, type: 3}
+  pictureWeapon: {fileID: 0}
   ammunition: {fileID: 100000, guid: a4501438c7dfc46019d0b322c8294ba6, type: 2}
-  spawn_point: {x: 0, y: 0, z: 0}
-  weapon_animation: 1
+  spawnPoint: {x: 0, y: 0, z: 0}
+  bulletSpeed: 5000
+  weaponAnimation: 0
   front: 1
   amount: 30
   fireRate: 0.14

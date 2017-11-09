@@ -5,7 +5,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class WeaponBoxSpawnerController : Photon.MonoBehaviour
+public class WeaponBoxSpawner : Photon.MonoBehaviour
 {
     public float pickupDeliveryDelayTime;
     public int maxNumberOfBoxes;

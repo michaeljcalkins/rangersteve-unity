@@ -17,18 +17,13 @@ namespace Com.LavaEagle.RangerSteve
         // Prefab of explosion effect.
         public GameObject explosion;
 
-        public int damage;
+        public float damage;
 
         public int bulletSpeed;
 
         // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. 
         // It is necessary once
         bool flag;
-
-        Vector3 mousePos;
-        Vector3 positionOnScreen;
-        Vector3 direction;
-        Vector3 mouseDirection;
 
         void Awake()
         {
@@ -40,6 +35,9 @@ namespace Com.LavaEagle.RangerSteve
             {
                 this.tag = "Networked Ammo";
             }
+
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.AddForce(transform.up * 400);
         }
 
         void FixedUpdate()
@@ -107,32 +105,12 @@ namespace Com.LavaEagle.RangerSteve
                 {
                     // Some ammunition does not leave explosions after the collision 
                     // They have an explosion = null
-                    //PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
+                    PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
                 }
             }
 
             // Bullet hit the ground
-            StartCoroutine(BulletSelfDestruct());
-        }
-
-        // Without this there will be problems playing sound of a shot when the ammo is destroyed immediately after the spawn
-        IEnumerator BulletSelfDestruct()
-        {
-            GetComponent<BoxCollider2D>().enabled = false;
-            flag = false;
-
-            transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-            if (transform.childCount > 1)
-            { // for rocket
-                transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
-                transform.GetChild(2).gameObject.SetActive(false);
-            }
-
-            while (GetComponent<AudioSource>().isPlaying == true)
-                yield return new WaitForSeconds(0.1f);
-
-            // You can not go twice. There will be a red bug PUN - "Ev Destroy Failed."
-            PhotonNetwork.Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }

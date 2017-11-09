@@ -9,7 +9,7 @@ namespace Com.LavaEagle.RangerSteve
         #region Public Variables
 
         [Tooltip("The current Health of our player")]
-        public int health;
+        public float health;
 
         // Amount of force added to move the player left and right.
         public float moveForce;
@@ -36,14 +36,39 @@ namespace Com.LavaEagle.RangerSteve
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
 
+        public Sprite pictureWeapon;
+
+        public GameObject ammunition;
+
+        public Vector3 spawnPoint;
+
+        public bool weaponAnimation;
+
+        public bool front;
+
+        // Remaining ammo to shoot for this gun
+        public int amount;
+
+        public float fireRate;
+
+        public string weaponName;
+
+        public int bulletSpeed;
+
         #endregion
 
 
         #region Private Variables
 
-        Camera mainCamera;
+        private float nextFire = 0;
+
+        private bool fire;
+
+        private Camera mainCamera;
 
         private Slider remainingJetFuelSlider;
+
+        private Image hurtBorderImage;
 
         private Text healthText;
 
@@ -72,6 +97,10 @@ namespace Com.LavaEagle.RangerSteve
         private Animator anim;
 
         private Vector2 cursorHotspot;
+
+        private Text remainingAmmoText;
+
+        private Image activeWeaponImage;
 
         #endregion
 
@@ -115,9 +144,17 @@ namespace Com.LavaEagle.RangerSteve
             // Make camera follow player
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
-            // Turn cursor into crosshair
+            hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+
+            // Turn cursor into crosshair and centers the middle of image on mouse
             cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
             Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
+
+            remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
+            remainingAmmoText.text = amount.ToString();
+
+            activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
+
         }
 
         /// <summary>
@@ -132,10 +169,31 @@ namespace Com.LavaEagle.RangerSteve
 
             ProcessInputs();
 
+            float hurtBorderAlpha = 1 - (health / 100);
+            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
+
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
             // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+
+            if (amount <= 0)
+            {
+                remainingAmmoText.text = "";
+                activeWeaponImage.enabled = false;
+                activeWeaponImage.overrideSprite = null;
+            }
+            else
+            {
+                // Set weapon image in UI
+                if (!activeWeaponImage.overrideSprite)
+                {
+                    activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
+                }
+
+                remainingAmmoText.text = amount.ToString();
+                activeWeaponImage.enabled = true;
+            }
         }
 
         void FixedUpdate()
@@ -208,6 +266,8 @@ namespace Com.LavaEagle.RangerSteve
                 // ... set the player's velocity to the maxSpeedX in the x axis.
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
             }
+
+            ProcessWeaponFire();
         }
 
         /// <summary>
@@ -223,29 +283,8 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
-            int weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
+            float weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
             HandleReduceHealth(weaponDamage);
-        }
-
-        #endregion
-
-
-        #region Public
-
-        public void HandleReduceHealth(int damage)
-        {
-            print(damage);
-            health -= damage;
-
-            health = health < 0 ? 0 : health;
-
-            healthText.text = health.ToString();
-
-            if (health <= 0)
-            {
-                print("Player is dead." + health);
-                Death();
-            }
         }
 
         #endregion
@@ -272,8 +311,80 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        [PunRPC]
+        void FireBullet(Vector3 startingPos, Vector3 mousePos)
+        {
+            // Get the angle between the points for rotation
+            Vector3 positionOnScreen = new Vector3(transform.position.x, transform.position.y);
+            float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
+
+            // Create the prefab instance
+            Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+            GameObject bullet = (GameObject)Instantiate(ammunition, startingPos, bulletRotation);
+
+            // Get the direction that the bullet will travel in
+            Vector3 mouseDir = mousePos - transform.position;
+            mouseDir.z = 0.0f;
+            mouseDir = mouseDir.normalized;
+            bullet.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
+
+            Destroy(bullet, 4.0f);
+
+            amount--;
+        }
+
+        public void HandleReduceHealth(float damage)
+        {
+            health -= damage;
+
+            // never allow negative health
+            health = health < 0 ? 0 : health;
+
+            healthText.text = health.ToString();
+
+            if (health <= 0)
+            {
+                print("Player is dead." + health);
+                Death();
+            }
+        }
+
+        void ProcessWeaponFire()
+        {
+
+            // This is all necessary in order to correctly transmit over the 
+            // network " anim.SetTrigger("Shoot"); ". 
+            // Example - script Bazooka .
+
+
+            // Only let the player shoot if they have ammo and they haven't exceeded their fire rate
+            if (!fire || Time.time < nextFire || amount <= 0)
+            {
+                fire = false;
+                return;
+            }
+
+            nextFire = Time.time + fireRate;
+
+            // Prevents double firing by accident
+            if (weaponAnimation)
+            {
+                anim.SetTrigger("Shoot");
+            }
+
+            if (photonView.isMine)
+            {
+                // Add force in the direction described
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos);
+            }
+        }
+
         void ProcessInputs()
         {
+            // Starting firing once the left click is detected as down
+            fire = Input.GetMouseButton(0);
+
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GetComponent<Com.LavaEagle.RangerSteve.GameManager>().LeaveRoom();
@@ -298,6 +409,11 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             flying = Input.GetMouseButton(1);
+        }
+
+        private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+        {
+            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
 
         void FlipRight()

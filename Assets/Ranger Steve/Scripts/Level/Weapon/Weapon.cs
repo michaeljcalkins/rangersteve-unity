@@ -1,10 +1,24 @@
-﻿/* Description
+﻿using UnityEngine;
 
-// Use this for initialization Weapon in the Inspector
+public class Weapon : MonoBehaviour
+{
 
-Description */
-public class Weapon : Weapons
-{ 
-  
- 
+    public Sprite pictureWeapon;
+
+    public GameObject ammunition;
+
+    public Vector3 spawnPoint;
+
+    public int bulletSpeed;
+
+    public bool weaponAnimation;
+
+    public bool front;
+
+    public int amount;
+
+    public float fireRate;
+
+    public string weaponName;
+
 }

@@ -43,4 +43,5 @@ MonoBehaviour:
   - DestroyBonus
   - Fire
   - FireBullet
+  - DestroyWeaponBox
   DisableAutoOpenWizard: 1

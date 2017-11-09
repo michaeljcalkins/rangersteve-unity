@@ -19,11 +19,22 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
         if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && other.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == null && GetComponent<SpriteRenderer>().enabled)
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
+            //other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
 
-            // Instantiate weapon firing logic
-            GetComponent<Weapons>().Initialization(other.transform.GetChild(0).GetComponent<Weapons>(), GetComponent<Weapons>());
-            photonView.RPC("DestroyBonus", PhotonTargets.All);
+            Weapon weaponInfo = GetComponent<Weapon>();
+            Com.LavaEagle.RangerSteve.PlayerManager player = other.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>();
+
+            player.pictureWeapon = weaponInfo.pictureWeapon;
+            player.ammunition = weaponInfo.ammunition;
+            player.spawnPoint = weaponInfo.spawnPoint;
+            player.weaponAnimation = weaponInfo.weaponAnimation;
+            player.front = weaponInfo.front;
+            player.amount = weaponInfo.amount;
+            player.bulletSpeed = weaponInfo.bulletSpeed;
+            player.fireRate = weaponInfo.fireRate;
+            player.weaponName = weaponInfo.weaponName;
+
+            photonView.RPC("DestroyWeaponBox", PhotonTargets.All);
         }
     }
 
@@ -38,7 +49,7 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
     }
 
     [PunRPC]
-    void DestroyBonus()
+    void DestroyWeaponBox()
     {
         GetComponent<SpriteRenderer>().enabled = false;
         AudioSource.PlayClipAtPoint(pickupClip, transform.position);
