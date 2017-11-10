@@ -5,7 +5,7 @@ public class Weapon : MonoBehaviour
 
     public Sprite pictureWeapon;
 
-    public GameObject ammunition;
+    public string ammunition;
 
     public Vector3 spawnPoint;
 

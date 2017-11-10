@@ -27,17 +27,17 @@ namespace Com.LavaEagle.RangerSteve
 
         void Awake()
         {
-            if (photonView.isMine)
-            {
-                this.tag = "Local Ammo";
-            }
-            else
-            {
-                this.tag = "Networked Ammo";
-            }
+            //if (photonView.isMine)
+            //{
+            //    this.tag = "Local Ammo";
+            //}
+            //else
+            //{
+            //    this.tag = "Networked Ammo";
+            //}
 
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.AddForce(transform.up * 400);
+            //Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            //rb.AddForce(transform.up * 400);
         }
 
         void FixedUpdate()
@@ -84,6 +84,7 @@ namespace Com.LavaEagle.RangerSteve
             // Local player shot weapon box.
             if (other.tag == "WeaponBox")
             {
+                print("Weapon box destroyed.");
                 other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
             }
 

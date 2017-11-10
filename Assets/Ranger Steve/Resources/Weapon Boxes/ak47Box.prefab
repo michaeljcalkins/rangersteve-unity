@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pictureWeapon: {fileID: 0}
-  ammunition: {fileID: 100000, guid: a4501438c7dfc46019d0b322c8294ba6, type: 2}
+  ammunition: ak47Bullet
   spawnPoint: {x: 0, y: 0, z: 0}
   bulletSpeed: 5000
   weaponAnimation: 0

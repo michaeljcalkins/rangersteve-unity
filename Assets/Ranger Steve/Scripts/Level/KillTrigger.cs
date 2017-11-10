@@ -18,39 +18,48 @@ public class KillTrigger : Photon.MonoBehaviour
     // animation River splash
     public GameObject splash;
 
-    public Text remainingAmmoText;
+    private Text remainingAmmoText;
 
-    void OnTriggerEnter2D(Collider2D col)
+    private Image activeWeaponImage;
+
+    private Image hurtBorderImage;
+
+    private Text healthText;
+
+    void Start()
     {
-        if (!col.GetComponent<PhotonView>().isMine || col.name == "inside")
-            return;
+        healthText = GameObject.Find("HealthText").GetComponent<Text>();
+        hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+        remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
+        activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
+    }
 
-        col.name = "inside";
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.GetComponent<PhotonView>().isMine)
+            return;
 
         // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
         // ... instantiate the splash where the player falls in.
-        PhotonNetwork.Instantiate(splash.name, col.transform.position, transform.rotation, 0);
-
-        // If the player hits the trigger...
-        if (col.gameObject.tag == "Local Player")
-        {  // ... reload the level.
-            Invoke("Reloading", 2);
-        }
+        PhotonNetwork.Instantiate(splash.name, other.transform.position, transform.rotation, 0);
 
         // ... destroy the player or bomb;
-        PhotonNetwork.Destroy(col.gameObject); // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
+        // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
+        Destroy(other.gameObject);
 
-        remainingAmmoText.text = "";
+        if (other.tag == "Local Player")
+        {
+            remainingAmmoText.text = "";
+            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(1f);
+            healthText.text = "0";
+            activeWeaponImage.enabled = false;
+            activeWeaponImage.overrideSprite = null;
+
+            Invoke("Respawn", 4f);
+        }
     }
 
-    void Reloading()
-    {
-        if (GameObject.FindGameObjectsWithTag("Local Player").Length <= 1)
-            photonView.RPC("Reload", PhotonTargets.All);
-    }
-
-    [PunRPC]
-    void Reload()
+    void Respawn()
     {
         Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
         if (CR.player != null)

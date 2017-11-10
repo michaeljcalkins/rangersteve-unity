@@ -38,7 +38,7 @@ namespace Com.LavaEagle.RangerSteve
 
         public Sprite pictureWeapon;
 
-        public GameObject ammunition;
+        public string ammunition;
 
         public Vector3 spawnPoint;
 
@@ -145,6 +145,7 @@ namespace Com.LavaEagle.RangerSteve
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
             hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
 
             // Turn cursor into crosshair and centers the middle of image on mouse
             cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
@@ -154,7 +155,6 @@ namespace Com.LavaEagle.RangerSteve
             remainingAmmoText.text = amount.ToString();
 
             activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
-
         }
 
         /// <summary>
@@ -169,13 +169,16 @@ namespace Com.LavaEagle.RangerSteve
 
             ProcessInputs();
 
-            float hurtBorderAlpha = 1 - (health / 100);
-            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
-
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
             // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+
+
+            float hurtBorderAlpha = 1 - (health / 100);
+            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
+
+            healthText.text = health.ToString();
 
             if (amount <= 0)
             {
@@ -284,7 +287,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             float weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
-            HandleReduceHealth(weaponDamage);
+            HandleDamage(weaponDamage);
         }
 
         #endregion
@@ -312,7 +315,7 @@ namespace Com.LavaEagle.RangerSteve
         #region Custom
 
         [PunRPC]
-        void FireBullet(Vector3 startingPos, Vector3 mousePos)
+        void FireBullet(Vector3 startingPos, Vector3 mousePos, string ammunitionName)
         {
             // Get the angle between the points for rotation
             Vector3 positionOnScreen = new Vector3(transform.position.x, transform.position.y);
@@ -320,42 +323,25 @@ namespace Com.LavaEagle.RangerSteve
 
             // Create the prefab instance
             Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-            GameObject bullet = (GameObject)Instantiate(ammunition, startingPos, bulletRotation);
+            GameObject bullet = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), startingPos, bulletRotation);
 
             // Get the direction that the bullet will travel in
             Vector3 mouseDir = mousePos - transform.position;
             mouseDir.z = 0.0f;
             mouseDir = mouseDir.normalized;
             bullet.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
+            bullet.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
 
             Destroy(bullet, 4.0f);
 
             amount--;
         }
 
-        public void HandleReduceHealth(float damage)
-        {
-            health -= damage;
-
-            // never allow negative health
-            health = health < 0 ? 0 : health;
-
-            healthText.text = health.ToString();
-
-            if (health <= 0)
-            {
-                print("Player is dead." + health);
-                Death();
-            }
-        }
-
         void ProcessWeaponFire()
         {
-
             // This is all necessary in order to correctly transmit over the 
             // network " anim.SetTrigger("Shoot"); ". 
             // Example - script Bazooka .
-
 
             // Only let the player shoot if they have ammo and they haven't exceeded their fire rate
             if (!fire || Time.time < nextFire || amount <= 0)
@@ -376,7 +362,21 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // Add force in the direction described
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos);
+                this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, ammunition);
+            }
+        }
+
+        public void HandleDamage(float damage)
+        {
+            health -= damage;
+
+            // never allow negative health
+            health = health < 0 ? 0 : health;
+
+            if (health <= 0)
+            {
+                print("Player is dead.");
+                Death();
             }
         }
 
@@ -448,24 +448,26 @@ namespace Com.LavaEagle.RangerSteve
             transform.localScale = theScale;
         }
 
-        //[PunRPC]
-        public void Death()
+        void Death()
         {
-            this.enabled = false;
+            //this.enabled = false;
+
+            health = 0;
+            amount = 0;
 
             // ... disable the Weapon
-            transform.GetChild(0).gameObject.SetActive(false);
+            //transform.GetChild(0).gameObject.SetActive(false);
 
             // ... Trigger the 'Die' animation state
             anim.SetTrigger("Die");
 
             // Find all of the colliders on the gameobject and set them all to be triggers.
-            Collider2D[] cols = GetComponents<Collider2D>();
+            //Collider2D[] cols = GetComponents<Collider2D>();
 
-            foreach (Collider2D c in cols)
-            {
-                c.isTrigger = true;
-            }
+            //foreach (Collider2D c in cols)
+            //{
+            //    c.isTrigger = true;
+            //}
 
             // Move all sprite parts of the player to the front
             SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
@@ -473,6 +475,17 @@ namespace Com.LavaEagle.RangerSteve
             {
                 s.sortingLayerName = "UI";
             }
+
+            Invoke("Respawn", 4f);
+        }
+
+        void Respawn()
+        {
+            Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
+            if (CR.player != null)
+                PhotonNetwork.Destroy(CR.player);
+
+            CR.HandleCreatePlayerObject();
         }
 
         #endregion

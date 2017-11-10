@@ -283,8 +283,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013048863214}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.39424753, y: -0.014908075, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalPosition: {x: 0.313, y: -0.014908075, z: 0}
+  m_LocalScale: {x: 2.314243, y: 2.3142428, z: 2.3142428}
   m_Children: []
   m_Father: {fileID: 4000014055351816}
   m_RootOrder: 3
@@ -374,8 +374,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012951414730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.38834333, y: -0.12589431, z: -1}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalPosition: {x: -0.239, y: -0.1259, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000014055351816}
   m_RootOrder: 6
@@ -413,7 +413,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.617207, y: -14.012294, z: -1}
+  m_LocalPosition: {x: 2.604241, y: -7.7518444, z: -1}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011957255402}
@@ -677,7 +677,7 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   cursorMode: 0
   pictureWeapon: {fileID: 0}
-  ammunition: {fileID: 0}
+  ammunition: '@'
   spawnPoint: {x: 0, y: 0, z: 0}
   weaponAnimation: 0
   front: 0
@@ -1098,9 +1098,9 @@ SpriteRenderer:
   m_SortingLayerID: -1783731295
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300008, guid: e7d3a1e0e2fac4bd48b6734c2daf4fe1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf8020c0e2c3b48c2a1380ffff721907, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -1266,9 +1266,9 @@ SpriteRenderer:
   m_SortingLayerID: -1783731295
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300012, guid: e7d3a1e0e2fac4bd48b6734c2daf4fe1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 454ec37cbd90f47f3899132aad76bafa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

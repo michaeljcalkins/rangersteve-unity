@@ -63,26 +63,25 @@ public class Bomb : Photon.MonoBehaviour
         // For each collider...
         foreach (Collider2D en in enemies)
         {
-            if (en != null)
-            {
-                if (en.transform.tag == "WeaponBox" && en.GetComponent<PhotonView>().viewID != GetComponent<PhotonView>().viewID && en.GetComponent<Rigidbody2D>().simulated)
-                { //sekond if - so as not to explode yourself
-                    if (info.sender.IsLocal)
-                    {
-                        en.GetComponent<Rigidbody2D>().simulated = false;
-                        en.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, en.transform.position);
-                    }
-                }
+            if (en == null)
+                continue;
 
-                // Check if it has a rigidbody (since there is only one per enemy, on the parent).
-                Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
-                if (rb != null)
+            if (en.transform.tag == "WeaponBox" && en.GetComponent<PhotonView>().viewID != GetComponent<PhotonView>().viewID && en.GetComponent<Rigidbody2D>().simulated)
+            { //sekond if - so as not to explode yourself
+                if (info.sender.IsLocal)
                 {
-                    if (rb.tag == "Local Player")
-                    {
-                        rb.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
-                    }
+                    en.GetComponent<Rigidbody2D>().simulated = false;
+                    en.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, en.transform.position);
                 }
+            }
+
+            // Check if it has a rigidbody (since there is only one per enemy, on the parent).
+            Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
+            if (rb != null && rb.tag == "Local Player")
+            {
+                print("Player is dead!!@#$@#");
+                rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleDamage(100f);
+                //rb.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
             }
         }
 

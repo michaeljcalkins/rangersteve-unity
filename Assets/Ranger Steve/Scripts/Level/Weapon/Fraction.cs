@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Fraction : Photon.MonoBehaviour
 {
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (!photonView.isMine || col.gameObject.tag == "Local Player" && col.transform.GetComponent<PhotonView>().isMine)
+        print("Fraction.cs");
+        if (!photonView.isMine || other.gameObject.tag == "Local Player" && other.transform.GetComponent<PhotonView>().isMine)
             return;
 
-        if (col.tag == "WeaponBox")
+        if (other.tag == "WeaponBox")
         {
-            col.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, col.transform.position);
+            other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
         }
-        else if (col.gameObject.tag == "Local Player" && !col.transform.GetComponent<PhotonView>().isMine)
+        else if (other.gameObject.tag == "Local Player" && !transform.GetComponent<PhotonView>().isMine)
         {
-            col.gameObject.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
+            print("local player killed");
+            //other.gameObject.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
         }
     }
 }

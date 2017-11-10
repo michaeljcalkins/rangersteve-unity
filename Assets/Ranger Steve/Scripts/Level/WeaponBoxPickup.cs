@@ -24,12 +24,20 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
             Weapon weaponInfo = GetComponent<Weapon>();
             Com.LavaEagle.RangerSteve.PlayerManager player = other.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>();
 
+            if (player.ammunition == weaponInfo.ammunition)
+            {
+                player.amount += weaponInfo.amount;
+            }
+            else
+            {
+                player.amount = weaponInfo.amount;
+            }
+
             player.pictureWeapon = weaponInfo.pictureWeapon;
             player.ammunition = weaponInfo.ammunition;
             player.spawnPoint = weaponInfo.spawnPoint;
             player.weaponAnimation = weaponInfo.weaponAnimation;
             player.front = weaponInfo.front;
-            player.amount = weaponInfo.amount;
             player.bulletSpeed = weaponInfo.bulletSpeed;
             player.fireRate = weaponInfo.fireRate;
             player.weaponName = weaponInfo.weaponName;

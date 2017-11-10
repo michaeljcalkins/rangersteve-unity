@@ -40,6 +40,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
+            player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().health = 100;
         }
     }
 }
