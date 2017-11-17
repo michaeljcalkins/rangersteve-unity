@@ -102,6 +102,10 @@ namespace Com.LavaEagle.RangerSteve
 
         private Image activeWeaponImage;
 
+        private Transform leftJumpjet;
+
+        private Transform rightJumpjet;
+
         #endregion
 
 
@@ -132,12 +136,14 @@ namespace Com.LavaEagle.RangerSteve
 
         void Start()
         {
+            rightJumpjet = transform.Find("rightJumpjet");
+            leftJumpjet = transform.Find("leftJumpjet");
             groundCheck = transform.Find("groundCheck");
             anim = GetComponent<Animator>();
             jetAudioSource = GetComponent<AudioSource>();
 
             // Displays remaining fuel until you can't fly
-            remainingJetFuelSlider = GameObject.Find("Remaining Jet Fuel Slider").GetComponent<Slider>();
+            remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
 
             healthText = GameObject.Find("HealthText").GetComponent<Text>();
 
@@ -172,8 +178,7 @@ namespace Com.LavaEagle.RangerSteve
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
             // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
-            grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
-
+            grounded = IsGrounded();
 
             float hurtBorderAlpha = 1 - (health / 100);
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
@@ -222,9 +227,6 @@ namespace Com.LavaEagle.RangerSteve
             // If the player should fly...
             if (flying && usedFlyingTime < maxFlyingTime)
             {
-                // Set the Jump animator trigger parameter.
-                anim.SetTrigger("Jump");
-
                 // Play flying jet sound effect.
                 jetAudioSource.enabled = true;
                 jetAudioSource.loop = true;
@@ -233,12 +235,18 @@ namespace Com.LavaEagle.RangerSteve
 
                 // Add a vertical force to the player.
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
+
+                rightJumpjet.gameObject.SetActive(true);
+                leftJumpjet.gameObject.SetActive(true);
             }
             else
             {
                 jetAudioSource.enabled = false;
                 jetAudioSource.loop = false;
                 usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
+
+                rightJumpjet.gameObject.SetActive(false);
+                leftJumpjet.gameObject.SetActive(false);
             }
 
             remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
@@ -313,6 +321,11 @@ namespace Com.LavaEagle.RangerSteve
 
 
         #region Custom
+
+        bool IsGrounded()
+        {
+            return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+        }
 
         [PunRPC]
         void FireBullet(Vector3 startingPos, Vector3 mousePos, string ammunitionName)

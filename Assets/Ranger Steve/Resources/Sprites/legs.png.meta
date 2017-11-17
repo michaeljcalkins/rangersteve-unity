@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: c9f65b7d3ed9b4cb5a70dac523d97903
-timeCreated: 1510446168
+guid: 1224df33ee1fe41a3ae70b19f7dafcc6
+timeCreated: 1510456053
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: jumpjet_0
-    21300002: jumpjet_1
-    21300004: jumpjet_2
-    21300006: jumpjet_3
-    21300008: jumpjet_4
-    21300010: jumpjet_5
-    21300012: jumpjet_6
-    21300014: jumpjet_7
-    21300016: jumpjet_8
-    21300018: jumpjet_9
-    21300020: jumpjet_10
-    21300022: jumpjet_11
-    21300024: jumpjet_12
+    21300000: legs_0
+    21300002: legs_1
+    21300004: legs_2
+    21300006: legs_3
+    21300008: legs_4
+    21300010: legs_5
+    21300012: legs_6
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 180, w: 0}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -69,7 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -77,7 +71,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -85,7 +79,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Android
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -93,7 +87,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: WebGL
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -104,183 +98,99 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: jumpjet_0
+      name: legs_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: jumpjet_1
+      name: legs_1
       rect:
         serializedVersion: 2
-        x: 15
+        x: 127
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: jumpjet_2
+      name: legs_2
       rect:
         serializedVersion: 2
-        x: 30
+        x: 254
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: jumpjet_3
+      name: legs_3
       rect:
         serializedVersion: 2
-        x: 45
+        x: 381
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: jumpjet_4
+      name: legs_4
       rect:
         serializedVersion: 2
-        x: 60
+        x: 508
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: jumpjet_5
+      name: legs_5
       rect:
         serializedVersion: 2
-        x: 75
+        x: 635
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: jumpjet_6
+      name: legs_6
       rect:
         serializedVersion: 2
-        x: 90
+        x: 762
         y: 0
-        width: 15
-        height: 29
+        width: 127
+        height: 92
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jumpjet_7
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 0
-        width: 15
-        height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jumpjet_8
-      rect:
-        serializedVersion: 2
-        x: 120
-        y: 0
-        width: 15
-        height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jumpjet_9
-      rect:
-        serializedVersion: 2
-        x: 135
-        y: 0
-        width: 15
-        height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jumpjet_10
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 0
-        width: 15
-        height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jumpjet_11
-      rect:
-        serializedVersion: 2
-        x: 165
-        y: 0
-        width: 15
-        height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jumpjet_12
-      rect:
-        serializedVersion: 2
-        x: 180
-        y: 0
-        width: 15
-        height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
