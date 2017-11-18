@@ -21,7 +21,7 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
         if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && !isPickedUp)
         {
             isPickedUp = true;
-            print("Pick up");
+
             GetComponent<SpriteRenderer>().enabled = false;
             //other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
 

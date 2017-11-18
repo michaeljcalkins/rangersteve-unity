@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 62e677c17ad614431ae039d8803d54ca
+timeCreated: 1510970987
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Road Rage
+  fontNames:
+  - Road Rage
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -93,6 +93,8 @@ namespace Com.LavaEagle.RangerSteve
 
         private AudioSource jetAudioSource;
 
+        private bool running = false;
+
         // Reference to the player's animator component.
         private Animator anim;
 
@@ -101,6 +103,8 @@ namespace Com.LavaEagle.RangerSteve
         private Text remainingAmmoText;
 
         private Image activeWeaponImage;
+
+        private Transform activeWeapon;
 
         private Transform leftJumpjet;
 
@@ -145,6 +149,7 @@ namespace Com.LavaEagle.RangerSteve
             runningLegs = transform.Find("runningLegs");
             standingLegs = transform.Find("standingLegs");
             groundCheck = transform.Find("groundCheck");
+            activeWeapon = transform.Find("weapon");
             anim = GetComponent<Animator>();
             jetAudioSource = GetComponent<AudioSource>();
 
@@ -204,23 +209,14 @@ namespace Com.LavaEagle.RangerSteve
                 if (!activeWeaponImage.overrideSprite)
                 {
                     activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
+                    activeWeapon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
                 }
 
                 remainingAmmoText.text = amount.ToString();
                 activeWeaponImage.enabled = true;
             }
 
-
-            if ((Input.GetKey("a") || Input.GetKey("d")) && !flying)
-            {
-                runningLegs.gameObject.SetActive(true);
-                standingLegs.gameObject.SetActive(false);
-            }
-            else
-            {
-                runningLegs.gameObject.SetActive(false);
-                standingLegs.gameObject.SetActive(true);
-            }
+            running = (Input.GetKey("a") || Input.GetKey("d")) && !flying;
         }
 
         void FixedUpdate()
@@ -254,22 +250,12 @@ namespace Com.LavaEagle.RangerSteve
 
                 // Add a vertical force to the player.
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
-
-                rightJumpjet.gameObject.SetActive(true);
-                leftJumpjet.gameObject.SetActive(true);
-                //runningLegs.gameObject.SetActive(false);
-                //standingLegs.gameObject.SetActive(true);
             }
             else
             {
                 jetAudioSource.enabled = false;
                 jetAudioSource.loop = false;
                 usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
-
-                rightJumpjet.gameObject.SetActive(false);
-                leftJumpjet.gameObject.SetActive(false);
-                //runningLegs.gameObject.SetActive(true);
-                //standingLegs.gameObject.SetActive(false);
             }
 
             remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
@@ -300,6 +286,12 @@ namespace Com.LavaEagle.RangerSteve
                 // ... set the player's velocity to the maxSpeedX in the x axis.
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
             }
+
+            runningLegs.gameObject.SetActive(running);
+            standingLegs.gameObject.SetActive(!running);
+
+            rightJumpjet.gameObject.SetActive(flying);
+            leftJumpjet.gameObject.SetActive(flying);
 
             ProcessWeaponFire();
         }
@@ -332,11 +324,15 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // We own this player: send the others our data
                 stream.SendNext(health);
+                stream.SendNext(running);
+                stream.SendNext(flying);
             }
             else
             {
                 // Network player, receive data
                 this.health = (int)stream.ReceiveNext();
+                this.running = (bool)stream.ReceiveNext();
+                this.flying = (bool)stream.ReceiveNext();
             }
         }
 
