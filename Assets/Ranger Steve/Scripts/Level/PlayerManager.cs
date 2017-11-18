@@ -106,6 +106,10 @@ namespace Com.LavaEagle.RangerSteve
 
         private Transform rightJumpjet;
 
+        private Transform runningLegs;
+
+        private Transform standingLegs;
+
         #endregion
 
 
@@ -138,6 +142,8 @@ namespace Com.LavaEagle.RangerSteve
         {
             rightJumpjet = transform.Find("rightJumpjet");
             leftJumpjet = transform.Find("leftJumpjet");
+            runningLegs = transform.Find("runningLegs");
+            standingLegs = transform.Find("standingLegs");
             groundCheck = transform.Find("groundCheck");
             anim = GetComponent<Animator>();
             jetAudioSource = GetComponent<AudioSource>();
@@ -180,6 +186,7 @@ namespace Com.LavaEagle.RangerSteve
             // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
             grounded = IsGrounded();
 
+            // HurtBorder
             float hurtBorderAlpha = 1 - (health / 100);
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
 
@@ -201,6 +208,18 @@ namespace Com.LavaEagle.RangerSteve
 
                 remainingAmmoText.text = amount.ToString();
                 activeWeaponImage.enabled = true;
+            }
+
+
+            if ((Input.GetKey("a") || Input.GetKey("d")) && !flying)
+            {
+                runningLegs.gameObject.SetActive(true);
+                standingLegs.gameObject.SetActive(false);
+            }
+            else
+            {
+                runningLegs.gameObject.SetActive(false);
+                standingLegs.gameObject.SetActive(true);
             }
         }
 
@@ -238,6 +257,8 @@ namespace Com.LavaEagle.RangerSteve
 
                 rightJumpjet.gameObject.SetActive(true);
                 leftJumpjet.gameObject.SetActive(true);
+                //runningLegs.gameObject.SetActive(false);
+                //standingLegs.gameObject.SetActive(true);
             }
             else
             {
@@ -247,6 +268,8 @@ namespace Com.LavaEagle.RangerSteve
 
                 rightJumpjet.gameObject.SetActive(false);
                 leftJumpjet.gameObject.SetActive(false);
+                //runningLegs.gameObject.SetActive(true);
+                //standingLegs.gameObject.SetActive(false);
             }
 
             remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);

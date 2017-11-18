@@ -12,12 +12,16 @@ public class WeaponBoxPickup : Photon.MonoBehaviour
 {
     public AudioClip pickupClip;
 
+    public bool isPickedUp = false;
+
     // Sound for when the bomb crate is picked up.
     void OnTriggerEnter2D(Collider2D other)
     {
         // If the player enters the trigger zone...
-        if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && other.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == null && GetComponent<SpriteRenderer>().enabled)
+        if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && !isPickedUp)
         {
+            isPickedUp = true;
+            print("Pick up");
             GetComponent<SpriteRenderer>().enabled = false;
             //other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
 
