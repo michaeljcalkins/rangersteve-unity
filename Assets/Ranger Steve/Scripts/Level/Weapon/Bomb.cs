@@ -80,7 +80,7 @@ public class Bomb : Photon.MonoBehaviour
             if (rb != null && rb.tag == "Local Player")
             {
                 print("Player is dead!!@#$@#");
-                rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleDamage(100f);
+                rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleDamage(100);
                 //rb.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
             }
         }

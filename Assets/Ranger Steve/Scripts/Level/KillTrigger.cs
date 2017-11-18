@@ -13,58 +13,61 @@ Extra traffic costs. And in the PUN delay I attack quickly.
 Each extra byte of the transmitted traffic is already a problem.
 
 Network Description */
-public class KillTrigger : Photon.MonoBehaviour
+namespace Com.LavaEagle.RangerSteve
 {
-    // animation River splash
-    public GameObject splash;
-
-    private Text remainingAmmoText;
-
-    private Image activeWeaponImage;
-
-    private Image hurtBorderImage;
-
-    private Text healthText;
-
-    void Start()
+    public class KillTrigger : Photon.MonoBehaviour
     {
-        healthText = GameObject.Find("HealthText").GetComponent<Text>();
-        hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
-        remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
-        activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
-    }
+        // animation River splash
+        public GameObject splash;
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!other.GetComponent<PhotonView>().isMine)
-            return;
+        private Text remainingAmmoText;
 
-        // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
-        // ... instantiate the splash where the player falls in.
-        PhotonNetwork.Instantiate(splash.name, other.transform.position, transform.rotation, 0);
+        private Image activeWeaponImage;
 
-        // ... destroy the player or bomb;
-        // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
-        Destroy(other.gameObject);
+        private Image hurtBorderImage;
 
-        if (other.tag == "Local Player")
+        private Text healthText;
+
+        void Start()
         {
-            remainingAmmoText.text = "";
-            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(1f);
-            healthText.text = "0";
-            activeWeaponImage.enabled = false;
-            activeWeaponImage.overrideSprite = null;
-
-            Invoke("Respawn", 4f);
+            healthText = GameObject.Find("HealthText").GetComponent<Text>();
+            hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+            remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
+            activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
         }
-    }
 
-    void Respawn()
-    {
-        Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
-        if (CR.player != null)
-            PhotonNetwork.Destroy(CR.player);
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (!other.GetComponent<PhotonView>().isMine)
+                return;
 
-        CR.HandleCreatePlayerObject();
+            // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
+            // ... instantiate the splash where the player falls in.
+            PhotonNetwork.Instantiate(splash.name, other.transform.position, transform.rotation, 0);
+
+            // ... destroy the player or bomb;
+            // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
+            Destroy(other.gameObject);
+
+            if (other.tag == "Local Player")
+            {
+                remainingAmmoText.text = "";
+                hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(1f);
+                healthText.text = "0";
+                activeWeaponImage.enabled = false;
+                activeWeaponImage.overrideSprite = null;
+
+                Invoke("Respawn", 4f);
+            }
+        }
+
+        void Respawn()
+        {
+            Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
+            if (CR.player != null)
+                PhotonNetwork.Destroy(CR.player);
+
+            CR.HandleCreatePlayerObject();
+        }
     }
 }

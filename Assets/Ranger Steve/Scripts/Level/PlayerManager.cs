@@ -9,7 +9,7 @@ namespace Com.LavaEagle.RangerSteve
         #region Public Variables
 
         [Tooltip("The current Health of our player")]
-        public float health;
+        public int health;
 
         // Amount of force added to move the player left and right.
         public float moveForce;
@@ -184,7 +184,7 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
-            ProcessInputs();
+            HandleInputs();
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
@@ -221,16 +221,8 @@ namespace Com.LavaEagle.RangerSteve
 
         void FixedUpdate()
         {
-            float h = 0;
-            AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-            if (!stateInfo.IsName("Base Layer.Sit"))
-            {
-                // Cache the horizontal input.
-                h = Input.GetAxis("Horizontal");
-            }
-
-            // The Speed animator parameter is set to the absolute value of the horizontal input.
-            anim.SetFloat("Speed", Mathf.Abs(h));
+            // Cache the horizontal input.
+            float h = Input.GetAxis("Horizontal");
 
             // If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeedX yet...
             if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeedX)
@@ -293,7 +285,7 @@ namespace Com.LavaEagle.RangerSteve
             rightJumpjet.gameObject.SetActive(flying);
             leftJumpjet.gameObject.SetActive(flying);
 
-            ProcessWeaponFire();
+            HandleWeaponFire();
         }
 
         /// <summary>
@@ -309,7 +301,7 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
-            float weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
+            int weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
             HandleDamage(weaponDamage);
         }
 
@@ -369,13 +361,9 @@ namespace Com.LavaEagle.RangerSteve
             amount--;
         }
 
-        void ProcessWeaponFire()
+        void HandleWeaponFire()
         {
-            // This is all necessary in order to correctly transmit over the 
-            // network " anim.SetTrigger("Shoot"); ". 
-            // Example - script Bazooka .
-
-            // Only let the player shoot if they have ammo and they haven't exceeded their fire rate
+            // Only let the player shoot if they have ammo and they haven't exceeded their rate of fire
             if (!fire || Time.time < nextFire || amount <= 0)
             {
                 fire = false;
@@ -384,21 +372,12 @@ namespace Com.LavaEagle.RangerSteve
 
             nextFire = Time.time + fireRate;
 
-            // Prevents double firing by accident
-            if (weaponAnimation)
-            {
-                anim.SetTrigger("Shoot");
-            }
-
-            if (photonView.isMine)
-            {
-                // Add force in the direction described
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, ammunition);
-            }
+            // Add force in the direction described
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, ammunition);
         }
 
-        public void HandleDamage(float damage)
+        public void HandleDamage(int damage)
         {
             health -= damage;
 
@@ -412,8 +391,10 @@ namespace Com.LavaEagle.RangerSteve
             }
         }
 
-        void ProcessInputs()
+        void HandleInputs()
         {
+            if (health == 0) return;
+
             // Starting firing once the left click is detected as down
             fire = Input.GetMouseButton(0);
 

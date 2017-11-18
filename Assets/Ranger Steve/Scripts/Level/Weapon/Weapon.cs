@@ -1,24 +1,27 @@
 ﻿using UnityEngine;
 
-public class Weapon : MonoBehaviour
+namespace Com.LavaEagle.RangerSteve
 {
+    public class Weapon : MonoBehaviour
+    {
 
-    public Sprite pictureWeapon;
+        public Sprite pictureWeapon;
 
-    public string ammunition;
+        public string ammunition;
 
-    public Vector3 spawnPoint;
+        public Vector3 spawnPoint;
 
-    public int bulletSpeed;
+        public int bulletSpeed;
 
-    public bool weaponAnimation;
+        public bool weaponAnimation;
 
-    public bool front;
+        public bool front;
 
-    public int amount;
+        public int amount;
 
-    public float fireRate;
+        public float fireRate;
 
-    public string weaponName;
+        public string weaponName;
 
+    }
 }

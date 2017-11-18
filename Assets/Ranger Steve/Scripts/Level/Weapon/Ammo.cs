@@ -17,47 +17,13 @@ namespace Com.LavaEagle.RangerSteve
         // Prefab of explosion effect.
         public GameObject explosion;
 
-        public float damage;
+        public int damage;
 
         public int bulletSpeed;
 
         // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. 
         // It is necessary once
         bool flag;
-
-        void Awake()
-        {
-            //if (photonView.isMine)
-            //{
-            //    this.tag = "Local Ammo";
-            //}
-            //else
-            //{
-            //    this.tag = "Networked Ammo";
-            //}
-
-            //Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            //rb.AddForce(transform.up * 400);
-        }
-
-        void FixedUpdate()
-        {
-            // Add force in the direction described
-            //positionOnScreen = new Vector3(transform.position.x, transform.position.y);
-            //direction = mousePos - positionOnScreen;
-            //direction.Normalize();
-
-            //// Get the angle between the points
-            //float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
-
-            //// Ta Daaa
-            //transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        }
-
-        private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
-        {
-            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-        }
 
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -112,6 +78,11 @@ namespace Com.LavaEagle.RangerSteve
 
             // Bullet hit the ground
             Destroy(gameObject);
+        }
+
+        private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+        {
+            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
     }
 }
