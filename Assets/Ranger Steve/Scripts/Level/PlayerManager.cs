@@ -441,7 +441,7 @@ namespace Com.LavaEagle.RangerSteve
             // If the jump button is pressed and the player is grounded then the player should jump.
             jump = (
                 (
-                    Input.GetKeyDown(KeyCode.W) &&
+                    Input.GetKeyDown(KeyCode.W) ||
                     Input.GetKeyDown(KeyCode.Space)
                 ) && grounded
             );
