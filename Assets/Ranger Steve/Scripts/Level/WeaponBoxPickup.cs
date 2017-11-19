@@ -1,13 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-/* Network Description
-
-condition(other.GetComponent<PhotonView>().isMine) to the other players did not come hither
-condition(other.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == null) to the player did not take a weapon when he already has a weapon
-condition( GetComponent<SpriteRenderer>().enabled) to the player came here only once
-
-Network Description */
 namespace Com.LavaEagle.RangerSteve
 {
     public class WeaponBoxPickup : Photon.MonoBehaviour

@@ -45,4 +45,7 @@ MonoBehaviour:
   - FireBullet
   - DestroyWeaponBox
   - HandleDamage
+  - HandleAddBlueScore
+  - HandleAddRedScore
+  - HandleResetScore
   DisableAutoOpenWizard: 1
