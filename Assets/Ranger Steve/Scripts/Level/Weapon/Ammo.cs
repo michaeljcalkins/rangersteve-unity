@@ -1,14 +1,4 @@
-﻿/**
- * unlike a bomb is removed after any first collision
- *
- * !!!! We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity !!!! This is a very important point in PUN
- * Because of this we can send network data several times instead of once.
- * Extra traffic costs. And in the PUN delay I attack quickly.
- * Each extra byte of the transmitted traffic is already a problem.
- */
-
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 namespace Com.LavaEagle.RangerSteve
 {

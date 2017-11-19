@@ -202,6 +202,8 @@ namespace Com.LavaEagle.RangerSteve
                 remainingAmmoText.text = "";
                 activeWeaponImage.enabled = false;
                 activeWeaponImage.overrideSprite = null;
+                activeWeapon.GetComponent<SpriteRenderer>().enabled = false;
+                activeWeapon.GetComponent<SpriteRenderer>().sprite = null;
             }
             else
             {
@@ -214,6 +216,7 @@ namespace Com.LavaEagle.RangerSteve
 
                 remainingAmmoText.text = amount.ToString();
                 activeWeaponImage.enabled = true;
+                activeWeapon.GetComponent<SpriteRenderer>().enabled = true;
             }
 
             running = (Input.GetKey("a") || Input.GetKey("d")) && !flying;

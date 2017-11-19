@@ -9,6 +9,7 @@ Prior to its removal, they must have time to draw the yellow circle (0.5f).
 Otherwise eyes will not have time to see the object in the form of yellow circle
 
 Network Description */
+
 public class Bomb : Photon.MonoBehaviour
 {
     public float bombRadius = 6.5f;
