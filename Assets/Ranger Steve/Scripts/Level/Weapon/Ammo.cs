@@ -17,20 +17,10 @@ namespace Com.LavaEagle.RangerSteve
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            // This tells us we are already dealing with this collision.
-            if (flag)
-            {
-                return;
-            }
-
-            // Ignore collision if view is not mine.
-            if (!photonView.isMine)
-            {
-                return;
-            }
-
-            // Bullet hit self
-            if (other.tag == "Local Player" && this.tag == "Local Ammo")
+            if (
+                flag || // This tells us we are already dealing with this collision.
+                (other.tag == "Local Player" && this.tag == "Local Ammo") // Bullet hit self
+            )
             {
                 return;
             }
@@ -48,15 +38,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 print("Networked player shot by local ammo.");
 
-                //int weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
-                //other.gameObject.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleReduceHealth(weaponDamage);
-
-                //GameObject localPlayer = GameObject.FindWithTag("Local Player");
-                //print(localPlayer);
-                //print(localPlayer.GetComponent(typeof(Com.LavaEagle.RangerSteve.PlayerManager)));
-                // Call this method on the localPlayer Com.LavaEagle.RangerSteve.PlayerManager.Death();
-
-                //other.gameObject.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
+                int weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
+                other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
 
                 if (explosion != null)
                 {
