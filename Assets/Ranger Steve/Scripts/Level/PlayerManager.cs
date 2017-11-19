@@ -114,6 +114,10 @@ namespace Com.LavaEagle.RangerSteve
 
         private Transform standingLegs;
 
+        private float lastDamageTimestamp;
+
+        private float lastHealTimestamp;
+
         #endregion
 
 
@@ -218,8 +222,6 @@ namespace Com.LavaEagle.RangerSteve
                 activeWeaponImage.enabled = true;
                 activeWeapon.GetComponent<SpriteRenderer>().enabled = true;
             }
-
-            running = (Input.GetKey("a") || Input.GetKey("d")) && !flying;
         }
 
         void FixedUpdate()
@@ -289,23 +291,7 @@ namespace Com.LavaEagle.RangerSteve
             leftJumpjet.gameObject.SetActive(flying);
 
             HandleWeaponFire();
-        }
-
-        /// <summary>
-        /// MonoBehaviour method called when the Collider 'other' enters the trigger.
-        /// Affect Health of the Player if the collider is a beam
-        /// Note: when jumping and firing at the same, you'll find that the player's own beam intersects with itself
-        /// One could move the collider further away to prevent this or check if the beam belongs to the player.
-        /// </summary>
-        void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.tag != "Networked Ammo")
-            {
-                return;
-            }
-
-            int weaponDamage = other.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
-            HandleDamage(weaponDamage);
+            HandleHealing();
         }
 
         #endregion
@@ -380,6 +366,7 @@ namespace Com.LavaEagle.RangerSteve
             this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, ammunition);
         }
 
+        [PunRPC]
         public void HandleDamage(int damage)
         {
             health -= damage;
@@ -387,10 +374,43 @@ namespace Com.LavaEagle.RangerSteve
             // never allow negative health
             health = health < 0 ? 0 : health;
 
+            print("Player damaged " + damage.ToString() + ", remaining health " + health.ToString());
+
             if (health <= 0)
             {
                 print("Player is dead.");
                 Death();
+                return;
+            }
+
+            lastDamageTimestamp = Time.time * 1000;
+        }
+
+        void HandleHealing()
+        {
+            float currentTime = Time.time * 1000;
+            float damageTimeDifference = currentTime - lastDamageTimestamp;
+            float healTimeDifference = currentTime - lastHealTimestamp;
+
+            // Heal user to 100 after 5 seconds from last damage
+            // lastHealTimestamp indicates whether or not we are step healing
+            if (health > 55 && health < 100 && damageTimeDifference >= 5000 && lastHealTimestamp == 0.0)
+            {
+                health = 100;
+            }
+
+            // Heal user in steps if health is below 55
+            if (damageTimeDifference >= 5000 && healTimeDifference >= 500)
+            {
+                health += 10;
+                health = health > 100 ? 100 : health;
+                lastHealTimestamp = Time.time * 1000;
+            }
+
+            // resets the step healing timestamp so we can full heal
+            if (health == 100)
+            {
+                lastHealTimestamp = 0;
             }
         }
 
@@ -419,12 +439,21 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // If the jump button is pressed and the player is grounded then the player should jump.
-            if (Input.GetKeyDown(KeyCode.W) && grounded)
-            {
-                jump = true;
-            }
+            jump = (
+                (
+                    Input.GetKeyDown(KeyCode.W) &&
+                    Input.GetKeyDown(KeyCode.Space)
+                ) && grounded
+            );
 
             flying = Input.GetMouseButton(1);
+
+            running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                HandleDamage(10);
+            }
         }
 
         private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
