@@ -30,20 +30,12 @@ namespace Com.LavaEagle.RangerSteve
 
         public Texture2D cursorTexture;
 
-        public CursorMode cursorMode = CursorMode.Auto;
-
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
 
         public Sprite pictureWeapon;
 
         public string ammunition;
-
-        public Vector3 spawnPoint;
-
-        public bool weaponAnimation;
-
-        public bool front;
 
         // Remaining ammo to shoot for this gun
         public int amount;
@@ -54,10 +46,28 @@ namespace Com.LavaEagle.RangerSteve
 
         public int bulletSpeed;
 
+        public Vector3 spawnPoint;
+
+        public string team;
+
+        public int score;
+
+        public int kills;
+
+        public int deaths;
+
+        public int totalDamageDealt;
+
+        public GameObject leaderboard;
+
+        public ScoreManager scoreManager;
+
         #endregion
 
 
         #region Private Variables
+
+        private CursorMode cursorMode = CursorMode.Auto;
 
         private float nextFire = 0;
 
@@ -175,6 +185,10 @@ namespace Com.LavaEagle.RangerSteve
             remainingAmmoText.text = amount.ToString();
 
             activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
+
+            leaderboard = GameObject.Find("Leaderboard");
+
+            scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         }
 
         /// <summary>
@@ -420,9 +434,24 @@ namespace Com.LavaEagle.RangerSteve
             // Starting firing once the left click is detected as down
             fire = Input.GetMouseButton(0);
 
+            if (Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive)
+            {
+                leaderboard.SetActive(true);
+            }
+            else
+            {
+                leaderboard.SetActive(false);
+            }
+
+            transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive
+                ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
+                : RigidbodyConstraints2D.FreezeAll;
+
+            if (!scoreManager.isRoundActive) return;
+
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                GetComponent<Com.LavaEagle.RangerSteve.GameManager>().LeaveRoom();
+                GetComponent<GameManager>().LeaveRoom();
             }
 
             // Detect what side of the player the mouse is on and flip according to that.

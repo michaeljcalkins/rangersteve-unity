@@ -13,10 +13,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public int bulletSpeed;
 
-        public bool weaponAnimation;
-
-        public bool front;
-
         public int amount;
 
         public float fireRate;

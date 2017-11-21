@@ -15,6 +15,7 @@ TagManager:
   - Networked Player
   - Local Ammo
   - Networked Ammo
+  - DominationSpawnPoint
   layers:
   - Default
   - TransparentFX

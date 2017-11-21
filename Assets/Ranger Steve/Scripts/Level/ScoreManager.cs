@@ -9,10 +9,12 @@ namespace Com.LavaEagle.RangerSteve
 
         public int redScore = 0;
         public int blueScore = 0;
-        public Time endOfRoundTimestamp;
+        public float endOfRoundTimestamp;
         public Text redScoreText;
         public Text blueScoreText;
         public Text timeRemainingText;
+        public int scoreAmount = 20;
+        public bool isRoundActive = true;
 
         #endregion
 
@@ -20,28 +22,26 @@ namespace Com.LavaEagle.RangerSteve
         #region Private Variables
 
         private float lastScoreTimestamp;
+        private GameObject[] spawnPoints;
 
         #endregion
 
 
         #region MonoBehaviour CallBacks
 
-        void Update()
+        void Start()
         {
-            redScoreText.GetComponent<Text>().text = redScore.ToString();
-            blueScoreText.GetComponent<Text>().text = blueScore.ToString();
+
         }
 
-        void OnTriggerStay2D(Collider2D other)
+        void Update()
         {
-            float currentTime = Time.time * 1000;
-            float lastScoreDifference = currentTime - lastScoreTimestamp;
+            redScoreText.text = redScore.ToString();
+            blueScoreText.text = blueScore.ToString();
 
-            // If the player stays in the trigger zone...
-            if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && lastScoreDifference >= 1000)
+            if (redScore >= 1000 || blueScore >= 1000)
             {
-                lastScoreTimestamp = Time.time * 1000;
-                this.photonView.RPC("HandleAddRedScore", PhotonTargets.All, 10);
+                isRoundActive = false;
             }
         }
 
@@ -50,16 +50,16 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
-        [PunRPC]
-        public void HandleAddRedScore(int amount)
+        //[PunRPC]
+        public void HandleAddRedScore()
         {
-            redScore += amount;
+            redScore += scoreAmount;
         }
 
         [PunRPC]
-        public void HandleAddBlueScore(int amount)
+        public void HandleAddBlueScore()
         {
-            blueScore += amount;
+            blueScore += scoreAmount;
         }
 
         [PunRPC]

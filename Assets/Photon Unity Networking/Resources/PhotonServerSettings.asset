@@ -48,4 +48,5 @@ MonoBehaviour:
   - HandleAddBlueScore
   - HandleAddRedScore
   - HandleResetScore
+  - DestroyDominationPlatform
   DisableAutoOpenWizard: 1

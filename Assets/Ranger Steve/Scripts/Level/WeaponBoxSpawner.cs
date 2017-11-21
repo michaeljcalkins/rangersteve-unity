@@ -22,13 +22,13 @@ namespace Com.LavaEagle.RangerSteve
 
             // Start the first delivery.
             if (PhotonNetwork.isMasterClient) // spawn weapons boxes can only master client(scene objects)
-                InvokeRepeating("Test", 4, pickupDeliveryDelayTime);
+                InvokeRepeating("Test", 0, pickupDeliveryDelayTime);
         }
 
         void OnMasterClientSwitched(PhotonPlayer newMasterClient)
         {
             // if the master client out of the room then pass the baton to spawn weapons boxes to another player
-            InvokeRepeating("Test", 4, pickupDeliveryDelayTime);
+            InvokeRepeating("Test", 0, pickupDeliveryDelayTime);
         }
 
         void Test()
