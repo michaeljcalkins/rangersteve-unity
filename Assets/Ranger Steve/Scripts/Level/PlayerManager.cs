@@ -207,9 +207,6 @@ namespace Com.LavaEagle.RangerSteve
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
-            // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
-            grounded = IsGrounded();
-
             // HurtBorder
             float hurtBorderAlpha = 1 - (health / 100);
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
@@ -275,9 +272,6 @@ namespace Com.LavaEagle.RangerSteve
             // If the player should jump...
             if (jump)
             {
-                // Set the Jump animator trigger parameter.
-                anim.SetTrigger("Jump");
-
                 // Add a vertical force to the player.
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
 
@@ -469,12 +463,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // If the jump button is pressed and the player is grounded then the player should jump.
-            jump = (
-                (
-                    Input.GetKeyDown(KeyCode.W) ||
-                    Input.GetKeyDown(KeyCode.Space)
-                ) && grounded
-            );
+            jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
 
             flying = Input.GetMouseButton(1);
 

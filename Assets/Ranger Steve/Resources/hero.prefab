@@ -302,7 +302,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012203530956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.019, y: -1.226, z: 0}
+  m_LocalPosition: {x: 0, y: -1.132, z: 0}
   m_LocalScale: {x: 0.04067736, y: 0.04284526, z: 0}
   m_Children: []
   m_Father: {fileID: 4000014055351816}
@@ -354,7 +354,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.996807, y: -40.751923, z: 0}
+  m_LocalPosition: {x: -158.68619, y: 31.483385, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011514293230}
@@ -732,16 +732,20 @@ MonoBehaviour:
   jumpForce: 2300
   flyingForce: 130
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
-  cursorMode: 0
   pictureWeapon: {fileID: 0}
   ammunition: '@'
-  spawnPoint: {x: 0, y: 0, z: 0}
-  weaponAnimation: 0
-  front: 0
   amount: 0
   fireRate: 0
   weaponName: 
   bulletSpeed: 0
+  spawnPoint: {x: 0, y: 0, z: 0}
+  team: 
+  score: 0
+  kills: 0
+  deaths: 0
+  totalDamageDealt: 0
+  leaderboard: {fileID: 0}
+  scoreManager: {fileID: 0}
 --- !u!114 &114000010461963620
 MonoBehaviour:
   m_ObjectHideFlags: 1
