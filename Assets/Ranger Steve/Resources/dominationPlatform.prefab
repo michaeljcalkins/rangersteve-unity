@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114635743316766266}
   m_Layer: 0
   m_Name: ScoreZone
-  m_TagString: ScoreZone
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114556304073501118}
   m_Layer: 12
   m_Name: dominationPlatform
-  m_TagString: DominationPlatform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
