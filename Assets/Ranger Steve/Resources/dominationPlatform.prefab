@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114635743316766266}
   m_Layer: 0
   m_Name: ScoreZone
-  m_TagString: Untagged
+  m_TagString: ScoreZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114556304073501118}
   m_Layer: 12
   m_Name: dominationPlatform
-  m_TagString: Untagged
+  m_TagString: DominationPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631056115650820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1008.4531, y: 292.99454, z: 7.8816643}
+  m_LocalPosition: {x: -167.613, y: 23.187227, z: 7.8816643}
   m_LocalScale: {x: 2.9080389, y: 2.9080389, z: 2.9080389}
   m_Children:
   - {fileID: 4662670230508610}
@@ -116,7 +116,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000006198883, y: 2.0409713}
+  m_Offset: {x: -0.000006198883, y: 1.3111383}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -127,7 +127,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2500002, y: 2.4521036}
+  m_Size: {x: 3.2500002, y: 0.99243784}
   m_EdgeRadius: 0
 --- !u!114 &114484571658213618
 MonoBehaviour:

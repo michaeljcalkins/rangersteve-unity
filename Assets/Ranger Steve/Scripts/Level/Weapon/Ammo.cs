@@ -19,7 +19,8 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (
                 flag || // This tells us we are already dealing with this collision.
-                (other.tag == "Local Player" && this.tag == "Local Ammo") // Bullet hit self
+                (other.tag == "Local Player" && this.tag == "Local Ammo") || // Bullet hit self
+                other.tag == "ScoreZone" // Bullet hit the score zone
             )
             {
                 return;
