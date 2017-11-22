@@ -63,11 +63,11 @@ namespace Com.LavaEagle.RangerSteve
 
         void Respawn()
         {
-            Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
-            if (CR.player != null)
-                PhotonNetwork.Destroy(CR.player);
+            CreatePlayer createPlayer = FindObjectOfType<CreatePlayer>();
+            if (createPlayer.player != null)
+                PhotonNetwork.Destroy(createPlayer.player);
 
-            CR.HandleCreatePlayerObject();
+            createPlayer.HandleCreatePlayerObject();
         }
     }
 }

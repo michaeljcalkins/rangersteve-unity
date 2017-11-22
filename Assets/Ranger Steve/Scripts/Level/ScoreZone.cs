@@ -15,7 +15,7 @@ namespace Com.LavaEagle.RangerSteve
         #region Private Variables
 
         private float lastScoreTimestamp;
-        private float totalScoreGiven = 0;
+        private float numberOfTimesScoreWasGiven = 0;
 
         #endregion
 
@@ -31,15 +31,24 @@ namespace Com.LavaEagle.RangerSteve
             if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && lastScoreDifference >= 1000)
             {
                 lastScoreTimestamp = Time.time * 1000;
-                //this.photonView.RPC("HandleAddRedScore", PhotonTargets.All, 10);
-                GameObject.Find("ScoreManager").GetComponent<ScoreManager>().HandleAddRedScore();
-                totalScoreGiven++;
+
+                if (other.GetComponent<PlayerManager>().team == "red")
+                {
+                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().HandleAddRedScore();
+                }
+                else
+                {
+                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().HandleAddBlueScore();
+                }
+
+                numberOfTimesScoreWasGiven++;
             }
 
-            if (totalScoreGiven >= maxTimesScoreIsGiven && PhotonNetwork.isMasterClient)
+            if (numberOfTimesScoreWasGiven >= maxTimesScoreIsGiven && PhotonNetwork.isMasterClient)
             {
-                totalScoreGiven = 0;
+                numberOfTimesScoreWasGiven = 0;
                 photonView.RPC("DestroyDominationPlatform", PhotonTargets.All);
+                GameObject.Find("DominationPlatformSpawner").GetComponent<DominationPlatformSpawner>().flag = false;
             }
         }
 

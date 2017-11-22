@@ -20,6 +20,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public int maxNumberOfPlatforms = 1;
 
+        public bool flag = false;
+
         #endregion
 
 
@@ -35,21 +37,27 @@ namespace Com.LavaEagle.RangerSteve
             spawnPoints = GameObject.FindGameObjectsWithTag("DominationSpawnPoint");
 
             // Start the first delivery.
-            if (PhotonNetwork.isMasterClient) // spawn weapons boxes can only master client(scene objects)
-                InvokeRepeating("Test", 1, platformDeliveryDelayTime);
+            if (PhotonNetwork.isMasterClient)
+            {
+                InvokeRepeating("Test", 0, 1);
+            }
         }
 
         void OnMasterClientSwitched(PhotonPlayer newMasterClient)
         {
-            // if the master client out of the room then pass the baton to spawn weapons boxes to another player
-            InvokeRepeating("Test", 1, platformDeliveryDelayTime);
+            if (PhotonNetwork.isMasterClient)
+            {
+                InvokeRepeating("Test", 0, 1);
+            }
         }
 
         void Test()
         {
-            if (FindObjectsOfType<DominationPlatform>().Length < maxNumberOfPlatforms)
+            if (FindObjectsOfType<DominationPlatform>().Length == 0 && flag == false)
             {
+                flag = true;
                 int randomTime = Random.Range(minRandomSpawnTime, maxRandomSpawnTime);
+                print("Invoking domination platform in " + randomTime + " seconds.");
                 Invoke("DeliverPickup", randomTime);
             }
         }
@@ -68,9 +76,6 @@ namespace Com.LavaEagle.RangerSteve
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
 
             PhotonNetwork.InstantiateSceneObject("DominationPlatform", dropPos, Quaternion.identity, 0, null);
-
-            if (FindObjectsOfType<DominationPlatform>().Length < maxNumberOfPlatforms)
-                Test();
         }
     }
 }

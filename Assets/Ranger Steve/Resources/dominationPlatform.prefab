@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 61843579208206896}
   - component: {fileID: 114484571658213618}
   - component: {fileID: 114635743316766266}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: ScoreZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae2086f9cd0e469d9a32e78b2d7172d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTimesScoreIsGiven: 10
 --- !u!114 &114986011960630418
 MonoBehaviour:
   m_ObjectHideFlags: 1

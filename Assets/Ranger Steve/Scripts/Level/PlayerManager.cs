@@ -153,6 +153,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 this.tag = "Networked Player";
             }
+
+            team = "blue";
         }
 
         void Start()

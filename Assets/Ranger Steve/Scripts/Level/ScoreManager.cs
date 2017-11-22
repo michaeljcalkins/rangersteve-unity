@@ -31,13 +31,17 @@ namespace Com.LavaEagle.RangerSteve
 
         void Start()
         {
-
+            if (PhotonNetwork.isMasterClient)
+            {
+                endOfRoundTimestamp = Time.time + (60 * 5);
+            }
         }
 
         void Update()
         {
             redScoreText.text = redScore.ToString();
             blueScoreText.text = blueScore.ToString();
+            timeRemainingText.text = ((int)(endOfRoundTimestamp - Time.time)).ToString();
 
             if (redScore >= 1000 || blueScore >= 1000)
             {
@@ -53,20 +57,15 @@ namespace Com.LavaEagle.RangerSteve
         //[PunRPC]
         public void HandleAddRedScore()
         {
+            print("Adding " + scoreAmount + " to Red.");
             redScore += scoreAmount;
         }
 
         [PunRPC]
         public void HandleAddBlueScore()
         {
+            print("Adding " + scoreAmount + " to Blue.");
             blueScore += scoreAmount;
-        }
-
-        [PunRPC]
-        public void HandleResetScore()
-        {
-            redScore = 0;
-            blueScore = 0;
         }
 
         #endregion
