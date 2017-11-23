@@ -79,7 +79,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private Image hurtBorderImage;
 
-        private Text healthText;
+        private Slider healthSlider;
 
         private int mainCameraDepth = -20;
 
@@ -143,7 +143,7 @@ namespace Com.LavaEagle.RangerSteve
 
             // #Critical
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
 
             if (photonView.isMine)
             {
@@ -171,7 +171,7 @@ namespace Com.LavaEagle.RangerSteve
             // Displays remaining fuel until you can't fly
             remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
 
-            healthText = GameObject.Find("HealthText").GetComponent<Text>();
+            healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
 
             // Make camera follow player
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -208,10 +208,12 @@ namespace Com.LavaEagle.RangerSteve
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
             // HurtBorder
-            float hurtBorderAlpha = 1 - (health / 100);
-            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderAlpha);
+            float hurtBorderPercent = 1f - (health / 100f);
+            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderPercent);
 
-            healthText.text = health.ToString();
+            // Health slider
+            float healthPercentage = health / 100f;
+            healthSlider.value = healthPercentage;
 
             if (amount <= 0)
             {

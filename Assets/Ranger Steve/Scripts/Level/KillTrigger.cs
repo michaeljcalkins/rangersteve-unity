@@ -26,11 +26,11 @@ namespace Com.LavaEagle.RangerSteve
 
         private Image hurtBorderImage;
 
-        private Text healthText;
+        private Slider healthSlider;
 
         void Start()
         {
-            healthText = GameObject.Find("HealthText").GetComponent<Text>();
+            healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
             hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
             activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
@@ -53,7 +53,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 remainingAmmoText.text = "";
                 hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(1f);
-                healthText.text = "0";
+                healthSlider.value = 0;
+
                 activeWeaponImage.enabled = false;
                 activeWeaponImage.overrideSprite = null;
 

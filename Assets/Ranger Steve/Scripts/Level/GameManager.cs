@@ -86,7 +86,7 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Private Methods
 
-        void LoadArena()
+        public void LoadArena()
         {
             if (!PhotonNetwork.isMasterClient)
             {

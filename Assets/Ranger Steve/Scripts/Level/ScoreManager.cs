@@ -23,6 +23,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private float lastScoreTimestamp;
         private GameObject[] spawnPoints;
+        private bool isRoundRestarting = false;
 
         #endregion
 
@@ -41,11 +42,19 @@ namespace Com.LavaEagle.RangerSteve
         {
             redScoreText.text = redScore.ToString();
             blueScoreText.text = blueScore.ToString();
-            timeRemainingText.text = ((int)(endOfRoundTimestamp - Time.time)).ToString();
 
-            if (redScore >= 1000 || blueScore >= 1000)
+            int remainingTime = (int)(endOfRoundTimestamp - Time.time);
+            timeRemainingText.text = remainingTime <= 0 ? "0" : remainingTime.ToString();
+
+            if (redScore >= 1000 || blueScore >= 1000 || remainingTime <= 0)
             {
                 isRoundActive = false;
+            }
+
+            if (!isRoundActive && !isRoundRestarting)
+            {
+                isRoundRestarting = true;
+                Invoke("RestartRound", 5f);
             }
         }
 
@@ -66,6 +75,11 @@ namespace Com.LavaEagle.RangerSteve
         {
             print("Adding " + scoreAmount + " to Blue.");
             blueScore += scoreAmount;
+        }
+
+        void RestartRound()
+        {
+            PhotonNetwork.LoadLevel("Level");
         }
 
         #endregion
