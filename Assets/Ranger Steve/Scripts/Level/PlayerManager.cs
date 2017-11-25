@@ -126,6 +126,10 @@ namespace Com.LavaEagle.RangerSteve
 
         private float lastHealTimestamp;
 
+        private Vector3 mouse_pos;
+        private Vector3 object_pos;
+        private float angle;
+
         #endregion
 
 
@@ -217,19 +221,16 @@ namespace Com.LavaEagle.RangerSteve
             if (amount <= 0)
             {
                 remainingAmmoText.text = "";
-
                 activeWeaponImage.enabled = false;
                 activeWeaponImage.overrideSprite = null;
-
-                foreach (Transform child in rightHand.transform)
-                {
-                    child.gameObject.SetActive(false);
-                }
+                if (weaponName.Length > 0) rightHand.transform.Find(weaponName).gameObject.SetActive(false);
             }
             else
             {
                 remainingAmmoText.text = amount.ToString();
             }
+
+            HandleRightArmRotation();
         }
 
         void FixedUpdate()
@@ -336,6 +337,17 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        public void HandleRightArmRotation()
+        {
+            mouse_pos = Input.mousePosition;
+            mouse_pos.z = 5.23f; //The distance between the camera and object
+            object_pos = Camera.main.WorldToScreenPoint(transform.position);
+            mouse_pos.x = mouse_pos.x - object_pos.x;
+            mouse_pos.y = mouse_pos.y - object_pos.y;
+            angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
+            rightHand.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
+
         public void HandleUpdateWeaponInfo()
         {
             // Set weapon image in UI
@@ -371,7 +383,11 @@ namespace Com.LavaEagle.RangerSteve
                 s.enabled = true;
             }
 
-            health = 100;
+            // Update UI with ammo and weapon info
+            if (amount <= 0)
+            {
+                health = 100;
+            }
         }
 
         bool IsGrounded()
@@ -476,7 +492,7 @@ namespace Com.LavaEagle.RangerSteve
             }
         }
 
-        void HandleInputs()
+        private void HandleInputs()
         {
             transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive && health > 0
                 ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
@@ -563,6 +579,13 @@ namespace Com.LavaEagle.RangerSteve
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
             transform.localScale = theScale;
+
+
+            // Multiply the player's x local scale by -1.
+            Vector3 rightHandScale = rightHand.transform.localScale;
+            rightHandScale.y *= -1;
+            rightHandScale.x *= -1;
+            rightHand.transform.localScale = rightHandScale;
         }
 
         void Death()
