@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 namespace Com.LavaEagle.RangerSteve
@@ -12,8 +12,6 @@ namespace Com.LavaEagle.RangerSteve
         // Array of empty objects that are used as location indicators of potential spawn points
         public GameObject[] spawnPoints;
 
-        private Vector3 spawnPoint;
-
         void Start()
         {
             HandleCreatePlayerObject();
@@ -21,13 +19,24 @@ namespace Com.LavaEagle.RangerSteve
 
         public void HandleCreatePlayerObject()
         {
-            spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+            Vector3 spawnPoint;
+            string team = "";
+            int blueCount = 0;
+            int redCount = 0;
+            string teamSpawnPointTag;
+            GameObject[] livePlayers = GameObject.FindGameObjectsWithTag("Networked Player");
 
-            // If there is a spawn point array and the array is not empty, pick a spawn point at random
-            if (spawnPoints != null && spawnPoints.Length > 0)
+            foreach (GameObject livePlayer in livePlayers)
             {
-                spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+                if (player.GetComponent<PlayerManager>().team == "blue") blueCount++;
+                if (player.GetComponent<PlayerManager>().team == "red") redCount++;
             }
+
+            team = blueCount > redCount ? "red" : "blue";
+            teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
+
+            spawnPoints = GameObject.FindGameObjectsWithTag(teamSpawnPointTag);
+            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
@@ -39,8 +48,18 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
+            if (team == "blue")
+            {
+                GameObject.Find("RedTeamIndicator").GetComponent<Image>().enabled = false;
+            }
+            else
+            {
+                GameObject.Find("BlueTeamIndicator").GetComponent<Image>().enabled = false;
+            }
+
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().health = 100;
+            player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().team = team;
         }
     }
 }

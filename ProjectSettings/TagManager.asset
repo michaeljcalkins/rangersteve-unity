@@ -9,13 +9,14 @@ TagManager:
   - WeaponBox
   - Grenade
   - WeaponSpawnPoint
-  - PlayerSpawnPoint
   - Ground
   - Local Player
   - Networked Player
   - Local Ammo
   - Networked Ammo
   - DominationSpawnPoint
+  - RedPlayerSpawnPoint
+  - BluePlayerSpawnPoint
   layers:
   - Default
   - TransparentFX

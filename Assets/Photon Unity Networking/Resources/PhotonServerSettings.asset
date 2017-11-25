@@ -45,4 +45,6 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - EmitMasterScoreUpdate
+  - HandleGetScoreFromMaster
   DisableAutoOpenWizard: 1

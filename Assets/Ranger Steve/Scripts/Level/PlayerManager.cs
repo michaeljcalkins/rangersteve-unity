@@ -153,19 +153,6 @@ namespace Com.LavaEagle.RangerSteve
             {
                 this.tag = "Networked Player";
             }
-
-            int blueCount = 0;
-            int redCount = 0;
-
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Networked Player");
-
-            foreach (GameObject player in players)
-            {
-                if (player.GetComponent<PlayerManager>().team == "blue") blueCount++;
-                if (player.GetComponent<PlayerManager>().team == "red") redCount++;
-            }
-
-            this.team = blueCount > redCount ? "red" : "blue";
         }
 
         void Start()
