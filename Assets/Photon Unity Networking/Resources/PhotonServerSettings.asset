@@ -28,25 +28,21 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - Death
-  - destroy_bonus
+  - DestroyDominationPlatform
   - DestroyRpc
+  - DestroyWeaponBox
   - Explode
+  - FireBullet
+  - HandleAddBlueScore
+  - HandleAddRedScore
+  - HandleDamage
+  - HandleMasterEmitScoreUpdate
+  - HandleScoreUpdate
   - InstantiateRpc
   - PickupItemInit
   - PunPickup
   - PunPickupSimple
   - PunRespawn
-  - Reload
   - RequestForPickupItems
   - RequestForPickupTimes
-  - DestroyBonus
-  - Fire
-  - FireBullet
-  - DestroyWeaponBox
-  - HandleDamage
-  - HandleAddBlueScore
-  - HandleAddRedScore
-  - HandleResetScore
-  - DestroyDominationPlatform
   DisableAutoOpenWizard: 1

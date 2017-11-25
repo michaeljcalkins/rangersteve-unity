@@ -9,7 +9,7 @@ namespace Com.LavaEagle.RangerSteve
 
         public int redScore = 0;
         public int blueScore = 0;
-        public float endOfRoundTimestamp;
+        public int endOfRoundTimestamp;
         public Text redScoreText;
         public Text blueScoreText;
         public Text timeRemainingText;
@@ -21,8 +21,7 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Private Variables
 
-        private float lastScoreTimestamp;
-        private GameObject[] spawnPoints;
+        private bool hasReceivedScoreFromMaster = false;
         private bool isRoundRestarting = false;
 
         #endregion
@@ -34,7 +33,12 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (PhotonNetwork.isMasterClient)
             {
-                endOfRoundTimestamp = Time.time + (60 * 5);
+                int currentTime = GetCurrentTime();
+                endOfRoundTimestamp = currentTime + (60 * 5);
+            }
+            else
+            {
+                photonView.RPC("HandleGetScoreFromMaster", PhotonTargets.MasterClient);
             }
         }
 
@@ -43,18 +47,22 @@ namespace Com.LavaEagle.RangerSteve
             redScoreText.text = redScore.ToString();
             blueScoreText.text = blueScore.ToString();
 
-            int remainingTime = (int)(endOfRoundTimestamp - Time.time);
+            int currentTime = GetCurrentTime();
+
+            int remainingTime = (int)(endOfRoundTimestamp - currentTime);
             timeRemainingText.text = remainingTime <= 0 ? "0" : remainingTime.ToString();
 
-            if (redScore >= 1000 || blueScore >= 1000 || remainingTime <= 0)
+            if ((redScore >= 1000 || blueScore >= 1000 || remainingTime <= 0) && hasReceivedScoreFromMaster)
             {
+                print("Round has become inactive.");
                 isRoundActive = false;
             }
 
             if (!isRoundActive && !isRoundRestarting)
             {
+                print("Restarting round.");
                 isRoundRestarting = true;
-                Invoke("RestartRound", 5f);
+                //Invoke("RestartRound", 5f);
             }
         }
 
@@ -63,7 +71,41 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
-        //[PunRPC]
+        private int GetCurrentTime()
+        {
+            return (int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
+        }
+
+        [PunRPC]
+        public void HandleGetScoreFromMaster()
+        {
+            if (!PhotonNetwork.isMasterClient) return;
+
+            photonView.RPC("HandleScoreUpdate", PhotonTargets.All, isRoundActive, redScore, blueScore, endOfRoundTimestamp);
+            hasReceivedScoreFromMaster = true;
+        }
+
+        [PunRPC]
+        public void HandleScoreUpdate(bool newIsRoundActive, int newRedScore, int newBlueScore, int newEndOfRoundTimestamp)
+        {
+            isRoundActive = newIsRoundActive;
+            redScore = newRedScore;
+            blueScore = newBlueScore;
+            endOfRoundTimestamp = newEndOfRoundTimestamp;
+            hasReceivedScoreFromMaster = true;
+        }
+
+        public void EmitAddBlueScore()
+        {
+            photonView.RPC("HandleAddBlueScore", PhotonTargets.All);
+        }
+
+        public void EmitAddRedScore()
+        {
+            photonView.RPC("HandleAddRedScore", PhotonTargets.All);
+        }
+
+        [PunRPC]
         public void HandleAddRedScore()
         {
             print("Adding " + scoreAmount + " to Red.");

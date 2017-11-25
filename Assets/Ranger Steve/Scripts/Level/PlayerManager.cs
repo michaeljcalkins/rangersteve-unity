@@ -154,7 +154,18 @@ namespace Com.LavaEagle.RangerSteve
                 this.tag = "Networked Player";
             }
 
-            team = "blue";
+            int blueCount = 0;
+            int redCount = 0;
+
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Networked Player");
+
+            foreach (GameObject player in players)
+            {
+                if (player.GetComponent<PlayerManager>().team == "blue") blueCount++;
+                if (player.GetComponent<PlayerManager>().team == "red") redCount++;
+            }
+
+            this.team = blueCount > redCount ? "red" : "blue";
         }
 
         void Start()
@@ -318,6 +329,7 @@ namespace Com.LavaEagle.RangerSteve
                 stream.SendNext(health);
                 stream.SendNext(running);
                 stream.SendNext(flying);
+                stream.SendNext(team);
             }
             else
             {
@@ -325,6 +337,7 @@ namespace Com.LavaEagle.RangerSteve
                 this.health = (int)stream.ReceiveNext();
                 this.running = (bool)stream.ReceiveNext();
                 this.flying = (bool)stream.ReceiveNext();
+                this.team = (string)stream.ReceiveNext();
             }
         }
 
@@ -390,6 +403,14 @@ namespace Com.LavaEagle.RangerSteve
             if (health <= 0)
             {
                 print("Player is dead.");
+                if (team == "blue")
+                {
+                    photonView.RPC("HandleAddRedScore", PhotonTargets.All);
+                }
+                else
+                {
+                    photonView.RPC("HandleAddBlueScore", PhotonTargets.All);
+                }
                 Death();
                 return;
             }

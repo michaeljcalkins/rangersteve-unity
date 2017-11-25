@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Com.LavaEagle.RangerSteve
 {
-    public class ScoreZone : Photon.MonoBehaviour
+    public class DominationScoreZone : Photon.MonoBehaviour
     {
         #region Public Variables
 
@@ -33,11 +33,11 @@ namespace Com.LavaEagle.RangerSteve
 
                 if (other.GetComponent<PlayerManager>().team == "red")
                 {
-                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().HandleAddRedScore();
+                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EmitAddRedScore();
                 }
                 else
                 {
-                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().HandleAddBlueScore();
+                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EmitAddBlueScore();
                 }
 
                 numberOfTimesScoreWasGiven++;
