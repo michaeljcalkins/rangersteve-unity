@@ -95,9 +95,6 @@ namespace Com.LavaEagle.RangerSteve
         // A position marking where to check if the player is grounded.
         private Transform groundCheck;
 
-        // Whether or not the player is grounded.
-        private bool grounded = false;
-
         private float usedFlyingTime = 0f;
 
         private AudioSource jetAudioSource;
@@ -267,7 +264,14 @@ namespace Com.LavaEagle.RangerSteve
                 usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
             }
 
-            remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
+            if (health > 0)
+            {
+                remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
+            }
+            else
+            {
+                remainingJetFuelSlider.value = 0;
+            }
 
             // If the player should jump...
             if (jump)
@@ -333,6 +337,35 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        public void HandleRespawn()
+        {
+            string teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
+
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag(teamSpawnPointTag);
+            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+
+            // Pick a random x coordinate
+            Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
+            transform.position = dropPos;
+
+            // Find all of the colliders on the gameobject and set them all to be triggers.
+            Collider2D[] cols = GetComponents<Collider2D>();
+
+            foreach (Collider2D c in cols)
+            {
+                c.isTrigger = false;
+            }
+
+            // Move all sprite parts of the player to the front
+            SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer s in spr)
+            {
+                s.enabled = true;
+            }
+
+            health = 100;
+        }
+
         bool IsGrounded()
         {
             return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
@@ -392,11 +425,11 @@ namespace Com.LavaEagle.RangerSteve
                 print("Player is dead.");
                 if (team == "blue")
                 {
-                    photonView.RPC("HandleAddRedScore", PhotonTargets.All);
+                    scoreManager.GetComponent<ScoreManager>().EmitAddRedScore();
                 }
                 else
                 {
-                    photonView.RPC("HandleAddBlueScore", PhotonTargets.All);
+                    scoreManager.GetComponent<ScoreManager>().EmitAddBlueScore();
                 }
                 Death();
                 return;
@@ -407,6 +440,8 @@ namespace Com.LavaEagle.RangerSteve
 
         void HandleHealing()
         {
+            if (health <= 0) return;
+
             float currentTime = Time.time * 1000;
             float damageTimeDifference = currentTime - lastDamageTimestamp;
             float healTimeDifference = currentTime - lastHealTimestamp;
@@ -435,6 +470,10 @@ namespace Com.LavaEagle.RangerSteve
 
         void HandleInputs()
         {
+            transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive && health > 0
+                ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
+                : RigidbodyConstraints2D.FreezeAll;
+
             if (health == 0) return;
 
             // Starting firing once the left click is detected as down
@@ -442,16 +481,12 @@ namespace Com.LavaEagle.RangerSteve
 
             if (Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive)
             {
-                leaderboard.SetActive(true);
+                leaderboard.gameObject.SetActive(true);
             }
             else
             {
-                leaderboard.SetActive(false);
+                leaderboard.gameObject.SetActive(false);
             }
-
-            transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive
-                ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
-                : RigidbodyConstraints2D.FreezeAll;
 
             if (!scoreManager.isRoundActive) return;
 
@@ -524,42 +559,28 @@ namespace Com.LavaEagle.RangerSteve
 
         void Death()
         {
-            //this.enabled = false;
-
             health = 0;
             amount = 0;
 
             // ... disable the Weapon
             //transform.GetChild(0).gameObject.SetActive(false);
 
-            // ... Trigger the 'Die' animation state
-            anim.SetTrigger("Die");
-
             // Find all of the colliders on the gameobject and set them all to be triggers.
-            //Collider2D[] cols = GetComponents<Collider2D>();
+            Collider2D[] cols = GetComponents<Collider2D>();
 
-            //foreach (Collider2D c in cols)
-            //{
-            //    c.isTrigger = true;
-            //}
+            foreach (Collider2D c in cols)
+            {
+                c.isTrigger = true;
+            }
 
             // Move all sprite parts of the player to the front
             SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
             foreach (SpriteRenderer s in spr)
             {
-                s.sortingLayerName = "UI";
+                s.enabled = false;
             }
 
-            Invoke("Respawn", 4f);
-        }
-
-        void Respawn()
-        {
-            Com.LavaEagle.RangerSteve.CreatePlayer CR = FindObjectOfType<Com.LavaEagle.RangerSteve.CreatePlayer>();
-            if (CR.player != null)
-                PhotonNetwork.Destroy(CR.player);
-
-            CR.HandleCreatePlayerObject();
+            Invoke("HandleRespawn", 2f);
         }
 
         #endregion

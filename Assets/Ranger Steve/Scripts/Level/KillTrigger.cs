@@ -41,34 +41,17 @@ namespace Com.LavaEagle.RangerSteve
             if (!other.GetComponent<PhotonView>().isMine)
                 return;
 
-            // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. It is necessary once
-            // ... instantiate the splash where the player falls in.
+            // Play kill trigger splash animation here
             PhotonNetwork.Instantiate(splash.name, other.transform.position, transform.rotation, 0);
-
-            // ... destroy the player or bomb;
-            // In the PUN you can not get here twice. Red bug pan - “Ev Destroy Failed”
-            Destroy(other.gameObject);
 
             if (other.tag == "Local Player")
             {
-                remainingAmmoText.text = "";
-                hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(1f);
-                healthSlider.value = 0;
-
-                activeWeaponImage.enabled = false;
-                activeWeaponImage.overrideSprite = null;
-
-                Invoke("Respawn", 4f);
+                other.gameObject.GetComponent<PlayerManager>().HandleDamage(100);
             }
-        }
-
-        void Respawn()
-        {
-            CreatePlayer createPlayer = FindObjectOfType<CreatePlayer>();
-            if (createPlayer.player != null)
-                PhotonNetwork.Destroy(createPlayer.player);
-
-            createPlayer.HandleCreatePlayerObject();
+            else
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 }
