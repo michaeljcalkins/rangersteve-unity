@@ -7,6 +7,7 @@ namespace Com.LavaEagle.RangerSteve
         #region Public Variables
 
         public int maxTimesScoreIsGiven = 10;
+        public int amountOfScoreGiven = 20;
 
         #endregion
 
@@ -33,11 +34,11 @@ namespace Com.LavaEagle.RangerSteve
 
                 if (other.GetComponent<PlayerManager>().team == "red")
                 {
-                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EmitAddRedScore();
+                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EmitAddRedScore(amountOfScoreGiven);
                 }
                 else
                 {
-                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EmitAddBlueScore();
+                    GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EmitAddBlueScore(amountOfScoreGiven);
                 }
 
                 numberOfTimesScoreWasGiven++;

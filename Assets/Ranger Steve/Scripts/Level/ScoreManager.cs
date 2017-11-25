@@ -13,8 +13,8 @@ namespace Com.LavaEagle.RangerSteve
         public Text redScoreText;
         public Text blueScoreText;
         public Text timeRemainingText;
-        public int scoreAmount = 20;
         public bool isRoundActive = true;
+        public int roundLengthInSeconds = 300;
 
         #endregion
 
@@ -34,7 +34,8 @@ namespace Com.LavaEagle.RangerSteve
             if (PhotonNetwork.isMasterClient)
             {
                 int currentTime = GetCurrentTime();
-                endOfRoundTimestamp = currentTime + (60 * 5);
+                endOfRoundTimestamp = currentTime + roundLengthInSeconds;
+                hasReceivedScoreFromMaster = true;
             }
             else
             {
@@ -62,7 +63,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 print("Restarting round.");
                 isRoundRestarting = true;
-                //Invoke("RestartRound", 5f);
+                Invoke("RestartRound", 10f);
             }
         }
 
@@ -79,8 +80,6 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         public void HandleGetScoreFromMaster()
         {
-            if (!PhotonNetwork.isMasterClient) return;
-
             photonView.RPC("HandleScoreUpdate", PhotonTargets.All, isRoundActive, redScore, blueScore, endOfRoundTimestamp);
             hasReceivedScoreFromMaster = true;
         }
@@ -95,25 +94,25 @@ namespace Com.LavaEagle.RangerSteve
             hasReceivedScoreFromMaster = true;
         }
 
-        public void EmitAddBlueScore()
+        public void EmitAddBlueScore(int scoreAmount)
         {
-            photonView.RPC("HandleAddBlueScore", PhotonTargets.All);
+            photonView.RPC("HandleAddBlueScore", PhotonTargets.All, scoreAmount);
         }
 
-        public void EmitAddRedScore()
+        public void EmitAddRedScore(int scoreAmount)
         {
-            photonView.RPC("HandleAddRedScore", PhotonTargets.All);
+            photonView.RPC("HandleAddRedScore", PhotonTargets.All, scoreAmount);
         }
 
         [PunRPC]
-        public void HandleAddRedScore()
+        public void HandleAddRedScore(int scoreAmount)
         {
             print("Adding " + scoreAmount + " to Red.");
             redScore += scoreAmount;
         }
 
         [PunRPC]
-        public void HandleAddBlueScore()
+        public void HandleAddBlueScore(int scoreAmount)
         {
             print("Adding " + scoreAmount + " to Blue.");
             blueScore += scoreAmount;

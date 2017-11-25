@@ -38,6 +38,8 @@ namespace Com.LavaEagle.RangerSteve
                 player.fireRate = weaponInfo.fireRate;
                 player.weaponName = weaponInfo.weaponName;
 
+                player.HandleUpdateWeaponInfo();
+
                 photonView.RPC("DestroyWeaponBox", PhotonTargets.All);
             }
         }

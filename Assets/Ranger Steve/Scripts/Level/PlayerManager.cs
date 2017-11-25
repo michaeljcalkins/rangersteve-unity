@@ -120,6 +120,8 @@ namespace Com.LavaEagle.RangerSteve
 
         private Transform standingLegs;
 
+        private Transform rightHand;
+
         private float lastDamageTimestamp;
 
         private float lastHealTimestamp;
@@ -160,6 +162,7 @@ namespace Com.LavaEagle.RangerSteve
             standingLegs = transform.Find("standingLegs");
             groundCheck = transform.Find("groundCheck");
             activeWeapon = transform.Find("weapon");
+            rightHand = transform.Find("rightHand");
             anim = GetComponent<Animator>();
             jetAudioSource = GetComponent<AudioSource>();
 
@@ -210,26 +213,22 @@ namespace Com.LavaEagle.RangerSteve
             float healthPercentage = health / 100f;
             healthSlider.value = healthPercentage;
 
+            // Update UI with ammo and weapon info
             if (amount <= 0)
             {
                 remainingAmmoText.text = "";
+
                 activeWeaponImage.enabled = false;
                 activeWeaponImage.overrideSprite = null;
-                activeWeapon.GetComponent<SpriteRenderer>().enabled = false;
-                activeWeapon.GetComponent<SpriteRenderer>().sprite = null;
+
+                foreach (Transform child in rightHand.transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
             }
             else
             {
-                // Set weapon image in UI
-                if (!activeWeaponImage.overrideSprite)
-                {
-                    activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
-                    activeWeapon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
-                }
-
                 remainingAmmoText.text = amount.ToString();
-                activeWeaponImage.enabled = true;
-                activeWeapon.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
 
@@ -337,6 +336,15 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        public void HandleUpdateWeaponInfo()
+        {
+            // Set weapon image in UI
+            activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
+            activeWeaponImage.enabled = true;
+
+            rightHand.transform.Find(weaponName).gameObject.SetActive(true);
+        }
+
         public void HandleRespawn()
         {
             string teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
@@ -425,11 +433,11 @@ namespace Com.LavaEagle.RangerSteve
                 print("Player is dead.");
                 if (team == "blue")
                 {
-                    scoreManager.GetComponent<ScoreManager>().EmitAddRedScore();
+                    scoreManager.GetComponent<ScoreManager>().EmitAddRedScore(15);
                 }
                 else
                 {
-                    scoreManager.GetComponent<ScoreManager>().EmitAddBlueScore();
+                    scoreManager.GetComponent<ScoreManager>().EmitAddBlueScore(15);
                 }
                 Death();
                 return;

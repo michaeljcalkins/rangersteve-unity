@@ -1090,9 +1090,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab042c2c2d4f4380bfd78fa79fc7381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupDeliveryDelayTime: 0
-  maxNumberOfBoxes: 0
-  weaponBoxes: []
+  pickupDeliveryDelayTime: 10
+  maxNumberOfBoxes: 10
+  weaponBoxes:
+  - {fileID: 1508169165224806, guid: d21f0143961334cdaaa6dcc79b76a638, type: 2}
 --- !u!4 &284093541
 Transform:
   m_ObjectHideFlags: 0
@@ -1166,8 +1167,8 @@ MonoBehaviour:
   redScoreText: {fileID: 981589619}
   blueScoreText: {fileID: 764760281}
   timeRemainingText: {fileID: 571832656}
-  scoreAmount: 20
   isRoundActive: 1
+  roundLengthInSeconds: 300
 --- !u!4 &287220727
 Transform:
   m_ObjectHideFlags: 0
@@ -4746,9 +4747,9 @@ RectTransform:
   m_Father: {fileID: 725675397}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1211, y: -5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -117, y: -55}
   m_SizeDelta: {x: 121.44, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1410263255
