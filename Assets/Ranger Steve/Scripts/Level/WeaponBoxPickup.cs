@@ -34,7 +34,6 @@ namespace Com.LavaEagle.RangerSteve
                 player.pictureWeapon = weaponInfo.pictureWeapon;
                 player.ammunition = weaponInfo.ammunition;
                 player.spawnPoint = weaponInfo.spawnPoint;
-                player.bulletSpeed = weaponInfo.bulletSpeed;
                 player.fireRate = weaponInfo.fireRate;
                 player.weaponName = weaponInfo.weaponName;
 

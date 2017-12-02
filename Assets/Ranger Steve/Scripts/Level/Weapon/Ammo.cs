@@ -11,22 +11,23 @@ namespace Com.LavaEagle.RangerSteve
 
         public int bulletSpeed;
 
-        // We sometimes go into the collider twice(OnCollisionEnter2D,OnTriggerEnter2D) - bag Physics Unity. 
-        // It is necessary once
         bool flag;
 
         void OnTriggerEnter2D(Collider2D other)
         {
             if (
                 flag || // This tells us we are already dealing with this collision.
-                (other.tag == "Local Player" && this.tag == "Local Ammo") || // Bullet hit self
-                other.name == "ScoreZone" // Bullet hit the score zone
+                (other.tag == "Local Player" && tag == "Local Ammo") || // Bullet hit self
+                (other.tag == "Networked Player" && tag == "Networked Ammo") ||
+                other.tag == "DominationScoreZone" // Bullet hit the score zone
             )
             {
                 return;
             }
 
             flag = true;
+
+            Debug.Log(other.tag + " and " + tag);
 
             // Local player shot weapon box.
             if (other.tag == "WeaponBox")
@@ -50,8 +51,12 @@ namespace Com.LavaEagle.RangerSteve
                 }
             }
 
-            // Bullet hit the ground
-            Destroy(gameObject);
+            // Hide the sprite and disable the boxcollider so the bullet sound effect has a chance to play fully
+            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
+            // Allow the audio of the bullet to fully play before destroying it
+            Destroy(gameObject, 3f);
         }
 
         private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)

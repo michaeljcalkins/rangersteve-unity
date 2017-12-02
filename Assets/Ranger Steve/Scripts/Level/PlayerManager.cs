@@ -44,8 +44,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public string weaponName;
 
-        public int bulletSpeed;
-
         public Vector3 spawnPoint;
 
         public string team;
@@ -127,7 +125,9 @@ namespace Com.LavaEagle.RangerSteve
         private float lastHealTimestamp;
 
         private Vector3 mouse_pos;
+
         private Vector3 object_pos;
+
         private float angle;
 
         #endregion
@@ -400,20 +400,25 @@ namespace Com.LavaEagle.RangerSteve
         {
             // Get the angle between the points for rotation
             Vector3 positionOnScreen = new Vector3(transform.position.x, transform.position.y);
-            float angle = AngleBetweenTwoPoints(positionOnScreen, mousePos);
+            float angleBetweenPlayerAndMouse = AngleBetweenTwoPoints(positionOnScreen, mousePos);
 
             // Create the prefab instance
-            Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-            GameObject bullet = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), startingPos, bulletRotation);
+            Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angleBetweenPlayerAndMouse));
+            GameObject bulletInstance = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), startingPos, bulletRotation);
+
+            // Rely on the prefab for the bullet info
+            int bulletSpeed = bulletInstance.GetComponent<Ammo>().bulletSpeed;
 
             // Get the direction that the bullet will travel in
             Vector3 mouseDir = mousePos - transform.position;
             mouseDir.z = 0.0f;
             mouseDir = mouseDir.normalized;
-            bullet.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
-            bullet.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
+            bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
 
-            Destroy(bullet, 4.0f);
+            // Used to determine if damage should happen in the Ammo collision script
+            bulletInstance.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
+
+            Destroy(bulletInstance, 4.0f);
 
             amount--;
         }
@@ -532,7 +537,8 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // If the jump button is pressed and the player is grounded then the player should jump.
-            jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
+            //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
+            jump = Input.GetKey(KeyCode.W) && IsGrounded();
 
             flying = Input.GetMouseButton(1);
 

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: f598a796f77ba499aa78a6d5ef3d3654
-timeCreated: 1505171998
+guid: a360a6346538641d29f2362373ca056a
+timeCreated: 1512245435
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Keep Calm
+  fontName: ARMY RUST
   fontNames:
-  - Keep Calm
+  - ARMY RUST
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

@@ -22,6 +22,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool flag = false;
 
+        public GameObject spawnMessage;
+
         #endregion
 
 
@@ -35,6 +37,7 @@ namespace Com.LavaEagle.RangerSteve
         void Start()
         {
             spawnPoints = GameObject.FindGameObjectsWithTag("DominationSpawnPoint");
+            spawnMessage.SetActive(false);
 
             // Start the first delivery.
             if (PhotonNetwork.isMasterClient)
@@ -76,6 +79,26 @@ namespace Com.LavaEagle.RangerSteve
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
 
             PhotonNetwork.InstantiateSceneObject("DominationPlatform", dropPos, Quaternion.identity, 0, null);
+            GetComponent<PhotonView>().RPC("ShowSpawnMessage", PhotonTargets.All);
+
+            Invoke("EmitHideSpawnMessage", 3f);
+        }
+
+        void EmitHideSpawnMessage()
+        {
+            GetComponent<PhotonView>().RPC("HideSpawnMessage", PhotonTargets.All);
+        }
+
+        [PunRPC]
+        void ShowSpawnMessage()
+        {
+            spawnMessage.SetActive(true);
+        }
+
+        [PunRPC]
+        void HideSpawnMessage()
+        {
+            spawnMessage.SetActive(false);
         }
     }
 }

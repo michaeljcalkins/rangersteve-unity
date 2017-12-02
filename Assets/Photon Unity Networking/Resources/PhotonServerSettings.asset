@@ -47,4 +47,6 @@ MonoBehaviour:
   - RequestForPickupTimes
   - EmitMasterScoreUpdate
   - HandleGetScoreFromMaster
+  - ShowSpawnMessage
+  - HideSpawnMessage
   DisableAutoOpenWizard: 1
