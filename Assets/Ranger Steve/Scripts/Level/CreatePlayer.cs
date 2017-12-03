@@ -28,6 +28,7 @@ namespace Com.LavaEagle.RangerSteve
 
             foreach (GameObject livePlayer in livePlayers)
             {
+                print(player.GetComponent<PlayerManager>().team);
                 if (player.GetComponent<PlayerManager>().team == "blue") blueCount++;
                 if (player.GetComponent<PlayerManager>().team == "red") redCount++;
             }

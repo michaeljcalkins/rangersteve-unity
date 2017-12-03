@@ -36,7 +36,10 @@ namespace Com.LavaEagle.RangerSteve
                 other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
             }
 
-            if (other.tag == "Networked Player" && this.tag == "Local Ammo")
+            if (
+                other.tag == "Networked Player" && this.tag == "Local Ammo" &&
+                other.gameObject.GetComponent<PlayerManager>().team != GameObject.FindWithTag("Local Player").GetComponent<PlayerManager>().team
+            )
             {
                 print("Networked player shot by local ammo.");
 

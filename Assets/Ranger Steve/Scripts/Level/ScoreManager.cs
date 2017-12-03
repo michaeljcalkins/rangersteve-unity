@@ -120,6 +120,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void RestartRound()
         {
+            PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player);
             PhotonNetwork.LoadLevel("Level");
         }
 

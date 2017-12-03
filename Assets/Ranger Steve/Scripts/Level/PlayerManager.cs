@@ -3,11 +3,13 @@ using UnityEngine.UI;
 
 namespace Com.LavaEagle.RangerSteve
 {
+    [RequireComponent(typeof(PhotonView))]
     public class PlayerManager : Photon.PunBehaviour, IPunObservable
     {
         #region Public Variables
 
         [Tooltip("The current Health of our player")]
+        [SerializeField]
         public int health;
 
         // Amount of force added to move the player left and right.
@@ -42,10 +44,12 @@ namespace Com.LavaEagle.RangerSteve
 
         public float fireRate;
 
+        [SerializeField]
         public string weaponName;
 
         public Vector3 spawnPoint;
 
+        [SerializeField]
         public string team;
 
         public int score;
@@ -60,6 +64,20 @@ namespace Com.LavaEagle.RangerSteve
 
         public ScoreManager scoreManager;
 
+        // Condition for whether the player should jump.
+        [SerializeField]
+        public bool jump = false;
+
+        // Condition for whether the player should fly.
+        [SerializeField]
+        public bool flying = false;
+
+        [SerializeField]
+        public bool running = false;
+
+        [SerializeField]
+        private bool fire;
+
         #endregion
 
 
@@ -68,8 +86,6 @@ namespace Com.LavaEagle.RangerSteve
         private CursorMode cursorMode = CursorMode.Auto;
 
         private float nextFire = 0;
-
-        private bool fire;
 
         private Camera mainCamera;
 
@@ -84,20 +100,12 @@ namespace Com.LavaEagle.RangerSteve
         // For determining which way the player is currently facing.
         private bool facingRight = true;
 
-        // Condition for whether the player should jump.
-        private bool jump = false;
-
-        // Condition for whether the player should fly.
-        private bool flying = false;
-
         // A position marking where to check if the player is grounded.
         private Transform groundCheck;
 
         private float usedFlyingTime = 0f;
 
         private AudioSource jetAudioSource;
-
-        private bool running = false;
 
         // Reference to the player's animator component.
         private Animator anim;
@@ -124,7 +132,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private float lastHealTimestamp;
 
-        private Vector3 mouse_pos;
+        private Vector3 armRotation;
 
         private Vector3 object_pos;
 
@@ -193,6 +201,8 @@ namespace Com.LavaEagle.RangerSteve
             leaderboard = GameObject.Find("Leaderboard");
 
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+
+            Physics2D.IgnoreLayerCollision(9, 9);
         }
 
         /// <summary>
@@ -200,12 +210,15 @@ namespace Com.LavaEagle.RangerSteve
         /// </summary>
         void Update()
         {
-            if (photonView.isMine == false && PhotonNetwork.connected == true)
+            if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
             }
 
             HandleInputs();
+            HandleRightArmRotation();
+            HandleWeaponFire();
+            HandleHealing();
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
@@ -229,22 +242,10 @@ namespace Com.LavaEagle.RangerSteve
             {
                 remainingAmmoText.text = amount.ToString();
             }
-
-            HandleRightArmRotation();
         }
 
         void FixedUpdate()
         {
-            // Cache the horizontal input.
-            float h = Input.GetAxis("Horizontal");
-
-            // If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeedX yet...
-            if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeedX)
-            {
-                // ... add a force to the player.
-                GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
-            }
-
             // If the player should fly...
             if (flying && usedFlyingTime < maxFlyingTime)
             {
@@ -302,9 +303,6 @@ namespace Com.LavaEagle.RangerSteve
 
             rightJumpjet.gameObject.SetActive(flying);
             leftJumpjet.gameObject.SetActive(flying);
-
-            HandleWeaponFire();
-            HandleHealing();
         }
 
         #endregion
@@ -321,14 +319,18 @@ namespace Com.LavaEagle.RangerSteve
                 stream.SendNext(running);
                 stream.SendNext(flying);
                 stream.SendNext(team);
+                stream.SendNext(weaponName);
+                stream.SendNext(fire);
             }
             else
             {
                 // Network player, receive data
-                this.health = (int)stream.ReceiveNext();
-                this.running = (bool)stream.ReceiveNext();
-                this.flying = (bool)stream.ReceiveNext();
-                this.team = (string)stream.ReceiveNext();
+                health = (int)stream.ReceiveNext();
+                running = (bool)stream.ReceiveNext();
+                flying = (bool)stream.ReceiveNext();
+                team = (string)stream.ReceiveNext();
+                weaponName = (string)stream.ReceiveNext();
+                fire = (bool)stream.ReceiveNext();
             }
         }
 
@@ -339,12 +341,12 @@ namespace Com.LavaEagle.RangerSteve
 
         public void HandleRightArmRotation()
         {
-            mouse_pos = Input.mousePosition;
-            mouse_pos.z = 5.23f; //The distance between the camera and object
+            armRotation = Input.mousePosition;
+            armRotation.z = 5.23f; //The distance between the camera and object
             object_pos = Camera.main.WorldToScreenPoint(transform.position);
-            mouse_pos.x = mouse_pos.x - object_pos.x;
-            mouse_pos.y = mouse_pos.y - object_pos.y;
-            angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
+            armRotation.x = armRotation.x - object_pos.x;
+            armRotation.y = armRotation.y - object_pos.y;
+            angle = Mathf.Atan2(armRotation.y, armRotation.x) * Mathf.Rad2Deg;
             rightHand.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
@@ -505,9 +507,20 @@ namespace Com.LavaEagle.RangerSteve
 
             if (health == 0) return;
 
-            // Starting firing once the left click is detected as down
+            // Left and right movement
+            float h = Input.GetAxis("Horizontal");
+
+            // If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeedX yet...
+            if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeedX && photonView.isMine)
+            {
+                // ... add a force to the player.
+                GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
+            }
+
+            // Shoot weapon
             fire = Input.GetMouseButton(0);
 
+            // Show/hide the leaderboard
             if (Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive)
             {
                 leaderboard.gameObject.SetActive(true);
@@ -517,12 +530,14 @@ namespace Com.LavaEagle.RangerSteve
                 leaderboard.gameObject.SetActive(false);
             }
 
-            if (!scoreManager.isRoundActive) return;
-
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                GetComponent<GameManager>().LeaveRoom();
+                PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player);
+                PhotonNetwork.LeaveRoom();
+                PhotonNetwork.LoadLevel("MainMenu");
             }
+
+            if (!scoreManager.isRoundActive) return;
 
             // Detect what side of the player the mouse is on and flip according to that.
             Vector2 mouse = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
