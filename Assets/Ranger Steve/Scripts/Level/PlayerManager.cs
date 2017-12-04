@@ -126,7 +126,11 @@ namespace Com.LavaEagle.RangerSteve
 
         private Transform standingLegs;
 
-        private Transform rightHand;
+        private Transform rightHandPivot;
+
+        private Transform rightHandSprite;
+
+        private Transform rightHandWeapon;
 
         private float lastDamageTimestamp;
 
@@ -174,7 +178,9 @@ namespace Com.LavaEagle.RangerSteve
             standingLegs = transform.Find("standingLegs");
             groundCheck = transform.Find("groundCheck");
             activeWeapon = transform.Find("weapon");
-            rightHand = transform.Find("rightHand");
+            rightHandPivot = transform.Find("rightHandPivot");
+            rightHandSprite = rightHandPivot.transform.Find("rightHandSprite");
+            rightHandWeapon = rightHandSprite.transform.Find("rightHandWeapon");
             anim = GetComponent<Animator>();
             jetAudioSource = GetComponent<AudioSource>();
 
@@ -210,6 +216,12 @@ namespace Com.LavaEagle.RangerSteve
         /// </summary>
         void Update()
         {
+            HandleFreezePlayer();
+
+            // Show hide current weapon
+            rightHandWeapon.gameObject.SetActive(amount > 0);
+            rightHandWeapon.transform.Find(weaponName).gameObject.SetActive(amount > 0);
+
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
@@ -234,13 +246,27 @@ namespace Com.LavaEagle.RangerSteve
             if (amount <= 0)
             {
                 remainingAmmoText.text = "";
+
+                // Disable UI image
                 activeWeaponImage.enabled = false;
                 activeWeaponImage.overrideSprite = null;
-                if (weaponName.Length > 0) rightHand.transform.Find(weaponName).gameObject.SetActive(false);
             }
             else
             {
                 remainingAmmoText.text = amount.ToString();
+
+                // Set weapon image in UI
+                activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
+                activeWeaponImage.enabled = true;
+            }
+
+            if (health > 0)
+            {
+                remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
+            }
+            else
+            {
+                remainingJetFuelSlider.value = 0;
             }
         }
 
@@ -263,15 +289,6 @@ namespace Com.LavaEagle.RangerSteve
                 jetAudioSource.enabled = false;
                 jetAudioSource.loop = false;
                 usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
-            }
-
-            if (health > 0)
-            {
-                remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
-            }
-            else
-            {
-                remainingJetFuelSlider.value = 0;
             }
 
             // If the player should jump...
@@ -315,6 +332,7 @@ namespace Com.LavaEagle.RangerSteve
             if (stream.isWriting)
             {
                 // We own this player: send the others our data
+                stream.SendNext(amount);
                 stream.SendNext(health);
                 stream.SendNext(running);
                 stream.SendNext(flying);
@@ -325,6 +343,7 @@ namespace Com.LavaEagle.RangerSteve
             else
             {
                 // Network player, receive data
+                amount = (int)stream.ReceiveNext();
                 health = (int)stream.ReceiveNext();
                 running = (bool)stream.ReceiveNext();
                 flying = (bool)stream.ReceiveNext();
@@ -339,6 +358,13 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        public void HandleFreezePlayer()
+        {
+            transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive && health > 0
+                ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
+                : RigidbodyConstraints2D.FreezeAll;
+        }
+
         public void HandleRightArmRotation()
         {
             armRotation = Input.mousePosition;
@@ -347,16 +373,7 @@ namespace Com.LavaEagle.RangerSteve
             armRotation.x = armRotation.x - object_pos.x;
             armRotation.y = armRotation.y - object_pos.y;
             angle = Mathf.Atan2(armRotation.y, armRotation.x) * Mathf.Rad2Deg;
-            rightHand.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        }
-
-        public void HandleUpdateWeaponInfo()
-        {
-            // Set weapon image in UI
-            activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
-            activeWeaponImage.enabled = true;
-
-            rightHand.transform.Find(weaponName).gameObject.SetActive(true);
+            rightHandPivot.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
         public void HandleRespawn()
@@ -501,10 +518,6 @@ namespace Com.LavaEagle.RangerSteve
 
         private void HandleInputs()
         {
-            transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive && health > 0
-                ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
-                : RigidbodyConstraints2D.FreezeAll;
-
             if (health == 0) return;
 
             // Left and right movement
@@ -603,10 +616,10 @@ namespace Com.LavaEagle.RangerSteve
 
 
             // Multiply the player's x local scale by -1.
-            Vector3 rightHandScale = rightHand.transform.localScale;
+            Vector3 rightHandScale = rightHandPivot.transform.localScale;
             rightHandScale.y *= -1;
             rightHandScale.x *= -1;
-            rightHand.transform.localScale = rightHandScale;
+            rightHandPivot.transform.localScale = rightHandScale;
         }
 
         void Death()

@@ -49,4 +49,5 @@ MonoBehaviour:
   - HandleGetScoreFromMaster
   - ShowSpawnMessage
   - HideSpawnMessage
+  - RestartRound
   DisableAutoOpenWizard: 1

@@ -29,6 +29,8 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Private Methods
 
+        private ScoreManager scoreManager;
+
         private GameObject[] spawnPoints;
 
         #endregion
@@ -38,6 +40,8 @@ namespace Com.LavaEagle.RangerSteve
         {
             spawnPoints = GameObject.FindGameObjectsWithTag("DominationSpawnPoint");
             spawnMessage.SetActive(false);
+
+            scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
 
             // Start the first delivery.
             if (PhotonNetwork.isMasterClient)
@@ -56,7 +60,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void Test()
         {
-            if (FindObjectsOfType<DominationPlatform>().Length == 0 && flag == false)
+            if (FindObjectsOfType<DominationPlatform>().Length == 0 && flag == false && scoreManager.isRoundActive)
             {
                 flag = true;
                 int randomTime = Random.Range(minRandomSpawnTime, maxRandomSpawnTime);

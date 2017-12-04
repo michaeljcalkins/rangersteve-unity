@@ -15,6 +15,7 @@ namespace Com.LavaEagle.RangerSteve
         public Text timeRemainingText;
         public bool isRoundActive = true;
         public int roundLengthInSeconds = 300;
+        public float timeToRoundRestart = 10f;
 
         #endregion
 
@@ -59,11 +60,11 @@ namespace Com.LavaEagle.RangerSteve
                 isRoundActive = false;
             }
 
-            if (!isRoundActive && !isRoundRestarting)
+            if (!isRoundActive && !isRoundRestarting && PhotonNetwork.isMasterClient)
             {
                 print("Restarting round.");
                 isRoundRestarting = true;
-                Invoke("RestartRound", 10f);
+                Invoke("EmitRestartRound", timeToRoundRestart);
             }
         }
 
@@ -104,6 +105,11 @@ namespace Com.LavaEagle.RangerSteve
             photonView.RPC("HandleAddRedScore", PhotonTargets.All, scoreAmount);
         }
 
+        public void EmitRestartRound()
+        {
+            photonView.RPC("RestartRound", PhotonTargets.All);
+        }
+
         [PunRPC]
         public void HandleAddRedScore(int scoreAmount)
         {
@@ -118,6 +124,7 @@ namespace Com.LavaEagle.RangerSteve
             blueScore += scoreAmount;
         }
 
+        [PunRPC]
         void RestartRound()
         {
             PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player);

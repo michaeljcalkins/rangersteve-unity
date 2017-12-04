@@ -1169,6 +1169,7 @@ MonoBehaviour:
   timeRemainingText: {fileID: 571832656}
   isRoundActive: 1
   roundLengthInSeconds: 300
+  timeToRoundRestart: 10
 --- !u!4 &287220727
 Transform:
   m_ObjectHideFlags: 0
@@ -4893,10 +4894,10 @@ RectTransform:
   m_Father: {fileID: 774292894}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000045776, y: 438}
-  m_SizeDelta: {x: 785.7, y: 62.9}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0.000045776, y: -173}
+  m_SizeDelta: {x: 785.7, y: 62.900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1476618675
 MonoBehaviour:
