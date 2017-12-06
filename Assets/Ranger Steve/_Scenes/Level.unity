@@ -1168,7 +1168,7 @@ MonoBehaviour:
   blueScoreText: {fileID: 764760281}
   timeRemainingText: {fileID: 571832656}
   isRoundActive: 1
-  roundLengthInSeconds: 300
+  roundLengthInSeconds: 15
   timeToRoundRestart: 10
 --- !u!4 &287220727
 Transform:

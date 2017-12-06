@@ -961,7 +961,7 @@ MonoBehaviour:
   fireRate: 0
   weaponName: 
   spawnPoint: {x: 0, y: 0, z: 0}
-  team: 
+  team: blue
   score: 0
   kills: 0
   deaths: 0

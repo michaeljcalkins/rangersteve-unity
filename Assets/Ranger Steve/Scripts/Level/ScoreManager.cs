@@ -127,6 +127,24 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         void RestartRound()
         {
+            if (PhotonNetwork.isMasterClient)
+            {
+                // Destroy the domination platform
+                GameObject dominationPlatform = GameObject.FindGameObjectWithTag("DominationPlatform");
+                if (dominationPlatform)
+                {
+                    PhotonNetwork.Destroy(dominationPlatform.gameObject);
+                }
+
+                // Destroy the weapon ammo boxes
+                GameObject[] weaponBoxes = GameObject.FindGameObjectsWithTag("WeaponBox");
+
+                foreach (GameObject weaponBox in weaponBoxes)
+                {
+                    PhotonNetwork.Destroy(weaponBox.gameObject);
+                }
+            }
+
             PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player);
             PhotonNetwork.LoadLevel("Level");
         }

@@ -14,7 +14,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void Start()
         {
-            HandleCreatePlayerObject();
+            Invoke("HandleCreatePlayerObject", 1f);
         }
 
         public void HandleCreatePlayerObject()
@@ -28,9 +28,8 @@ namespace Com.LavaEagle.RangerSteve
 
             foreach (GameObject livePlayer in livePlayers)
             {
-                print(player.GetComponent<PlayerManager>().team);
-                if (player.GetComponent<PlayerManager>().team == "blue") blueCount++;
-                if (player.GetComponent<PlayerManager>().team == "red") redCount++;
+                if (livePlayer.GetComponent<PlayerManager>().team == "blue") blueCount++;
+                if (livePlayer.GetComponent<PlayerManager>().team == "red") redCount++;
             }
 
             team = blueCount > redCount ? "red" : "blue";

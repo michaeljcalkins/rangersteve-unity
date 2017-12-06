@@ -18,6 +18,7 @@ TagManager:
   - RedPlayerSpawnPoint
   - BluePlayerSpawnPoint
   - DominationScoreZone
+  - DominationPlatform
   layers:
   - Default
   - TransparentFX
