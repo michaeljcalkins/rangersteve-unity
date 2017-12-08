@@ -417,13 +417,15 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         void FireBullet(Vector3 startingPos, Vector3 mousePos, string ammunitionName)
         {
+            // Initial position of the bullet
+            Vector3 spawnPos = transform.Find("rightHandPivot/bulletStartingPos").transform.position;
+
             // Get the angle between the points for rotation
-            Vector3 positionOnScreen = new Vector3(transform.position.x, transform.position.y);
-            float angleBetweenPlayerAndMouse = AngleBetweenTwoPoints(positionOnScreen, mousePos);
+            float angleBetweenPlayerAndMouse = AngleBetweenTwoPoints(transform.position, mousePos);
 
             // Create the prefab instance
             Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angleBetweenPlayerAndMouse));
-            GameObject bulletInstance = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), startingPos, bulletRotation);
+            GameObject bulletInstance = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), spawnPos, bulletRotation);
 
             // Rely on the prefab for the bullet info
             int bulletSpeed = bulletInstance.GetComponent<Ammo>().bulletSpeed;

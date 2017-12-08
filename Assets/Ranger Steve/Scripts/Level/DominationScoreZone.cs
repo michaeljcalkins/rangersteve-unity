@@ -49,6 +49,7 @@ namespace Com.LavaEagle.RangerSteve
                 numberOfTimesScoreWasGiven = 0;
                 photonView.RPC("DestroyDominationPlatform", PhotonTargets.All);
                 GameObject.Find("DominationPlatformSpawner").GetComponent<DominationPlatformSpawner>().flag = false;
+                GameObject.Find("DominationPlatformSpawner").GetComponent<DominationPlatformSpawner>().EmitHideSpawnMessage();
             }
         }
 

@@ -84,11 +84,9 @@ namespace Com.LavaEagle.RangerSteve
 
             PhotonNetwork.InstantiateSceneObject("DominationPlatform", dropPos, Quaternion.identity, 0, null);
             GetComponent<PhotonView>().RPC("ShowSpawnMessage", PhotonTargets.All);
-
-            Invoke("EmitHideSpawnMessage", 3f);
         }
 
-        void EmitHideSpawnMessage()
+        public void EmitHideSpawnMessage()
         {
             GetComponent<PhotonView>().RPC("HideSpawnMessage", PhotonTargets.All);
         }
