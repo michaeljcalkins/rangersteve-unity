@@ -14,11 +14,9 @@ TagManager:
   - Networked Player
   - Local Ammo
   - Networked Ammo
-  - DominationSpawnPoint
   - RedPlayerSpawnPoint
   - BluePlayerSpawnPoint
-  - DominationScoreZone
-  - DominationPlatform
+  - Goal
   layers:
   - Default
   - TransparentFX
@@ -34,8 +32,8 @@ TagManager:
   - Pickups
   - Ground
   - Props
-  - 
-  - 
+  - Goals
+  - Ammo
   - 
   - 
   - 

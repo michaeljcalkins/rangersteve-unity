@@ -16,6 +16,7 @@ namespace Com.LavaEagle.RangerSteve
         public bool isRoundActive = true;
         public int roundLengthInSeconds = 300;
         public float timeToRoundRestart = 10f;
+        public int scoreGivenPerGoal = 1;
 
         #endregion
 
@@ -54,7 +55,7 @@ namespace Com.LavaEagle.RangerSteve
             int remainingTime = (int)(endOfRoundTimestamp - currentTime);
             timeRemainingText.text = remainingTime <= 0 ? "0" : remainingTime.ToString();
 
-            if ((redScore >= 1000 || blueScore >= 1000 || remainingTime <= 0) && hasReceivedScoreFromMaster)
+            if (remainingTime <= 0 && hasReceivedScoreFromMaster)
             {
                 print("Round has become inactive.");
                 isRoundActive = false;
@@ -95,14 +96,14 @@ namespace Com.LavaEagle.RangerSteve
             hasReceivedScoreFromMaster = true;
         }
 
-        public void EmitAddBlueScore(int scoreAmount)
+        public void EmitAddBlueScore()
         {
-            photonView.RPC("HandleAddBlueScore", PhotonTargets.All, scoreAmount);
+            photonView.RPC("HandleAddBlueScore", PhotonTargets.All, scoreGivenPerGoal);
         }
 
-        public void EmitAddRedScore(int scoreAmount)
+        public void EmitAddRedScore()
         {
-            photonView.RPC("HandleAddRedScore", PhotonTargets.All, scoreAmount);
+            photonView.RPC("HandleAddRedScore", PhotonTargets.All, scoreGivenPerGoal);
         }
 
         public void EmitRestartRound()
@@ -111,17 +112,17 @@ namespace Com.LavaEagle.RangerSteve
         }
 
         [PunRPC]
-        public void HandleAddRedScore(int scoreAmount)
+        public void HandleAddRedScore()
         {
-            print("Adding " + scoreAmount + " to Red.");
-            redScore += scoreAmount;
+            print("Adding " + scoreGivenPerGoal + " to Red.");
+            redScore += scoreGivenPerGoal;
         }
 
         [PunRPC]
-        public void HandleAddBlueScore(int scoreAmount)
+        public void HandleAddBlueScore()
         {
-            print("Adding " + scoreAmount + " to Blue.");
-            blueScore += scoreAmount;
+            print("Adding " + scoreGivenPerGoal + " to Blue.");
+            blueScore += scoreGivenPerGoal;
         }
 
         [PunRPC]

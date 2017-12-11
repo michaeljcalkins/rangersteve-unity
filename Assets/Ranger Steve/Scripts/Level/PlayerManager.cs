@@ -12,6 +12,7 @@ namespace Com.LavaEagle.RangerSteve
         [SerializeField]
         public int health;
 
+        [Header("Physics")]
         // Amount of force added to move the player left and right.
         public float moveForce;
 
@@ -30,12 +31,7 @@ namespace Com.LavaEagle.RangerSteve
         // Amount of force added when the player flys.
         public float flyingForce;
 
-        public Texture2D cursorTexture;
-
-        [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-        public static GameObject LocalPlayerInstance;
-
-        public Sprite pictureWeapon;
+        [Header("Weapon")]
 
         public string ammunition;
 
@@ -47,7 +43,7 @@ namespace Com.LavaEagle.RangerSteve
         [SerializeField]
         public string weaponName;
 
-        public Vector3 spawnPoint;
+        [Header("Score")]
 
         [SerializeField]
         public string team;
@@ -64,18 +60,31 @@ namespace Com.LavaEagle.RangerSteve
 
         public ScoreManager scoreManager;
 
+        [Space(10)]
+
+        public Vector3 spawnPoint;
+
+        public Texture2D cursorTexture;
+
+        [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+        public static GameObject LocalPlayerInstance;
+
         // Condition for whether the player should jump.
         [SerializeField]
+        [HideInInspector]
         public bool jump = false;
 
         // Condition for whether the player should fly.
         [SerializeField]
+        [HideInInspector]
         public bool flying = false;
 
         [SerializeField]
+        [HideInInspector]
         public bool running = false;
 
         [SerializeField]
+        [HideInInspector]
         private bool fire;
 
         #endregion
@@ -106,9 +115,6 @@ namespace Com.LavaEagle.RangerSteve
         private float usedFlyingTime = 0f;
 
         private AudioSource jetAudioSource;
-
-        // Reference to the player's animator component.
-        private Animator anim;
 
         private Vector2 cursorHotspot;
 
@@ -156,10 +162,6 @@ namespace Com.LavaEagle.RangerSteve
                 PlayerManager.LocalPlayerInstance = this.gameObject;
             }
 
-            // #Critical
-            // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-            //DontDestroyOnLoad(this.gameObject);
-
             if (photonView.isMine)
             {
                 this.tag = "Local Player";
@@ -181,7 +183,6 @@ namespace Com.LavaEagle.RangerSteve
             rightHandPivot = transform.Find("rightHandPivot");
             rightHandSprite = rightHandPivot.transform.Find("rightHandSprite");
             rightHandWeapon = rightHandSprite.transform.Find("rightHandWeapon");
-            anim = GetComponent<Animator>();
             jetAudioSource = GetComponent<AudioSource>();
 
             // Displays remaining fuel until you can't fly
@@ -473,14 +474,6 @@ namespace Com.LavaEagle.RangerSteve
             if (health <= 0)
             {
                 print("Player is dead.");
-                if (team == "blue")
-                {
-                    scoreManager.GetComponent<ScoreManager>().EmitAddRedScore(15);
-                }
-                else
-                {
-                    scoreManager.GetComponent<ScoreManager>().EmitAddBlueScore(15);
-                }
                 Death();
                 return;
             }

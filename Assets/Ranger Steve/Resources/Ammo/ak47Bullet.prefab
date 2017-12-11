@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 82000010912599010}
   - component: {fileID: 114426618772175294}
   - component: {fileID: 114920838087193850}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ak47Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400002}
   - component: {fileID: 21200000}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

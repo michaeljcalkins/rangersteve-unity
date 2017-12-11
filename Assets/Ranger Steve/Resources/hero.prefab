@@ -984,11 +984,10 @@ MonoBehaviour:
   jumpForce: 2500
   flyingForce: 130
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
-  pictureWeapon: {fileID: 0}
-  ammunition: '@'
-  amount: 0
-  fireRate: 0
-  weaponName: 
+  ammunition: ak47Bullet
+  amount: 33
+  fireRate: 0.14
+  weaponName: AK-47
   spawnPoint: {x: 0, y: 0, z: 0}
   team: blue
   score: 0
