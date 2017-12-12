@@ -83,14 +83,15 @@ namespace Com.LavaEagle.RangerSteve
         [HideInInspector]
         public bool running = false;
 
-        [SerializeField]
-        [HideInInspector]
-        private bool fire;
+        public bool hasBomb = false;
 
         #endregion
 
 
         #region Private Variables
+
+        [SerializeField]
+        private bool fire;
 
         private CursorMode cursorMode = CursorMode.Auto;
 

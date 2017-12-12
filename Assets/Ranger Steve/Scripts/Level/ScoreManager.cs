@@ -98,12 +98,12 @@ namespace Com.LavaEagle.RangerSteve
 
         public void EmitAddBlueScore()
         {
-            photonView.RPC("HandleAddBlueScore", PhotonTargets.All, scoreGivenPerGoal);
+            photonView.RPC("HandleAddBlueScore", PhotonTargets.All);
         }
 
         public void EmitAddRedScore()
         {
-            photonView.RPC("HandleAddRedScore", PhotonTargets.All, scoreGivenPerGoal);
+            photonView.RPC("HandleAddRedScore", PhotonTargets.All);
         }
 
         public void EmitRestartRound()
