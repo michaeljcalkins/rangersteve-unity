@@ -20,22 +20,6 @@ namespace Com.LavaEagle.RangerSteve
         // animation River splash
         public GameObject splash;
 
-        private Text remainingAmmoText;
-
-        private Image activeWeaponImage;
-
-        private Image hurtBorderImage;
-
-        private Slider healthSlider;
-
-        void Start()
-        {
-            healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
-            hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
-            remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
-            activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
-        }
-
         void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.GetComponent<PhotonView>().isMine)

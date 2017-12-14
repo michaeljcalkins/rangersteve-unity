@@ -17,6 +17,8 @@ TagManager:
   - RedPlayerSpawnPoint
   - BluePlayerSpawnPoint
   - Goal
+  - DominationScoreZone
+  - DominationPlatform
   layers:
   - Default
   - TransparentFX
@@ -71,4 +73,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1285127969
+    locked: 0
+  - name: Foreground
+    uniqueID: 2125437937
     locked: 0

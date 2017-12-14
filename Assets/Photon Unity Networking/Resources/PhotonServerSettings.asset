@@ -50,4 +50,6 @@ MonoBehaviour:
   - ShowSpawnMessage
   - HideSpawnMessage
   - RestartRound
+  - Death
+  - HandleRespawn
   DisableAutoOpenWizard: 1

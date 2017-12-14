@@ -123,13 +123,19 @@ namespace Com.LavaEagle.RangerSteve
 
         private Image activeWeaponImage;
 
-        private Transform activeWeapon;
+        private Transform redArrow;
+
+        private Transform blueArrow;
+
+        private Transform bomb;
 
         private Transform leftJumpjet;
 
         private Transform rightJumpjet;
 
         private Transform runningLegs;
+
+        private Transform disabledLegs;
 
         private Transform standingLegs;
 
@@ -148,6 +154,12 @@ namespace Com.LavaEagle.RangerSteve
         private Vector3 object_pos;
 
         private float angle;
+
+        private float mouseX;
+
+        private float playerScreenPointX;
+
+        private bool isSpriteFacingRight = true;
 
         #endregion
 
@@ -175,12 +187,15 @@ namespace Com.LavaEagle.RangerSteve
 
         void Start()
         {
+            redArrow = transform.Find("redArrow");
+            blueArrow = transform.Find("blueArrow");
             rightJumpjet = transform.Find("rightJumpjet");
             leftJumpjet = transform.Find("leftJumpjet");
+            bomb = transform.Find("bomb");
+            disabledLegs = transform.Find("disabledLegs");
             runningLegs = transform.Find("runningLegs");
             standingLegs = transform.Find("standingLegs");
             groundCheck = transform.Find("groundCheck");
-            activeWeapon = transform.Find("weapon");
             rightHandPivot = transform.Find("rightHandPivot");
             rightHandSprite = rightHandPivot.transform.Find("rightHandSprite");
             rightHandWeapon = rightHandSprite.transform.Find("rightHandWeapon");
@@ -211,6 +226,17 @@ namespace Com.LavaEagle.RangerSteve
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
 
             Physics2D.IgnoreLayerCollision(9, 9);
+
+            if (team == "blue")
+            {
+                blueArrow.gameObject.SetActive(true);
+                redArrow.gameObject.SetActive(false);
+            }
+            else
+            {
+                blueArrow.gameObject.SetActive(false);
+                redArrow.gameObject.SetActive(true);
+            }
         }
 
         /// <summary>
@@ -220,19 +246,51 @@ namespace Com.LavaEagle.RangerSteve
         {
             HandleFreezePlayer();
 
-            // Show hide current weapon
-            rightHandWeapon.gameObject.SetActive(amount > 0);
-            rightHandWeapon.transform.Find(weaponName).gameObject.SetActive(amount > 0);
+            if (facingRight)
+            {
+                FlipRight();
+            }
+            else
+            {
+                FlipLeft();
+            }
+
+            standingLegs.gameObject.SetActive(!running);
+            rightJumpjet.gameObject.SetActive(flying);
+            leftJumpjet.gameObject.SetActive(flying);
+            bomb.gameObject.SetActive(hasBomb);
+
+            // If the player should fly...
+            if (flying && usedFlyingTime < maxFlyingTime)
+            {
+                // Play flying jet sound effect.
+                jetAudioSource.enabled = true;
+                jetAudioSource.loop = true;
+
+                usedFlyingTime += Time.fixedDeltaTime;
+
+                // Add a vertical force to the player.
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
+            }
+            else
+            {
+                jetAudioSource.enabled = false;
+                jetAudioSource.loop = false;
+                usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
+            }
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
             }
 
-            HandleInputs();
-            HandleRightArmRotation();
-            HandleWeaponFire();
-            HandleHealing();
+            if (!IsPlayerDisabled())
+            {
+                HandleInputs();
+                HandleRightArmRotation();
+                HandleWeaponFire();
+                HandleHealing();
+            }
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
@@ -274,25 +332,6 @@ namespace Com.LavaEagle.RangerSteve
 
         void FixedUpdate()
         {
-            // If the player should fly...
-            if (flying && usedFlyingTime < maxFlyingTime)
-            {
-                // Play flying jet sound effect.
-                jetAudioSource.enabled = true;
-                jetAudioSource.loop = true;
-
-                usedFlyingTime += Time.fixedDeltaTime;
-
-                // Add a vertical force to the player.
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
-            }
-            else
-            {
-                jetAudioSource.enabled = false;
-                jetAudioSource.loop = false;
-                usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
-            }
-
             // If the player should jump...
             if (jump)
             {
@@ -317,11 +356,16 @@ namespace Com.LavaEagle.RangerSteve
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
             }
 
-            runningLegs.gameObject.SetActive(running);
-            standingLegs.gameObject.SetActive(!running);
-
-            rightJumpjet.gameObject.SetActive(flying);
-            leftJumpjet.gameObject.SetActive(flying);
+            if (IsPlayerDisabled() && health > 0)
+            {
+                disabledLegs.gameObject.SetActive(running);
+                runningLegs.gameObject.SetActive(false);
+            }
+            else
+            {
+                disabledLegs.gameObject.SetActive(false);
+                runningLegs.gameObject.SetActive(running);
+            }
         }
 
         #endregion
@@ -341,6 +385,9 @@ namespace Com.LavaEagle.RangerSteve
                 stream.SendNext(team);
                 stream.SendNext(weaponName);
                 stream.SendNext(fire);
+                stream.SendNext(mouseX);
+                stream.SendNext(playerScreenPointX);
+                stream.SendNext(hasBomb);
             }
             else
             {
@@ -352,6 +399,9 @@ namespace Com.LavaEagle.RangerSteve
                 team = (string)stream.ReceiveNext();
                 weaponName = (string)stream.ReceiveNext();
                 fire = (bool)stream.ReceiveNext();
+                mouseX = (float)stream.ReceiveNext();
+                playerScreenPointX = (float)stream.ReceiveNext();
+                hasBomb = (bool)stream.ReceiveNext();
             }
         }
 
@@ -360,15 +410,21 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        public bool IsPlayerDisabled()
+        {
+            return !scoreManager.isRoundActive || scoreManager.arePlayersDisabled || health <= 0;
+        }
+
         public void HandleFreezePlayer()
         {
-            transform.GetComponent<Rigidbody2D>().constraints = scoreManager.isRoundActive && health > 0
-                ? RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation
-                : RigidbodyConstraints2D.FreezeAll;
+            transform.GetComponent<Rigidbody2D>().constraints = IsPlayerDisabled()
+                ? RigidbodyConstraints2D.FreezeAll
+                : RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         }
 
         public void HandleRightArmRotation()
         {
+            if (!photonView.isMine) return;
             armRotation = Input.mousePosition;
             armRotation.z = 5.23f; //The distance between the camera and object
             object_pos = Camera.main.WorldToScreenPoint(transform.position);
@@ -378,8 +434,13 @@ namespace Com.LavaEagle.RangerSteve
             rightHandPivot.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
+        [PunRPC]
         public void HandleRespawn()
         {
+            amount = 33;
+            health = 100;
+            hasBomb = false;
+
             string teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
 
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag(teamSpawnPointTag);
@@ -391,7 +452,6 @@ namespace Com.LavaEagle.RangerSteve
 
             // Find all of the colliders on the gameobject and set them all to be triggers.
             Collider2D[] cols = GetComponents<Collider2D>();
-
             foreach (Collider2D c in cols)
             {
                 c.isTrigger = false;
@@ -402,12 +462,6 @@ namespace Com.LavaEagle.RangerSteve
             foreach (SpriteRenderer s in spr)
             {
                 s.enabled = true;
-            }
-
-            // Update UI with ammo and weapon info
-            if (amount <= 0)
-            {
-                health = 100;
             }
         }
 
@@ -449,7 +503,7 @@ namespace Com.LavaEagle.RangerSteve
         void HandleWeaponFire()
         {
             // Only let the player shoot if they have ammo and they haven't exceeded their rate of fire
-            if (!fire || Time.time < nextFire || amount <= 0)
+            if (!fire || Time.time < nextFire || amount <= 0 || hasBomb)
             {
                 fire = false;
                 return;
@@ -530,14 +584,8 @@ namespace Com.LavaEagle.RangerSteve
             fire = Input.GetMouseButton(0);
 
             // Show/hide the leaderboard
-            if (Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive)
-            {
-                leaderboard.gameObject.SetActive(true);
-            }
-            else
-            {
-                leaderboard.gameObject.SetActive(false);
-            }
+            bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive;
+            leaderboard.gameObject.SetActive(isLeaderboardActive);
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -546,19 +594,15 @@ namespace Com.LavaEagle.RangerSteve
                 PhotonNetwork.LoadLevel("MainMenu");
             }
 
-            if (!scoreManager.isRoundActive) return;
+            if (IsPlayerDisabled()) return;
 
             // Detect what side of the player the mouse is on and flip according to that.
             Vector2 mouse = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            mouseX = mouse.x;
             Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(GetComponent<Rigidbody2D>().transform.position);
-            if (mouse.x < playerScreenPoint.x)
-            {
-                FlipLeft();
-            }
-            else
-            {
-                FlipRight();
-            }
+            playerScreenPointX = playerScreenPoint.x;
+
+            facingRight = mouseX > playerScreenPointX;
 
             // If the jump button is pressed and the player is grounded then the player should jump.
             //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
@@ -568,9 +612,9 @@ namespace Com.LavaEagle.RangerSteve
 
             running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                HandleDamage(10);
+                hasBomb = !hasBomb;
             }
         }
 
@@ -582,25 +626,25 @@ namespace Com.LavaEagle.RangerSteve
         void FlipRight()
         {
             // Only flip the player once or you'll end up with infinite flipping
-            if (facingRight)
+            if (isSpriteFacingRight)
                 return;
 
             Flip();
 
             // Player is now facing right
-            facingRight = true;
+            isSpriteFacingRight = true;
         }
 
         void FlipLeft()
         {
             // Only flip the player once or you'll end up with infinite flipping
-            if (!facingRight)
+            if (!isSpriteFacingRight)
                 return;
 
             Flip();
 
             // Player is now facing left
-            facingRight = false;
+            isSpriteFacingRight = false;
         }
 
         void Flip()
@@ -610,7 +654,6 @@ namespace Com.LavaEagle.RangerSteve
             theScale.x *= -1;
             transform.localScale = theScale;
 
-
             // Multiply the player's x local scale by -1.
             Vector3 rightHandScale = rightHandPivot.transform.localScale;
             rightHandScale.y *= -1;
@@ -618,23 +661,19 @@ namespace Com.LavaEagle.RangerSteve
             rightHandPivot.transform.localScale = rightHandScale;
         }
 
+        [PunRPC]
         void Death()
         {
             health = 0;
-            amount = 0;
 
-            // ... disable the Weapon
-            //transform.GetChild(0).gameObject.SetActive(false);
-
-            // Find all of the colliders on the gameobject and set them all to be triggers.
+            // Stop player from being hit while dead
             Collider2D[] cols = GetComponents<Collider2D>();
-
             foreach (Collider2D c in cols)
             {
                 c.isTrigger = true;
             }
 
-            // Move all sprite parts of the player to the front
+            // Hide player from view
             SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
             foreach (SpriteRenderer s in spr)
             {

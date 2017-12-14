@@ -14,6 +14,7 @@ namespace Com.LavaEagle.RangerSteve
         public Text blueScoreText;
         public Text timeRemainingText;
         public bool isRoundActive = true;
+        public bool arePlayersDisabled = false;
         public int roundLengthInSeconds = 300;
         public float timeToRoundRestart = 10f;
         public int scoreGivenPerGoal = 1;
@@ -94,6 +95,16 @@ namespace Com.LavaEagle.RangerSteve
             blueScore = newBlueScore;
             endOfRoundTimestamp = newEndOfRoundTimestamp;
             hasReceivedScoreFromMaster = true;
+        }
+
+        public void HandleDisablePlayers()
+        {
+            arePlayersDisabled = true;
+        }
+
+        public void HandleEnablePlayers()
+        {
+            arePlayersDisabled = false;
         }
 
         public void EmitAddBlueScore()
