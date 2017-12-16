@@ -35,7 +35,9 @@ namespace Com.LavaEagle.RangerSteve
         public float boostedFlyingForce;
 
         // Modifies the max speeds to allow for faster flight.
-        public float boostedFlyingMaxSpeedModifier;
+        public float boostedMaxSpeedX;
+
+        public float boostedMaxSpeedY;
 
         [Header("Weapon")]
 
@@ -377,9 +379,8 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Velocity Throttling
              */
-            float modifiedMaxSpeedY = isBoostedFlying ? maxSpeedY * boostedFlyingMaxSpeedModifier : maxSpeedY;
-            float modifiedMaxSpeedX = isBoostedFlying ? maxSpeedX * boostedFlyingMaxSpeedModifier : maxSpeedX;
-
+            float modifiedMaxSpeedY = isBoostedFlying ? boostedMaxSpeedY : maxSpeedY;
+            float modifiedMaxSpeedX = isBoostedFlying ? boostedMaxSpeedX : maxSpeedX;
 
             // If the player's vertical velocity is greater than the maxSpeedY...
             if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > modifiedMaxSpeedY)

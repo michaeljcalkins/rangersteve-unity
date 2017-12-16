@@ -1098,13 +1098,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   moveForce: 350
-  maxSpeedX: 30
+  maxSpeedX: 25
   maxSpeedY: 30
   maxFlyingTime: 3
   jumpForce: 2500
   flyingForce: 200
   boostedFlyingForce: 400
-  boostedFlyingMaxSpeedModifier: 1.4
+  boostedMaxSpeedX: 40
+  boostedMaxSpeedY: 40
   ammunition: ak47Bullet
   amount: 33
   fireRate: 0.14
