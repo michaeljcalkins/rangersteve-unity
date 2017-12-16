@@ -26,6 +26,8 @@ namespace Com.LavaEagle.RangerSteve
             string teamSpawnPointTag;
             GameObject[] livePlayers = GameObject.FindGameObjectsWithTag("Networked Player");
 
+            PlayerStateManager playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
+
             foreach (GameObject livePlayer in livePlayers)
             {
                 if (livePlayer.GetComponent<PlayerManager>().team == "blue") blueCount++;
@@ -57,9 +59,9 @@ namespace Com.LavaEagle.RangerSteve
                 GameObject.Find("BlueTeamIndicator").GetComponent<Image>().enabled = false;
             }
 
+            playerState.team = team;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().health = 100;
-            player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().team = team;
         }
     }
 }

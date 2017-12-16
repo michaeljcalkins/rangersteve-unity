@@ -31,6 +31,12 @@ namespace Com.LavaEagle.RangerSteve
         // Amount of force added when the player flys.
         public float flyingForce;
 
+        // Amount of force added when the player flys.
+        public float boostedFlyingForce;
+
+        // Modifies the max speeds to allow for faster flight.
+        public float boostedFlyingMaxSpeedModifier;
+
         [Header("Weapon")]
 
         public string ammunition;
@@ -89,6 +95,8 @@ namespace Com.LavaEagle.RangerSteve
 
 
         #region Private Variables
+
+        private PlayerStateManager playerState;
 
         [SerializeField]
         private bool fire;
@@ -161,6 +169,8 @@ namespace Com.LavaEagle.RangerSteve
 
         private bool isSpriteFacingRight = true;
 
+        private bool isBoostedFlying = false;
+
         #endregion
 
 
@@ -200,6 +210,12 @@ namespace Com.LavaEagle.RangerSteve
             rightHandSprite = rightHandPivot.transform.Find("rightHandSprite");
             rightHandWeapon = rightHandSprite.transform.Find("rightHandWeapon");
             jetAudioSource = GetComponent<AudioSource>();
+
+            playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
+            if (photonView.isMine)
+            {
+                team = playerState.team;
+            }
 
             // Displays remaining fuel until you can't fly
             remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
@@ -244,52 +260,14 @@ namespace Com.LavaEagle.RangerSteve
         /// </summary>
         void Update()
         {
-            HandleFreezePlayer();
-
-            if (facingRight)
-            {
-                FlipRight();
-            }
-            else
-            {
-                FlipLeft();
-            }
-
             standingLegs.gameObject.SetActive(!running);
-            rightJumpjet.gameObject.SetActive(flying);
-            leftJumpjet.gameObject.SetActive(flying);
+            rightJumpjet.gameObject.SetActive(flying || isBoostedFlying);
+            leftJumpjet.gameObject.SetActive(flying || isBoostedFlying);
             bomb.gameObject.SetActive(hasBomb);
-
-            // If the player should fly...
-            if (flying && usedFlyingTime < maxFlyingTime)
-            {
-                // Play flying jet sound effect.
-                jetAudioSource.enabled = true;
-                jetAudioSource.loop = true;
-
-                usedFlyingTime += Time.fixedDeltaTime;
-
-                // Add a vertical force to the player.
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
-            }
-            else
-            {
-                jetAudioSource.enabled = false;
-                jetAudioSource.loop = false;
-                usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
-            }
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
-            }
-
-            if (!IsPlayerDisabled())
-            {
-                HandleInputs();
-                HandleRightArmRotation();
-                HandleWeaponFire();
-                HandleHealing();
             }
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
@@ -332,7 +310,61 @@ namespace Com.LavaEagle.RangerSteve
 
         void FixedUpdate()
         {
-            // If the player should jump...
+            HandleFreezePlayer();
+
+            if (facingRight)
+            {
+                FlipRight();
+            }
+            else
+            {
+                FlipLeft();
+            }
+
+            if (!IsPlayerDisabled())
+            {
+                HandleInputs();
+                HandleRightArmRotation();
+                HandleWeaponFire();
+                HandleHealing();
+            }
+
+            /**
+             * Flying
+             */
+            if ((flying || isBoostedFlying) && usedFlyingTime < maxFlyingTime)
+            {
+                // Play flying jet sound effect.
+                jetAudioSource.enabled = true;
+                jetAudioSource.loop = true;
+
+                usedFlyingTime += isBoostedFlying ? Time.fixedDeltaTime * 1.3f : Time.fixedDeltaTime;
+
+                if (isBoostedFlying)
+                {
+                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3 mouseDir = mousePos - transform.position;
+                    mouseDir.z = 0.0f;
+                    mouseDir = mouseDir.normalized;
+                    GetComponent<Rigidbody2D>().AddForce(mouseDir * boostedFlyingForce);
+                }
+                else
+                {
+                    // Add a vertical force to the player.
+                    GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
+                }
+            }
+            else
+            {
+                jetAudioSource.enabled = false;
+                jetAudioSource.loop = false;
+                isBoostedFlying = false;
+                usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
+            }
+
+            /**
+             * Jumping
+             */
             if (jump)
             {
                 // Add a vertical force to the player.
@@ -342,18 +374,25 @@ namespace Com.LavaEagle.RangerSteve
                 jump = false;
             }
 
+            /**
+             * Velocity Throttling
+             */
+            float modifiedMaxSpeedY = isBoostedFlying ? maxSpeedY * boostedFlyingMaxSpeedModifier : maxSpeedY;
+            float modifiedMaxSpeedX = isBoostedFlying ? maxSpeedX * boostedFlyingMaxSpeedModifier : maxSpeedX;
+
+
             // If the player's vertical velocity is greater than the maxSpeedY...
-            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > maxSpeedY)
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > modifiedMaxSpeedY)
             {
                 // ... set the player's velocity to the maxSpeedY in the y axis.
-                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, Mathf.Sign(GetComponent<Rigidbody2D>().velocity.y) * maxSpeedY);
+                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, Mathf.Sign(GetComponent<Rigidbody2D>().velocity.y) * modifiedMaxSpeedY);
             }
 
             // If the player's horizontal velocity is greater than the maxSpeedX...
-            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeedX)
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > modifiedMaxSpeedX)
             {
                 // ... set the player's velocity to the maxSpeedX in the x axis.
-                GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
+                GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * modifiedMaxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
             }
 
             if (IsPlayerDisabled() && health > 0)
@@ -570,17 +609,31 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (health == 0) return;
 
+            /**
+             * Horizontal Movement
+             */
             // Left and right movement
             float h = Input.GetAxis("Horizontal");
 
-            // If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeedX yet...
-            if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeedX && photonView.isMine)
-            {
-                // ... add a force to the player.
-                GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
-            }
+            //Use the two store floats to create a new Vector2 variable movement.
+            Vector2 movement = new Vector2(h, 0);
 
-            // Shoot weapon
+            // ... add a force to the player.
+            GetComponent<Rigidbody2D>().AddForce(movement * moveForce, ForceMode2D.Force);
+
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    GetComponent<Rigidbody2D>().velocity = new Vector2(maxSpeedX * -1, GetComponent<Rigidbody2D>().velocity.y);
+            //}
+
+            //if (Input.GetKey(KeyCode.D))
+            //{
+            //    GetComponent<Rigidbody2D>().velocity = new Vector2(maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
+            //}
+
+            /**
+             * Shoot Weapon
+             */
             fire = Input.GetMouseButton(0);
 
             // Show/hide the leaderboard
@@ -608,9 +661,14 @@ namespace Com.LavaEagle.RangerSteve
             //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
             jump = Input.GetKey(KeyCode.W) && IsGrounded();
 
+            if (!isBoostedFlying)
+            {
+                isBoostedFlying = Input.GetKey(KeyCode.E);
+            }
+
             flying = Input.GetMouseButton(1);
 
-            running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
+            running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying && !isBoostedFlying;
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
