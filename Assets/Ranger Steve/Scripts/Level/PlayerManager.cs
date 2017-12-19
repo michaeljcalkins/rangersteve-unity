@@ -113,7 +113,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private Image hurtBorderImage;
 
-        private Slider healthSlider;
+        private Text currentHealthText;
 
         private int mainCameraDepth = -20;
 
@@ -212,36 +212,31 @@ namespace Com.LavaEagle.RangerSteve
             rightHandSprite = rightHandPivot.transform.Find("rightHandSprite");
             rightHandWeapon = rightHandSprite.transform.Find("rightHandWeapon");
             jetAudioSource = GetComponent<AudioSource>();
-
+            leaderboard = GameObject.Find("Leaderboard");
+            remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
+            currentHealthText = GameObject.Find("CurrentHealthText").GetComponent<Text>();
+            mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
+            hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+            scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+            remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
+
             if (photonView.isMine)
             {
                 team = playerState.team;
             }
 
-            // Displays remaining fuel until you can't fly
-            remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
+            // Hide jet fuel slider while game is loading
+            remainingJetFuelSlider.gameObject.SetActive(false);
 
-            healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
-
-            // Make camera follow player
-            mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-
-            hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+            // Make hurt border start out invisible
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
 
             // Turn cursor into crosshair and centers the middle of image on mouse
             cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
             Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
 
-            remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
             remainingAmmoText.text = amount.ToString();
-
-            activeWeaponImage = GameObject.Find("ActiveWeaponImage").GetComponent<Image>();
-
-            leaderboard = GameObject.Find("Leaderboard");
-
-            scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
 
             Physics2D.IgnoreLayerCollision(9, 9);
 
@@ -274,32 +269,24 @@ namespace Com.LavaEagle.RangerSteve
 
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
-            // HurtBorder
+            // Hurt Border
             float hurtBorderPercent = 1f - (health / 100f);
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderPercent);
 
-            // Health slider
-            float healthPercentage = health / 100f;
-            healthSlider.value = healthPercentage;
+            // Health Text
+            currentHealthText.text = health.ToString();
 
-            // Update UI with ammo and weapon info
+            // Remaining Ammo Text
             if (amount <= 0)
             {
-                remainingAmmoText.text = "";
-
-                // Disable UI image
-                activeWeaponImage.enabled = false;
-                activeWeaponImage.overrideSprite = null;
+                remainingAmmoText.text = "0 / 100";
             }
             else
             {
-                remainingAmmoText.text = amount.ToString();
-
-                // Set weapon image in UI
-                activeWeaponImage.overrideSprite = Resources.Load<Sprite>("Sprites/Weapons/" + weaponName);
-                activeWeaponImage.enabled = true;
+                remainingAmmoText.text = amount.ToString() + " / 100";
             }
 
+            // Remaining Jet Fuel Slider
             if (health > 0)
             {
                 remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
@@ -308,6 +295,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 remainingJetFuelSlider.value = 0;
             }
+
+            remainingJetFuelSlider.gameObject.SetActive(flying);
         }
 
         void FixedUpdate()
@@ -664,14 +653,14 @@ namespace Com.LavaEagle.RangerSteve
 
             if (!isBoostedFlying)
             {
-                isBoostedFlying = Input.GetKey(KeyCode.E);
+                isBoostedFlying = Input.GetKey(KeyCode.LeftShift);
             }
 
             flying = Input.GetMouseButton(1);
 
             running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying && !isBoostedFlying;
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 hasBomb = !hasBomb;
             }
