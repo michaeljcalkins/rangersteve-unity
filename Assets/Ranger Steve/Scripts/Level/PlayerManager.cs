@@ -151,10 +151,6 @@ namespace Com.LavaEagle.RangerSteve
 
         private Transform rightHandPivot;
 
-        private Transform rightHandSprite;
-
-        private Transform rightHandWeapon;
-
         private float lastDamageTimestamp;
 
         private float lastHealTimestamp;
@@ -209,8 +205,6 @@ namespace Com.LavaEagle.RangerSteve
             standingLegs = transform.Find("standingLegs");
             groundCheck = transform.Find("groundCheck");
             rightHandPivot = transform.Find("rightHandPivot");
-            rightHandSprite = rightHandPivot.transform.Find("rightHandSprite");
-            rightHandWeapon = rightHandSprite.transform.Find("rightHandWeapon");
             jetAudioSource = GetComponent<AudioSource>();
             leaderboard = GameObject.Find("Leaderboard");
             remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
@@ -224,19 +218,19 @@ namespace Com.LavaEagle.RangerSteve
             if (photonView.isMine)
             {
                 team = playerState.team;
+
+                // Hide jet fuel slider while game is loading
+                remainingJetFuelSlider.gameObject.SetActive(false);
+
+                // Make hurt border start out invisible
+                hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
+
+                // Turn cursor into crosshair and centers the middle of image on mouse
+                cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+                Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
+
+                remainingAmmoText.text = amount.ToString();
             }
-
-            // Hide jet fuel slider while game is loading
-            remainingJetFuelSlider.gameObject.SetActive(false);
-
-            // Make hurt border start out invisible
-            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
-
-            // Turn cursor into crosshair and centers the middle of image on mouse
-            cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
-            Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
-
-            remainingAmmoText.text = amount.ToString();
 
             Physics2D.IgnoreLayerCollision(9, 9);
 
@@ -611,24 +605,17 @@ namespace Com.LavaEagle.RangerSteve
             // ... add a force to the player.
             GetComponent<Rigidbody2D>().AddForce(movement * moveForce, ForceMode2D.Force);
 
-            //if (Input.GetKey(KeyCode.A))
-            //{
-            //    GetComponent<Rigidbody2D>().velocity = new Vector2(maxSpeedX * -1, GetComponent<Rigidbody2D>().velocity.y);
-            //}
-
-            //if (Input.GetKey(KeyCode.D))
-            //{
-            //    GetComponent<Rigidbody2D>().velocity = new Vector2(maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
-            //}
-
             /**
              * Shoot Weapon
              */
             fire = Input.GetMouseButton(0);
 
-            // Show/hide the leaderboard
-            bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive;
-            leaderboard.gameObject.SetActive(isLeaderboardActive);
+            if (photonView.isMine)
+            {
+                // Show/hide the leaderboard
+                bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive;
+                leaderboard.gameObject.SetActive(isLeaderboardActive);
+            }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
