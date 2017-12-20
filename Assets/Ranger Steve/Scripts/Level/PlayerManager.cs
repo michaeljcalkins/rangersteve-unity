@@ -183,14 +183,7 @@ namespace Com.LavaEagle.RangerSteve
                 PlayerManager.LocalPlayerInstance = this.gameObject;
             }
 
-            if (photonView.isMine)
-            {
-                this.tag = "Local Player";
-            }
-            else
-            {
-                this.tag = "Networked Player";
-            }
+            this.tag = photonView.isMine ? "Local Player" : "Networked Player";
         }
 
         void Start()
@@ -207,7 +200,6 @@ namespace Com.LavaEagle.RangerSteve
             rightHandPivot = transform.Find("rightHandPivot");
             jetAudioSource = GetComponent<AudioSource>();
             leaderboard = GameObject.Find("Leaderboard");
-            remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
             currentHealthText = GameObject.Find("CurrentHealthText").GetComponent<Text>();
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
@@ -217,6 +209,8 @@ namespace Com.LavaEagle.RangerSteve
 
             if (photonView.isMine)
             {
+                remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
+
                 team = playerState.team;
 
                 // Hide jet fuel slider while game is loading
@@ -246,9 +240,6 @@ namespace Com.LavaEagle.RangerSteve
             }
         }
 
-        /// <summary>
-        /// MonoBehaviour method called on GameObject by Unity on every frame.
-        /// </summary>
         void Update()
         {
             standingLegs.gameObject.SetActive(!running);
@@ -290,7 +281,7 @@ namespace Com.LavaEagle.RangerSteve
                 remainingJetFuelSlider.value = 0;
             }
 
-            remainingJetFuelSlider.gameObject.SetActive(flying);
+            remainingJetFuelSlider.gameObject.SetActive(flying || isBoostedFlying);
         }
 
         void FixedUpdate()
@@ -308,10 +299,14 @@ namespace Com.LavaEagle.RangerSteve
 
             if (!IsPlayerDisabled())
             {
-                HandleInputs();
                 HandleRightArmRotation();
-                HandleWeaponFire();
-                HandleHealing();
+
+                if (photonView.isMine)
+                {
+                    HandleInputs();
+                    HandleWeaponFire();
+                    HandleHealing();
+                }
             }
 
             /**
@@ -323,7 +318,7 @@ namespace Com.LavaEagle.RangerSteve
                 jetAudioSource.enabled = true;
                 jetAudioSource.loop = true;
 
-                usedFlyingTime += isBoostedFlying ? Time.fixedDeltaTime * 1.3f : Time.fixedDeltaTime;
+                usedFlyingTime += isBoostedFlying ? Time.fixedDeltaTime * 1.4f : Time.fixedDeltaTime;
 
                 if (isBoostedFlying)
                 {
@@ -435,6 +430,7 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool IsPlayerDisabled()
         {
+            if (!scoreManager) return false;
             return !scoreManager.isRoundActive || scoreManager.arePlayersDisabled || health <= 0;
         }
 
