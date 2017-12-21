@@ -50,7 +50,8 @@ namespace Com.LavaEagle.RangerSteve
             if (PhotonNetwork.isMasterClient)
             {
                 remainingSeconds -= Time.deltaTime;
-                timeRemainingText.text = remainingSeconds <= 0 ? "0" : Math.Floor(remainingSeconds).ToString();
+                remainingSeconds = remainingSeconds < 0 ? 0 : remainingSeconds;
+                timeRemainingText.text = ((int)remainingSeconds).ToString();
 
                 if (remainingSeconds <= 0)
                 {
@@ -65,7 +66,6 @@ namespace Com.LavaEagle.RangerSteve
                     Invoke("EmitRestartRound", timeToRoundRestart);
                 }
             }
-
         }
 
         #endregion
