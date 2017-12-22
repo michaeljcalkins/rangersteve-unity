@@ -52,4 +52,8 @@ MonoBehaviour:
   - RestartRound
   - Death
   - HandleRespawn
+  - HandleUpdateScores
+  - HandleRestartRound
+  - HandleDisablePlayers
+  - HandleEnablePlayers
   DisableAutoOpenWizard: 1

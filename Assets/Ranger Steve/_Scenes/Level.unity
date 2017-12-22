@@ -1081,7 +1081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &284093539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1142,12 +1142,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 3
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 287220726}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 2
   instantiationId: 2
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   timeRemainingText: {fileID: 571832656}
   isRoundActive: 1
   arePlayersDisabled: 0
-  roundLengthInSeconds: 30
+  roundLengthInSeconds: 20
   timeToRoundRestart: 10
   scoreGivenPerGoal: 1
 --- !u!4 &287220727
@@ -3896,7 +3896,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1046051948}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 110.48259, y: -5.459368, z: 0}
+  m_LocalPosition: {x: 110.465, y: -5.459368, z: 0}
   m_LocalScale: {x: 3.8549101, y: 3.8549116, z: 3.8549116}
   m_Children: []
   m_Father: {fileID: 2047636482}
@@ -4079,7 +4079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1109473705
 Transform:
   m_ObjectHideFlags: 0
@@ -4888,7 +4888,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 33 / 100
+  m_Text: 30 / 30
 --- !u!222 &1410263256
 CanvasRenderer:
   m_ObjectHideFlags: 0

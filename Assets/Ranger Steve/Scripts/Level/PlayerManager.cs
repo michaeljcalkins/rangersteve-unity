@@ -12,7 +12,10 @@ namespace Com.LavaEagle.RangerSteve
         [SerializeField]
         public int health;
 
+        public int maxHealth;
+
         [Header("Physics")]
+
         // Amount of force added to move the player left and right.
         public float moveForce;
 
@@ -45,6 +48,8 @@ namespace Com.LavaEagle.RangerSteve
 
         // Remaining ammo to shoot for this gun
         public int amount;
+
+        public int maxAmount;
 
         public float fireRate;
 
@@ -99,6 +104,8 @@ namespace Com.LavaEagle.RangerSteve
         #region Private Variables
 
         private PlayerStateManager playerState;
+
+        private bool isReloading;
 
         [SerializeField]
         private bool fire;
@@ -252,23 +259,43 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
+            /**
+             * Leaderboard
+             */
+            bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive;
+            leaderboard.gameObject.SetActive(isLeaderboardActive);
+
+            /**
+             * Exit Game
+             */
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player);
+                PhotonNetwork.LeaveRoom();
+                PhotonNetwork.LoadLevel("MainMenu");
+            }
+
             mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
 
             // Hurt Border
-            float hurtBorderPercent = 1f - (health / 100f);
+            float hurtBorderPercent = 1f - (health / maxHealth);
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderPercent);
 
             // Health Text
             currentHealthText.text = health.ToString();
 
             // Remaining Ammo Text
-            if (amount <= 0)
+            if (isReloading)
             {
-                remainingAmmoText.text = "0 / 100";
+                remainingAmmoText.text = "Reloading...";
+            }
+            else if (amount <= 0)
+            {
+                remainingAmmoText.text = "0 / " + maxAmount.ToString();
             }
             else
             {
-                remainingAmmoText.text = amount.ToString() + " / 100";
+                remainingAmmoText.text = amount.ToString() + " / " + maxAmount.ToString();
             }
 
             // Remaining Jet Fuel Slider
@@ -280,6 +307,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 remainingJetFuelSlider.value = 0;
             }
+
+            rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
 
             remainingJetFuelSlider.gameObject.SetActive(flying || isBoostedFlying);
         }
@@ -430,7 +459,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool IsPlayerDisabled()
         {
-            if (!scoreManager) return false;
             return !scoreManager.isRoundActive || scoreManager.arePlayersDisabled || health <= 0;
         }
 
@@ -443,8 +471,7 @@ namespace Com.LavaEagle.RangerSteve
 
         public void HandleRightArmRotation()
         {
-            if (!photonView.isMine) return;
-            armRotation = Input.mousePosition;
+            armRotation = hasBomb ? new Vector3(0, 0, 0) : Input.mousePosition;
             armRotation.z = 5.23f; //The distance between the camera and object
             object_pos = Camera.main.WorldToScreenPoint(transform.position);
             armRotation.x = armRotation.x - object_pos.x;
@@ -456,8 +483,8 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         public void HandleRespawn()
         {
-            amount = 33;
-            health = 100;
+            amount = maxAmount;
+            health = maxHealth;
             hasBomb = false;
 
             string teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
@@ -492,6 +519,8 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         void FireBullet(Vector3 startingPos, Vector3 mousePos, string ammunitionName)
         {
+            if (!scoreManager.isRoundActive) return;
+
             // Initial position of the bullet
             Vector3 spawnPos = transform.Find("rightHandPivot/bulletStartingPos").transform.position;
 
@@ -519,10 +548,22 @@ namespace Com.LavaEagle.RangerSteve
             amount--;
         }
 
+        void HandleReloadWeapon()
+        {
+            amount = maxAmount;
+            isReloading = false;
+        }
+
         void HandleWeaponFire()
         {
+            if (amount <= 0 && !isReloading)
+            {
+                isReloading = true;
+                Invoke("HandleReloadWeapon", 2f);
+            }
+
             // Only let the player shoot if they have ammo and they haven't exceeded their rate of fire
-            if (!fire || Time.time < nextFire || amount <= 0 || hasBomb)
+            if (!fire || Time.time < nextFire || amount <= 0 || hasBomb || isReloading)
             {
                 fire = false;
                 return;
@@ -587,7 +628,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private void HandleInputs()
         {
-            if (health == 0) return;
+            if (health == 0 || IsPlayerDisabled()) return;
 
             /**
              * Horizontal Movement
@@ -605,20 +646,6 @@ namespace Com.LavaEagle.RangerSteve
              * Shoot Weapon
              */
             fire = Input.GetMouseButton(0);
-
-            if (photonView.isMine)
-            {
-                // Show/hide the leaderboard
-                bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive;
-                leaderboard.gameObject.SetActive(isLeaderboardActive);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.player);
-                PhotonNetwork.LeaveRoom();
-                PhotonNetwork.LoadLevel("MainMenu");
-            }
 
             if (IsPlayerDisabled()) return;
 
@@ -646,6 +673,12 @@ namespace Com.LavaEagle.RangerSteve
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hasBomb = !hasBomb;
+            }
+
+            if (Input.GetKey(KeyCode.R) && !isReloading && amount < maxAmount)
+            {
+                isReloading = true;
+                Invoke("HandleReloadWeapon", 2f);
             }
         }
 

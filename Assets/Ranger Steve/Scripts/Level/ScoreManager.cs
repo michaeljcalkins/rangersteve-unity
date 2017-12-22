@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Com.LavaEagle.RangerSteve
 {
-    public class ScoreManager : Photon.PunBehaviour, IPunObservable
+    public class ScoreManager : Photon.PunBehaviour
     {
         #region Public Variables
 
         public int redScore = 0;
         public int blueScore = 0;
-        public float remainingSeconds;
+        public int endOfRoundTimestamp;
         public Text redScoreText;
         public Text blueScoreText;
         public Text timeRemainingText;
@@ -32,11 +32,22 @@ namespace Com.LavaEagle.RangerSteve
 
         #region MonoBehaviour CallBacks
 
-        private void Awake()
+        void Start()
         {
             if (PhotonNetwork.isMasterClient)
             {
-                remainingSeconds = roundLengthInSeconds;
+                int currentTime = GetCurrentTime();
+                endOfRoundTimestamp = currentTime + (int)roundLengthInSeconds;
+
+                Hashtable customPropertiesToSet = new Hashtable();
+                customPropertiesToSet.Add("endOfRoundTimestamp", endOfRoundTimestamp);
+                customPropertiesToSet.Add("blueScore", blueScore);
+                customPropertiesToSet.Add("redScore", redScore);
+                PhotonNetwork.room.SetCustomProperties(customPropertiesToSet);
+            }
+            else
+            {
+                Invoke("HandleUpdateGameInfo", 1f);
             }
         }
 
@@ -47,53 +58,19 @@ namespace Com.LavaEagle.RangerSteve
 
             int currentTime = GetCurrentTime();
 
-            if (PhotonNetwork.isMasterClient)
+            int remainingSeconds = (int)(endOfRoundTimestamp - currentTime);
+            timeRemainingText.text = remainingSeconds <= 0 ? "0" : remainingSeconds.ToString();
+
+            if (remainingSeconds <= 0)
             {
-                remainingSeconds -= Time.deltaTime;
-                remainingSeconds = remainingSeconds < 0 ? 0 : remainingSeconds;
-                timeRemainingText.text = ((int)remainingSeconds).ToString();
-
-                if (remainingSeconds <= 0)
-                {
-                    print("Round has become inactive.");
-                    isRoundActive = false;
-                }
-
-                if (!isRoundActive && !isRoundRestarting && PhotonNetwork.isMasterClient)
-                {
-                    print("Restarting round.");
-                    isRoundRestarting = true;
-                    Invoke("EmitRestartRound", timeToRoundRestart);
-                }
+                isRoundActive = false;
             }
-        }
 
-        #endregion
-
-
-        #region Photon
-
-        void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.isWriting)
+            if (!isRoundActive && !isRoundRestarting && PhotonNetwork.isMasterClient)
             {
-                // We own this player: send the others our data
-                stream.SendNext(redScore);
-                stream.SendNext(blueScore);
-                stream.SendNext(isRoundRestarting);
-                stream.SendNext(isRoundActive);
-                stream.SendNext(arePlayersDisabled);
-                stream.SendNext(remainingSeconds);
-            }
-            else
-            {
-                // Network player, receive data
-                redScore = (int)stream.ReceiveNext();
-                blueScore = (int)stream.ReceiveNext();
-                isRoundRestarting = (bool)stream.ReceiveNext();
-                isRoundActive = (bool)stream.ReceiveNext();
-                arePlayersDisabled = (bool)stream.ReceiveNext();
-                remainingSeconds = (int)stream.ReceiveNext();
+                print("Restarting round.");
+                isRoundRestarting = true;
+                Invoke("EmitRestartRound", timeToRoundRestart);
             }
         }
 
@@ -102,52 +79,101 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        private void HandleUpdateGameInfo()
+        {
+            arePlayersDisabled = false;
+            isRoundActive = true;
+
+            endOfRoundTimestamp = GetEndOfRoundTimestamp();
+            blueScore = GetBlueScore();
+            redScore = GetRedScore();
+        }
+
+        private int GetRedScore()
+        {
+            object score;
+            if (PhotonNetwork.room.CustomProperties.TryGetValue("redScore", out score))
+            {
+                return (int)score;
+            }
+
+            return 0;
+        }
+
+        private int GetBlueScore()
+        {
+            object score;
+            if (PhotonNetwork.room.CustomProperties.TryGetValue("blueScore", out score))
+            {
+                return (int)score;
+            }
+
+            return 0;
+        }
+
         private int GetCurrentTime()
         {
             return (int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
         }
 
+        [PunRPC]
         public void HandleDisablePlayers()
         {
             arePlayersDisabled = true;
         }
 
+        [PunRPC]
         public void HandleEnablePlayers()
         {
             arePlayersDisabled = false;
         }
 
-        public void EmitAddBlueScore()
+        public void EmitDisablePlayers()
         {
-            photonView.RPC("HandleAddBlueScore", PhotonTargets.All);
+            photonView.RPC("HandleDisablePlayers", PhotonTargets.All);
         }
 
-        public void EmitAddRedScore()
+        public void EmitEnablePlayers()
         {
-            photonView.RPC("HandleAddRedScore", PhotonTargets.All);
+            photonView.RPC("HandleEnablePlayers", PhotonTargets.All);
         }
 
         public void EmitRestartRound()
         {
-            photonView.RPC("RestartRound", PhotonTargets.All);
+            photonView.RPC("HandleRestartRound", PhotonTargets.All);
         }
 
         [PunRPC]
+        public void HandleUpdateScores()
+        {
+            blueScore = GetBlueScore();
+            redScore = GetRedScore();
+        }
+
         public void HandleAddRedScore()
         {
             print("Adding " + scoreGivenPerGoal + " to Red.");
-            redScore += scoreGivenPerGoal;
+
+            Hashtable score = new Hashtable();
+            score["redScore"] = redScore + scoreGivenPerGoal;
+            PhotonNetwork.room.SetCustomProperties(score);
+
+            photonView.RPC("HandleUpdateScores", PhotonTargets.All);
         }
 
-        [PunRPC]
         public void HandleAddBlueScore()
         {
             print("Adding " + scoreGivenPerGoal + " to Blue.");
-            blueScore += scoreGivenPerGoal;
+
+            Hashtable score = new Hashtable();
+            score["blueScore"] = blueScore + scoreGivenPerGoal;
+            PhotonNetwork.room.SetCustomProperties(score);
+
+            photonView.RPC("HandleUpdateScores", PhotonTargets.All);
         }
 
         [PunRPC]
-        void RestartRound()
+        void HandleRestartRound()
         {
             if (PhotonNetwork.isMasterClient)
             {
@@ -164,6 +190,16 @@ namespace Com.LavaEagle.RangerSteve
             PhotonNetwork.LoadLevel("Level");
         }
 
+        private int GetEndOfRoundTimestamp()
+        {
+            object timestamp;
+            if (PhotonNetwork.room.CustomProperties.TryGetValue("endOfRoundTimestamp", out timestamp))
+            {
+                return (int)timestamp;
+            }
+
+            return 0;
+        }
         #endregion
     }
 }
