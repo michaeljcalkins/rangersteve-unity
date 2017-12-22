@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Com.LavaEagle.RangerSteve
 {
@@ -187,7 +188,7 @@ namespace Com.LavaEagle.RangerSteve
             // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
             if (photonView.isMine)
             {
-                PlayerManager.LocalPlayerInstance = this.gameObject;
+                LocalPlayerInstance = this.gameObject;
             }
 
             this.tag = photonView.isMine ? "Local Player" : "Networked Player";
@@ -218,10 +219,10 @@ namespace Com.LavaEagle.RangerSteve
             {
                 remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
 
-                team = playerState.team;
-
                 // Hide jet fuel slider while game is loading
                 remainingJetFuelSlider.gameObject.SetActive(false);
+
+                team = playerState.team;
 
                 // Make hurt border start out invisible
                 hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
@@ -262,8 +263,8 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Leaderboard
              */
-            bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || !scoreManager.isRoundActive;
-            leaderboard.gameObject.SetActive(isLeaderboardActive);
+            //bool isLeaderboardActive = Input.GetKey(KeyCode.Tab) || scoreManager.roundState == "ended" || scoreManager.roundState == "restarting";
+            //leaderboard.gameObject.SetActive(isLeaderboardActive);
 
             /**
              * Exit Game
@@ -459,7 +460,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool IsPlayerDisabled()
         {
-            return !scoreManager.isRoundActive || scoreManager.arePlayersDisabled || health <= 0;
+            string[] disabledPlayerRoundStates = { "ended", "paused", "starting", "restarting" };
+            return disabledPlayerRoundStates.Contains(scoreManager.roundState) || health <= 0;
         }
 
         public void HandleFreezePlayer()
@@ -519,8 +521,6 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         void FireBullet(Vector3 startingPos, Vector3 mousePos, string ammunitionName)
         {
-            if (!scoreManager.isRoundActive) return;
-
             // Initial position of the bullet
             Vector3 spawnPos = transform.Find("rightHandPivot/bulletStartingPos").transform.position;
 
@@ -556,6 +556,8 @@ namespace Com.LavaEagle.RangerSteve
 
         void HandleWeaponFire()
         {
+            if (IsPlayerDisabled()) return;
+
             if (amount <= 0 && !isReloading)
             {
                 isReloading = true;

@@ -60,7 +60,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void Test()
         {
-            if (FindObjectsOfType<DominationPlatform>().Length == 0 && flag == false && scoreManager.isRoundActive)
+            if (FindObjectsOfType<DominationPlatform>().Length == 0 && flag == false && scoreManager.roundState == "ended")
             {
                 flag = true;
                 int randomTime = Random.Range(minRandomSpawnTime, maxRandomSpawnTime);

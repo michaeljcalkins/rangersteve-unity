@@ -42,7 +42,7 @@ namespace Com.LavaEagle.RangerSteve
                     scoreManager.HandleAddBlueScore();
                 }
 
-                Invoke("HandleRespawnAllPlayers", 5f);
+                Invoke("HandleRespawnAllPlayers", 3f);
             }
         }
 

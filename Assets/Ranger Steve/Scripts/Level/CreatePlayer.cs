@@ -15,6 +15,10 @@ namespace Com.LavaEagle.RangerSteve
         void Start()
         {
             Invoke("HandleCreatePlayerObject", 1f);
+
+            // Hide until player loads and can control it
+            Image hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
+            hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
         }
 
         public void HandleCreatePlayerObject()
