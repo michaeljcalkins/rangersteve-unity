@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 0}
-  damage: 16
+  damage: 24
   bulletSpeed: 5000
 --- !u!212 &21200000
 SpriteRenderer:

@@ -19,13 +19,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000014055351816}
-  - component: {fileID: 50000012889579592}
-  - component: {fileID: 61000010785474132}
-  - component: {fileID: 95000013573060294}
-  - component: {fileID: 82000014053965200}
   - component: {fileID: 114000010411600318}
+  - component: {fileID: 50000012889579592}
+  - component: {fileID: 70112615231772182}
+  - component: {fileID: 82000014053965200}
   - component: {fileID: 114000011968518014}
-  - component: {fileID: 114000010461963620}
   - component: {fileID: 114289628258640756}
   - component: {fileID: 114548738651054558}
   m_Layer: 9
@@ -546,7 +544,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.139524, y: 33.288837, z: 0}
+  m_LocalPosition: {x: -112.207565, y: 17.523094, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4733116814504702}
@@ -907,13 +905,13 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1.7
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 24ac79603fb61400588e37d9f6fe952a, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &61000010785474132
-BoxCollider2D:
+--- !u!70 &70112615231772182
+CapsuleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -924,19 +922,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.035308078, y: -0.2547838}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.49701688, y: 1.6296815}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.03560384, y: -0.25516707}
+  m_Size: {x: 0.49661, y: 1.6290164}
+  m_Direction: 0
 --- !u!82 &82000014053965200
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1017,23 +1005,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!95 &95000013573060294
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011565703296}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ab99aac35022bdb44a0ef71a7656bfc6, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95142297022029736
 Animator:
   serializedVersion: 3
@@ -1101,12 +1072,9 @@ MonoBehaviour:
   moveForce: 350
   maxSpeedX: 25
   maxSpeedY: 30
-  maxFlyingTime: 3
-  jumpForce: 2500
-  flyingForce: 200
-  boostedFlyingForce: 400
-  boostedMaxSpeedX: 40
-  boostedMaxSpeedY: 40
+  maxFlyingTime: 2
+  jumpForce: 2100
+  flyingForce: 150
   ammunition: ak47Bullet
   amount: 30
   maxAmount: 30
@@ -1119,6 +1087,14 @@ MonoBehaviour:
   totalDamageDealt: 0
   leaderboard: {fileID: 0}
   scoreManager: {fileID: 0}
+  minCameraPositionX: -313.13
+  maxCameraPositionX: 81.8
+  minCameraPositionY: -38.3
+  maxCameraPositionY: 38.35
+  minPlayerPositionX: -346.4
+  maxPlayerPositionX: 115
+  minPlayerPositionY: -71.57
+  maxPlayerPositionY: 56.2
   spawnPoint: {x: -297.67963, y: 1.7657961, z: 0}
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   jump: 0
@@ -1126,45 +1102,6 @@ MonoBehaviour:
   running: 0
   hasBomb: 0
   fire: 0
---- !u!114 &114000010461963620
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011565703296}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 1
-    SynchronizeType: 1
-    Name: Speed
-  - Type: 9
-    SynchronizeType: 1
-    Name: Jump
-  - Type: 9
-    SynchronizeType: 1
-    Name: Shoot
-  - Type: 9
-    SynchronizeType: 2
-    Name: Die
-  - Type: 9
-    SynchronizeType: 2
-    Name: Sit
-  - Type: 9
-    SynchronizeType: 1
-    Name: Sit_Shoot
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
-  - SynchronizeType: 0
-    LayerIndex: 1
-  - SynchronizeType: 0
-    LayerIndex: 2
 --- !u!114 &114000011968518014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1186,7 +1123,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114289628258640756}
-  - {fileID: 114000010461963620}
+  - {fileID: 0}
   - {fileID: 114548738651054558}
   - {fileID: 114000010411600318}
   ObservedComponentsFoldoutOpen: 1

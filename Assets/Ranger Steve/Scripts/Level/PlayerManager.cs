@@ -35,14 +35,6 @@ namespace Com.LavaEagle.RangerSteve
         // Amount of force added when the player flys.
         public float flyingForce;
 
-        // Amount of force added when the player flys.
-        public float boostedFlyingForce;
-
-        // Modifies the max speeds to allow for faster flight.
-        public float boostedMaxSpeedX;
-
-        public float boostedMaxSpeedY;
-
         [Header("Weapon")]
 
         public string ammunition;
@@ -73,6 +65,26 @@ namespace Com.LavaEagle.RangerSteve
         public GameObject leaderboard;
 
         public ScoreManager scoreManager;
+
+        [Header("Camera Boundaries")]
+
+        public float minCameraPositionX;
+
+        public float maxCameraPositionX;
+
+        public float minCameraPositionY;
+
+        public float maxCameraPositionY;
+
+        [Header("Player Boundaries")]
+
+        public float minPlayerPositionX;
+
+        public float maxPlayerPositionX;
+
+        public float minPlayerPositionY;
+
+        public float maxPlayerPositionY;
 
         [Space(10)]
 
@@ -175,8 +187,6 @@ namespace Com.LavaEagle.RangerSteve
 
         private bool isSpriteFacingRight = true;
 
-        private bool isBoostedFlying = false;
-
         #endregion
 
 
@@ -251,8 +261,8 @@ namespace Com.LavaEagle.RangerSteve
         void Update()
         {
             standingLegs.gameObject.SetActive(!running);
-            rightJumpjet.gameObject.SetActive(flying || isBoostedFlying);
-            leftJumpjet.gameObject.SetActive(flying || isBoostedFlying);
+            rightJumpjet.gameObject.SetActive(flying);
+            leftJumpjet.gameObject.SetActive(flying);
             bomb.gameObject.SetActive(hasBomb);
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
@@ -276,7 +286,17 @@ namespace Com.LavaEagle.RangerSteve
                 PhotonNetwork.LoadLevel("MainMenu");
             }
 
-            mainCamera.transform.position = transform.position + new Vector3(0, 0, mainCameraDepth);
+            mainCamera.transform.position = new Vector3(
+                Mathf.Clamp(transform.position.x, minCameraPositionX, maxCameraPositionX),
+                Mathf.Clamp(transform.position.y, minCameraPositionY, maxCameraPositionY),
+                mainCameraDepth
+            );
+
+            transform.position = new Vector3(
+                Mathf.Clamp(transform.position.x, minPlayerPositionX, maxPlayerPositionX),
+                Mathf.Clamp(transform.position.y, minPlayerPositionY, maxPlayerPositionY),
+                0
+            );
 
             // Hurt Border
             float hurtBorderPercent = 1f - (health / maxHealth);
@@ -311,7 +331,7 @@ namespace Com.LavaEagle.RangerSteve
 
             rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
 
-            remainingJetFuelSlider.gameObject.SetActive(flying || isBoostedFlying);
+            remainingJetFuelSlider.gameObject.SetActive(flying);
         }
 
         void FixedUpdate()
@@ -342,33 +362,21 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Flying
              */
-            if ((flying || isBoostedFlying) && usedFlyingTime < maxFlyingTime)
+            if (flying && usedFlyingTime < maxFlyingTime)
             {
                 // Play flying jet sound effect.
                 jetAudioSource.enabled = true;
                 jetAudioSource.loop = true;
 
-                usedFlyingTime += isBoostedFlying ? Time.fixedDeltaTime * 1.4f : Time.fixedDeltaTime;
+                usedFlyingTime += Time.fixedDeltaTime;
 
-                if (isBoostedFlying)
-                {
-                    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3 mouseDir = mousePos - transform.position;
-                    mouseDir.z = 0.0f;
-                    mouseDir = mouseDir.normalized;
-                    GetComponent<Rigidbody2D>().AddForce(mouseDir * boostedFlyingForce);
-                }
-                else
-                {
-                    // Add a vertical force to the player.
-                    GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
-                }
+                // Add a vertical force to the player.
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, flyingForce));
             }
             else
             {
                 jetAudioSource.enabled = false;
                 jetAudioSource.loop = false;
-                isBoostedFlying = false;
                 usedFlyingTime = usedFlyingTime <= 0 ? 0 : usedFlyingTime -= Time.fixedDeltaTime;
             }
 
@@ -387,21 +395,18 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Velocity Throttling
              */
-            float modifiedMaxSpeedY = isBoostedFlying ? boostedMaxSpeedY : maxSpeedY;
-            float modifiedMaxSpeedX = isBoostedFlying ? boostedMaxSpeedX : maxSpeedX;
-
             // If the player's vertical velocity is greater than the maxSpeedY...
-            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > modifiedMaxSpeedY)
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > maxSpeedY)
             {
                 // ... set the player's velocity to the maxSpeedY in the y axis.
-                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, Mathf.Sign(GetComponent<Rigidbody2D>().velocity.y) * modifiedMaxSpeedY);
+                GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, Mathf.Sign(GetComponent<Rigidbody2D>().velocity.y) * maxSpeedY);
             }
 
             // If the player's horizontal velocity is greater than the maxSpeedX...
-            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > modifiedMaxSpeedX)
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeedX)
             {
                 // ... set the player's velocity to the maxSpeedX in the x axis.
-                GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * modifiedMaxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
+                GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeedX, GetComponent<Rigidbody2D>().velocity.y);
             }
 
             if (IsPlayerDisabled() && health > 0)
@@ -663,14 +668,9 @@ namespace Com.LavaEagle.RangerSteve
             //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
             jump = Input.GetKey(KeyCode.W) && IsGrounded();
 
-            if (!isBoostedFlying)
-            {
-                isBoostedFlying = Input.GetKey(KeyCode.LeftShift);
-            }
-
             flying = Input.GetMouseButton(1);
 
-            running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying && !isBoostedFlying;
+            running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
 
             if (Input.GetKeyDown(KeyCode.E))
             {
