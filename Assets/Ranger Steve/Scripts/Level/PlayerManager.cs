@@ -11,9 +11,9 @@ namespace Com.LavaEagle.RangerSteve
 
         [Tooltip("The current Health of our player")]
         [SerializeField]
-        public int health;
+        public float health;
 
-        public int maxHealth;
+        public float maxHealth;
 
         [Header("Physics")]
 
@@ -568,7 +568,7 @@ namespace Com.LavaEagle.RangerSteve
         }
 
         [PunRPC]
-        public void HandleDamage(int damage)
+        public void HandleDamage(float damage)
         {
             health -= damage;
 
