@@ -76,16 +76,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public float maxCameraPositionY;
 
-        [Header("Player Boundaries")]
-
-        public float minPlayerPositionX;
-
-        public float maxPlayerPositionX;
-
-        public float minPlayerPositionY;
-
-        public float maxPlayerPositionY;
-
         [Space(10)]
 
         public Vector3 spawnPoint;
@@ -290,12 +280,6 @@ namespace Com.LavaEagle.RangerSteve
                 Mathf.Clamp(transform.position.x, minCameraPositionX, maxCameraPositionX),
                 Mathf.Clamp(transform.position.y, minCameraPositionY, maxCameraPositionY),
                 mainCameraDepth
-            );
-
-            transform.position = new Vector3(
-                Mathf.Clamp(transform.position.x, minPlayerPositionX, maxPlayerPositionX),
-                Mathf.Clamp(transform.position.y, minPlayerPositionY, maxPlayerPositionY),
-                0
             );
 
             // Hurt Border
