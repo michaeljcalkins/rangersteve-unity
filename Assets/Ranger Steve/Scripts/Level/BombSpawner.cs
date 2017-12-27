@@ -31,14 +31,15 @@ namespace Com.LavaEagle.RangerSteve
         void Test()
         {
             bool hasBombFlag = false;
-            PlayerManager localPlayer = GameObject.FindGameObjectWithTag("Local Player").GetComponent<PlayerManager>();
+            GameObject localPlayerObject = GameObject.FindGameObjectWithTag("Local Player");
+            PlayerManager localPlayer = localPlayerObject ? localPlayerObject.GetComponent<PlayerManager>() : null;
             GameObject[] networkedPlayers = GameObject.FindGameObjectsWithTag("Networked Player");
             foreach (GameObject player in networkedPlayers)
             {
                 if (player.GetComponent<PlayerManager>().hasBomb) hasBombFlag = true;
             }
 
-            if (FindObjectsOfType<BombPickup>().Length == 0 && !hasBombFlag && !localPlayer.hasBomb)
+            if (FindObjectsOfType<BombPickup>().Length == 0 && !hasBombFlag && localPlayer && !localPlayer.hasBomb)
                 StartCoroutine(DeliverPickup());
         }
 

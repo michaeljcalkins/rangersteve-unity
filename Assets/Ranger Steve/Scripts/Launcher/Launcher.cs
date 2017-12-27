@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 namespace Com.LavaEagle.RangerSteve
 {
@@ -71,7 +71,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void Update()
         {
-            connectingText.text = PhotonNetwork.connectionStateDetailed.ToString();
+            connectingText.text = SplitWordByCamelCase(PhotonNetwork.connectionStateDetailed.ToString());
         }
 
         #endregion
@@ -97,6 +97,11 @@ namespace Com.LavaEagle.RangerSteve
             {
                 PhotonNetwork.ConnectUsingSettings(gameVersion);
             }
+        }
+
+        public string SplitWordByCamelCase(string word)
+        {
+            return Regex.Replace(word, @"(\B[A-Z]+?(?=[A-Z][^A-Z])|\B[A-Z]+?(?=[^A-Z]))", " $1");
         }
 
         #endregion
