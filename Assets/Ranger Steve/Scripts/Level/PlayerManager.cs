@@ -462,7 +462,7 @@ namespace Com.LavaEagle.RangerSteve
 
         public void HandleRightArmRotation()
         {
-            armRotation = hasBomb ? new Vector3(0, 0, 0) : Input.mousePosition;
+            armRotation = Input.mousePosition;
             armRotation.z = 5.23f; //The distance between the camera and object
             object_pos = Camera.main.WorldToScreenPoint(transform.position);
             armRotation.x = armRotation.x - object_pos.x;

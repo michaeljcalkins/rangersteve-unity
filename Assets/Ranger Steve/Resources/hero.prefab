@@ -544,7 +544,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -112.207565, y: 17.523094, z: 0}
+  m_LocalPosition: {x: -132.56848, y: -24.464174, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4733116814504702}
@@ -601,8 +601,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1159949134693888}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.335, y: 0.279, z: 0}
-  m_LocalScale: {x: 0.12968393, y: 0.12968393, z: 0.12968393}
+  m_LocalPosition: {x: 0.3615, y: 0.3055, z: 0}
+  m_LocalScale: {x: 0.14002794, y: 0.14002794, z: 0.14002794}
   m_Children: []
   m_Father: {fileID: 4000014055351816}
   m_RootOrder: 12
@@ -1091,10 +1091,6 @@ MonoBehaviour:
   maxCameraPositionX: 81.8
   minCameraPositionY: -38.3
   maxCameraPositionY: 38.35
-  minPlayerPositionX: -346.4
-  maxPlayerPositionX: 115
-  minPlayerPositionY: -71.57
-  maxPlayerPositionY: 56.2
   spawnPoint: {x: -297.67963, y: 1.7657961, z: 0}
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   jump: 0
@@ -2223,7 +2219,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212861099659792396
 SpriteRenderer:

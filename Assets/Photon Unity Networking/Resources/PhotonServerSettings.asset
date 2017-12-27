@@ -56,4 +56,5 @@ MonoBehaviour:
   - HandleRestartRound
   - HandleDisablePlayers
   - HandleEnablePlayers
+  - DestroyBombPickup
   DisableAutoOpenWizard: 1

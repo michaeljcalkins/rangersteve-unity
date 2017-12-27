@@ -19,6 +19,8 @@ TagManager:
   - Goal
   - DominationScoreZone
   - DominationPlatform
+  - BombSpawnPoint
+  - BombPickup
   layers:
   - Default
   - TransparentFX
