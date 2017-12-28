@@ -444,7 +444,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // Network player, receive data
                 amount = (int)stream.ReceiveNext();
-                health = (int)stream.ReceiveNext();
+                health = (float)stream.ReceiveNext();
                 running = (bool)stream.ReceiveNext();
                 flying = (bool)stream.ReceiveNext();
                 team = (string)stream.ReceiveNext();

@@ -43,7 +43,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 print("Networked player shot by local ammo.");
 
-                int weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
+                float weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
                 other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
 
                 if (explosion != null)
