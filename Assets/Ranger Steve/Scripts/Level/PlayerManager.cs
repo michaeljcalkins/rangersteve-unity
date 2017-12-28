@@ -656,11 +656,6 @@ namespace Com.LavaEagle.RangerSteve
 
             running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                hasBomb = !hasBomb;
-            }
-
             if (Input.GetKey(KeyCode.R) && !isReloading && amount < maxAmount)
             {
                 isReloading = true;
