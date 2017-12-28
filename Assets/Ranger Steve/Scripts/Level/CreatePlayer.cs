@@ -19,6 +19,10 @@ namespace Com.LavaEagle.RangerSteve
             // Hide until player loads and can control it
             Image hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
+
+            // Hide until player loads
+            GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(0, 0, 0);
+            GameObject.Find("Bomb").transform.localScale = new Vector3(0, 0, 0);
         }
 
         public void HandleCreatePlayerObject()
