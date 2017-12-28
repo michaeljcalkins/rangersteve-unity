@@ -1087,8 +1087,8 @@ MonoBehaviour:
   totalDamageDealt: 0
   leaderboard: {fileID: 0}
   scoreManager: {fileID: 0}
-  minCameraPositionX: -313.13
-  maxCameraPositionX: 81.8
+  minCameraPositionX: -312
+  maxCameraPositionX: 80
   minCameraPositionY: -38.3
   maxCameraPositionY: 38.35
   spawnPoint: {x: -297.67963, y: 1.7657961, z: 0}
