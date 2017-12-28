@@ -245,6 +245,14 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             Physics2D.IgnoreLayerCollision(9, 9);
+        }
+
+        void Update()
+        {
+            standingLegs.gameObject.SetActive(!running);
+            rightJumpjet.gameObject.SetActive(flying);
+            leftJumpjet.gameObject.SetActive(flying);
+            bomb.gameObject.SetActive(hasBomb);
 
             if (team == "blue")
             {
@@ -256,14 +264,6 @@ namespace Com.LavaEagle.RangerSteve
                 blueArrow.gameObject.SetActive(false);
                 redArrow.gameObject.SetActive(true);
             }
-        }
-
-        void Update()
-        {
-            standingLegs.gameObject.SetActive(!running);
-            rightJumpjet.gameObject.SetActive(flying);
-            leftJumpjet.gameObject.SetActive(flying);
-            bomb.gameObject.SetActive(hasBomb);
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
