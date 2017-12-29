@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114348566457345822}
   - component: {fileID: 114064644987746672}
   - component: {fileID: 114886999955461264}
+  - component: {fileID: 122321586266336576}
   m_Layer: 11
   m_Name: BombPickup
   m_TagString: BombPickup
@@ -184,6 +185,17 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!122 &122321586266336576
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1857874858436146}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4286611584
+  m_Size: 5
 --- !u!212 &212546117415314004
 SpriteRenderer:
   m_ObjectHideFlags: 1
