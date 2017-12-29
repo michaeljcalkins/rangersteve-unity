@@ -28,16 +28,20 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - DestroyDominationPlatform
+  - Death
+  - DestroyBombPickup
   - DestroyRpc
   - DestroyWeaponBox
   - Explode
   - FireBullet
-  - HandleAddBlueScore
-  - HandleAddRedScore
   - HandleDamage
-  - HandleMasterEmitScoreUpdate
-  - HandleScoreUpdate
+  - HandleDisablePlayers
+  - HandleEnablePlayers
+  - HandleRespawn
+  - HandleRestartRound
+  - HandleSetBombArrowTarget
+  - HandleUpdateScores
+  - HideSpawnMessage
   - InstantiateRpc
   - PickupItemInit
   - PunPickup
@@ -45,16 +49,5 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - EmitMasterScoreUpdate
-  - HandleGetScoreFromMaster
   - ShowSpawnMessage
-  - HideSpawnMessage
-  - RestartRound
-  - Death
-  - HandleRespawn
-  - HandleUpdateScores
-  - HandleRestartRound
-  - HandleDisablePlayers
-  - HandleEnablePlayers
-  - DestroyBombPickup
   DisableAutoOpenWizard: 1

@@ -14,11 +14,12 @@ namespace Com.LavaEagle.RangerSteve
             // If the player enters the trigger zone...
             if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && !isPickedUp)
             {
-                Com.LavaEagle.RangerSteve.PlayerManager player = other.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>();
+                PlayerManager player = other.GetComponent<PlayerManager>();
                 player.hasBomb = true;
                 isPickedUp = true;
                 GetComponent<SpriteRenderer>().enabled = false;
                 photonView.RPC("DestroyBombPickup", PhotonTargets.All);
+                photonView.RPC("HandleSetBombArrowTarget", PhotonTargets.All);
             }
         }
 
@@ -29,6 +30,12 @@ namespace Com.LavaEagle.RangerSteve
             AudioSource.PlayClipAtPoint(pickupClip, transform.position);
             if (PhotonNetwork.isMasterClient)
                 PhotonNetwork.Destroy(transform.root.gameObject);
+        }
+
+        [PunRPC]
+        void HandleSetBombArrowTarget()
+        {
+            GameObject.Find("EnemyHasBombArrow").GetComponent<EnemyHasBombArrowController>().HandleSetTarget();
         }
     }
 }

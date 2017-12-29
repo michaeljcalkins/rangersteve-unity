@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114000011968518014}
   - component: {fileID: 114289628258640756}
   - component: {fileID: 114548738651054558}
+  - component: {fileID: 61659191336951978}
   m_Layer: 9
   m_Name: hero
   m_TagString: Player
@@ -544,7 +545,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -132.56848, y: -24.464174, z: 0}
+  m_LocalPosition: {x: -106.55774, y: -19.489, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4733116814504702}
@@ -910,6 +911,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!61 &61659191336951978
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565703296}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.9903629}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.15716076}
+  m_EdgeRadius: 0
 --- !u!70 &70112615231772182
 CapsuleCollider2D:
   m_ObjectHideFlags: 1
@@ -1097,6 +1123,7 @@ MonoBehaviour:
   flying: 0
   running: 0
   hasBomb: 0
+  groundedLinearDrag: 4.5
   fire: 0
 --- !u!114 &114000011968518014
 MonoBehaviour:

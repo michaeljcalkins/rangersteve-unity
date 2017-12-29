@@ -9,10 +9,13 @@ namespace Com.LavaEagle.RangerSteve
         public float pickupDeliveryDelayTime;
 
         private GameObject[] bombSpawnPoints;
-        private int different_bonus = 0;
+
+        private int differentBonus = 0;
 
         void Start()
         {
+            GameObject.Find("EnemyHasBombArrow").GetComponent<EnemyHasBombArrowController>().HandleSetTarget();
+
             bombSpawnPoints = GameObject.FindGameObjectsWithTag("BombSpawnPoint");
 
             // Start the first delivery.
@@ -45,6 +48,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public IEnumerator DeliverPickup()
         {
+            GameObject.Find("EnemyHasBombArrow").GetComponent<EnemyHasBombArrowController>().HandleSetTarget();
+
             // Grab a random y coordinate
             Vector3 bombSpawnPoint = Vector3.zero;
 

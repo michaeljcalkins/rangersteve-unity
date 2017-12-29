@@ -101,6 +101,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool hasBomb = false;
 
+        public float groundedLinearDrag;
+
         #endregion
 
 
@@ -254,17 +256,6 @@ namespace Com.LavaEagle.RangerSteve
             leftJumpjet.gameObject.SetActive(flying);
             bomb.gameObject.SetActive(hasBomb);
 
-            if (team == "blue")
-            {
-                blueArrow.gameObject.SetActive(true);
-                redArrow.gameObject.SetActive(false);
-            }
-            else
-            {
-                blueArrow.gameObject.SetActive(false);
-                redArrow.gameObject.SetActive(true);
-            }
-
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
@@ -327,6 +318,7 @@ namespace Com.LavaEagle.RangerSteve
                 remainingJetFuelSlider.value = 0;
             }
 
+            // Weapon
             rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
 
             remainingJetFuelSlider.gameObject.SetActive(flying);
@@ -662,6 +654,8 @@ namespace Com.LavaEagle.RangerSteve
 
             facingRight = mouseX > playerScreenPointX;
 
+            GetComponent<Rigidbody2D>().drag = IsGrounded() ? groundedLinearDrag : 0;
+
             // If the jump button is pressed and the player is grounded then the player should jump.
             //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
             jump = Input.GetKey(KeyCode.W) && IsGrounded();
@@ -724,6 +718,7 @@ namespace Com.LavaEagle.RangerSteve
         void Death()
         {
             health = 0;
+            hasBomb = false;
 
             // Stop player from being hit while dead
             Collider2D[] cols = GetComponents<Collider2D>();

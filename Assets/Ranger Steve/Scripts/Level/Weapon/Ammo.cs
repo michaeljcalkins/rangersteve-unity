@@ -27,12 +27,12 @@ namespace Com.LavaEagle.RangerSteve
 
             flag = true;
 
-            Debug.Log(other.tag + " and " + tag);
+            //print(other.tag + " and " + tag);
 
             // Local player shot weapon box.
             if (other.tag == "WeaponBox")
             {
-                print("Weapon box destroyed.");
+                //print("Weapon box destroyed.");
                 other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
             }
 
@@ -41,7 +41,7 @@ namespace Com.LavaEagle.RangerSteve
                 other.gameObject.GetComponent<PlayerManager>().team != GameObject.FindWithTag("Local Player").GetComponent<PlayerManager>().team
             )
             {
-                print("Networked player shot by local ammo.");
+                //print("Networked player shot by local ammo.");
 
                 float weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
                 other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
