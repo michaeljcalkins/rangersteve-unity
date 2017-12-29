@@ -58,15 +58,6 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
-            if (team == "blue")
-            {
-                GameObject.Find("RedTeamIndicator").GetComponent<Image>().enabled = false;
-            }
-            else
-            {
-                GameObject.Find("BlueTeamIndicator").GetComponent<Image>().enabled = false;
-            }
-
             playerState.team = team;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().health = 100;

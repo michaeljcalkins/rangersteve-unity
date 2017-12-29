@@ -256,6 +256,17 @@ namespace Com.LavaEagle.RangerSteve
             leftJumpjet.gameObject.SetActive(flying);
             bomb.gameObject.SetActive(hasBomb);
 
+            if (team == "blue")
+            {
+                blueArrow.gameObject.SetActive(true);
+                redArrow.gameObject.SetActive(false);
+            }
+            else
+            {
+                blueArrow.gameObject.SetActive(false);
+                redArrow.gameObject.SetActive(true);
+            }
+
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
