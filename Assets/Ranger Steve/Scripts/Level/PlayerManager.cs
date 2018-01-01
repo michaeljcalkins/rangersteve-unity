@@ -108,6 +108,8 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Private Variables
 
+        private ObjectiveTextController objectiveText;
+
         private PlayerStateManager playerState;
 
         private bool isReloading;
@@ -222,13 +224,13 @@ namespace Com.LavaEagle.RangerSteve
             remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
             weaponHud = GameObject.Find("Weapon");
             bombHud = GameObject.Find("Bomb");
+            objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
 
             if (photonView.isMine)
             {
                 // Hidden until player loads
                 GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(1, 1, 1);
-                GameObject bombObject = GameObject.Find("Bomb");
-                if (bombObject) bombObject.transform.localScale = new Vector3(1, 1, 1);
+                bombHud.transform.localScale = new Vector3(1, 1, 1);
 
                 remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
 
@@ -745,6 +747,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 s.enabled = false;
             }
+
+            objectiveText.EmitSetMessage();
 
             Invoke("HandleRespawn", 2f);
         }

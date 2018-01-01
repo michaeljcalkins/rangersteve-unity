@@ -63,7 +63,7 @@ namespace Com.LavaEagle.RangerSteve
             ScoreManager scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
             scoreManager.EmitEnablePlayers();
 
-            objectiveText.EmitSetMessage("Grab bomb from the middle and push to enemy base");
+            objectiveText.EmitSetMessage();
         }
     }
 }

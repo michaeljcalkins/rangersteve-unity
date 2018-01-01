@@ -8,11 +8,11 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool isPickedUp = false;
 
-        private ObjectiveTextController objectiveTextController;
+        private ObjectiveTextController objectiveText;
 
         private void Start()
         {
-            objectiveTextController = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
+            objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
         }
 
         // Sound for when the bomb crate is picked up.
@@ -30,11 +30,11 @@ namespace Com.LavaEagle.RangerSteve
 
                 if (player.team == "blue")
                 {
-                    objectiveTextController.EmitSetMessage("Blue team is pushing bomb to red base");
+                    objectiveText.EmitSetMessage("Blue team is pushing bomb to red base");
                 }
                 else
                 {
-                    objectiveTextController.EmitSetMessage("Red team is pushing bomb to blue base");
+                    objectiveText.EmitSetMessage("Red team is pushing bomb to blue base");
                 }
             }
         }
