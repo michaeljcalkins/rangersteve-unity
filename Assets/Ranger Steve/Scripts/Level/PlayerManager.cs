@@ -671,7 +671,7 @@ namespace Com.LavaEagle.RangerSteve
             //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
             jump = Input.GetKey(KeyCode.W) && IsGrounded();
 
-            flying = Input.GetMouseButton(1);
+            flying = Input.GetMouseButton(1) || Input.GetKey(KeyCode.LeftShift);
 
             running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
 
