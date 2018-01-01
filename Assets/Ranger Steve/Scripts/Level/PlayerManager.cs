@@ -227,7 +227,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // Hidden until player loads
                 GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(1, 1, 1);
-                GameObject.Find("Bomb").transform.localScale = new Vector3(1, 1, 1);
+                GameObject bombObject = GameObject.Find("Bomb");
+                if (bombObject) bombObject.transform.localScale = new Vector3(1, 1, 1);
 
                 remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
 
@@ -295,7 +296,7 @@ namespace Com.LavaEagle.RangerSteve
             );
 
             // Weapon HUD
-            bombHud.gameObject.SetActive(hasBomb);
+            if (bombHud) bombHud.gameObject.SetActive(hasBomb);
             weaponHud.gameObject.SetActive(!hasBomb);
 
             // Hurt Border

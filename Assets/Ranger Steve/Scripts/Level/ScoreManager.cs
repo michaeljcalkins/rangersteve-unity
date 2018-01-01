@@ -196,7 +196,7 @@ namespace Com.LavaEagle.RangerSteve
         private int GetRedScore()
         {
             object score;
-            if (PhotonNetwork.room.CustomProperties.TryGetValue("redScore", out score))
+            if (PhotonNetwork.connected && PhotonNetwork.room.CustomProperties.TryGetValue("redScore", out score))
             {
                 return (int)score;
             }
@@ -207,7 +207,7 @@ namespace Com.LavaEagle.RangerSteve
         private int GetBlueScore()
         {
             object score;
-            if (PhotonNetwork.room.CustomProperties.TryGetValue("blueScore", out score))
+            if (PhotonNetwork.connected && PhotonNetwork.room.CustomProperties.TryGetValue("blueScore", out score))
             {
                 return (int)score;
             }
@@ -218,7 +218,7 @@ namespace Com.LavaEagle.RangerSteve
         private int GetEndOfRoundTimestamp()
         {
             object timestamp;
-            if (PhotonNetwork.room.CustomProperties.TryGetValue("endOfRoundTimestamp", out timestamp))
+            if (PhotonNetwork.connected && PhotonNetwork.room.CustomProperties.TryGetValue("endOfRoundTimestamp", out timestamp))
             {
                 return (int)timestamp;
             }

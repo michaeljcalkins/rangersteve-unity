@@ -50,4 +50,5 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - ShowSpawnMessage
+  - HandleSetMessage
   DisableAutoOpenWizard: 1

@@ -22,7 +22,8 @@ namespace Com.LavaEagle.RangerSteve
 
             // Hide until player loads
             GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(0, 0, 0);
-            GameObject.Find("Bomb").transform.localScale = new Vector3(0, 0, 0);
+            GameObject bomb = GameObject.Find("Bomb");
+            if (bomb) bomb.transform.localScale = new Vector3(0, 0, 0);
         }
 
         public void HandleCreatePlayerObject()

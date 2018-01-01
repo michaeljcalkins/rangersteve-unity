@@ -30,16 +30,19 @@ namespace Com.LavaEagle.RangerSteve
                 // emit bomb explosion on the tower
                 PhotonNetwork.Instantiate("TowerExplosion", other.gameObject.transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
                 ScoreManager scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+                AlertMessageController alertMessage = GameObject.Find("AlertMessageText").GetComponent<AlertMessageController>();
                 scoreManager.EmitDisablePlayers();
 
                 // If this is the blue goal give red a point
                 if (team == "blue")
                 {
                     scoreManager.HandleAddRedScore();
+                    alertMessage.EmitSetMessage("Red team scored!", "red");
                 }
                 else
                 {
                     scoreManager.HandleAddBlueScore();
+                    alertMessage.EmitSetMessage("Blue team scored!", "blue");
                 }
 
                 Invoke("HandleRespawnAllPlayers", 3f);

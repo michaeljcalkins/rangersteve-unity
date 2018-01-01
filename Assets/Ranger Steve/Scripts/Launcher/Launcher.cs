@@ -29,7 +29,7 @@ namespace Com.LavaEagle.RangerSteve
         /// <summary>
         /// This client's version number. users are seprarated from each other by gameversion (which will allows you to make breaking changes.)
         /// </summary>
-        string gameVersion = "1";
+        string gameVersion = "6";
 
         /// <summary>
         /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
