@@ -8,6 +8,13 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool isPickedUp = false;
 
+        private ObjectiveTextController objectiveTextController;
+
+        private void Start()
+        {
+            objectiveTextController = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
+        }
+
         // Sound for when the bomb crate is picked up.
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -20,6 +27,15 @@ namespace Com.LavaEagle.RangerSteve
                 GetComponent<SpriteRenderer>().enabled = false;
                 photonView.RPC("DestroyBombPickup", PhotonTargets.All);
                 photonView.RPC("HandleSetBombArrowTarget", PhotonTargets.All);
+
+                if (player.team == "blue")
+                {
+                    objectiveTextController.EmitSetMessage("Blue team is pushing bomb to red base");
+                }
+                else
+                {
+                    objectiveTextController.EmitSetMessage("Red team is pushing bomb to blue base");
+                }
             }
         }
 

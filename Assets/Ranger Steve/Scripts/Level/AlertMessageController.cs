@@ -3,11 +3,9 @@ using UnityEngine.UI;
 
 namespace Com.LavaEagle.RangerSteve
 {
-    public class AlertMessageController : MonoBehaviour
+    public class AlertMessageController : Photon.MonoBehaviour
     {
         Text alertMessageText;
-
-        string value;
 
         void Start()
         {

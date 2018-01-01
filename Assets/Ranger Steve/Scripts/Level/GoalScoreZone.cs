@@ -4,17 +4,13 @@ namespace Com.LavaEagle.RangerSteve
 {
     public class GoalScoreZone : Photon.MonoBehaviour
     {
-        #region Public Variables
-
         public string team;
 
-        #endregion
+        ObjectiveTextController objectiveText;
 
-
-        #region MonoBehaviour CallBacks
-
-        private void Start()
+        void Start()
         {
+            objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
             //Physics2D.IgnoreLayerCollision(14, 9);
 
             // Bullets
@@ -45,11 +41,11 @@ namespace Com.LavaEagle.RangerSteve
                     alertMessage.EmitSetMessage("Blue team scored!", "blue");
                 }
 
+                objectiveText.EmitSetMessage("Respawning players");
+
                 Invoke("HandleRespawnAllPlayers", 3f);
             }
         }
-
-        #endregion
 
         void HandleRespawnAllPlayers()
         {
@@ -66,6 +62,8 @@ namespace Com.LavaEagle.RangerSteve
             // Enable all players
             ScoreManager scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
             scoreManager.EmitEnablePlayers();
+
+            objectiveText.EmitSetMessage("Grab bomb from the middle and push to enemy base");
         }
     }
 }
