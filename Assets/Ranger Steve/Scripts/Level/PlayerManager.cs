@@ -507,19 +507,20 @@ namespace Com.LavaEagle.RangerSteve
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
             transform.position = dropPos;
 
-            // Find all of the colliders on the gameobject and set them all to be triggers.
-            Collider2D[] cols = GetComponents<Collider2D>();
-            foreach (Collider2D c in cols)
-            {
-                c.isTrigger = false;
-            }
+            transform.localScale = new Vector3(facingRight ? 1.2f : -1.2f, 1.2f, 1.2f);
+        }
 
-            // Move all sprite parts of the player to the front
-            SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
-            foreach (SpriteRenderer s in spr)
-            {
-                s.enabled = true;
-            }
+        [PunRPC]
+        void Death()
+        {
+            health = 0;
+            hasBomb = false;
+
+            objectiveText.EmitSetMessage();
+
+            transform.localScale = new Vector3(0, 0, 0);
+
+            Invoke("HandleRespawn", 2f);
         }
 
         bool IsGrounded()
@@ -726,31 +727,6 @@ namespace Com.LavaEagle.RangerSteve
             rightHandScale.y *= -1;
             rightHandScale.x *= -1;
             rightHandPivot.transform.localScale = rightHandScale;
-        }
-
-        [PunRPC]
-        void Death()
-        {
-            health = 0;
-            hasBomb = false;
-
-            // Stop player from being hit while dead
-            Collider2D[] cols = GetComponents<Collider2D>();
-            foreach (Collider2D c in cols)
-            {
-                c.isTrigger = true;
-            }
-
-            // Hide player from view
-            SpriteRenderer[] spr = GetComponentsInChildren<SpriteRenderer>();
-            foreach (SpriteRenderer s in spr)
-            {
-                s.enabled = false;
-            }
-
-            objectiveText.EmitSetMessage();
-
-            Invoke("HandleRespawn", 2f);
         }
 
         #endregion
