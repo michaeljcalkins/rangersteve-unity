@@ -20,7 +20,7 @@ namespace Com.LavaEagle.RangerSteve
             Invoke("HandleClearMessage", secondsUntilClear);
         }
 
-        public void EmitSetMessage(string textValue = "Grab bomb from the middle and push to enemy base", float secondsUntilClear = 3f)
+        public void EmitSetMessage(string textValue = "Grab bomb from middle and push to enemy base", float secondsUntilClear = 3f)
         {
             GetComponent<PhotonView>().RPC("HandleSetMessage", PhotonTargets.All, textValue, secondsUntilClear);
         }

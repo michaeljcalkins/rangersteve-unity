@@ -3388,7 +3388,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Grab bomb from the middle and push to enemy base
+  m_Text: Grab bomb from middle and push to enemy base
 --- !u!222 &1067856411
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ namespace Com.LavaEagle.RangerSteve
     {
         void Start()
         {
-            Invoke("DestroyTowerExplosionAnimation", 2f);
+            Invoke("DestroyTowerExplosionAnimation", 4f);
         }
 
         void DestroyTowerExplosionAnimation()

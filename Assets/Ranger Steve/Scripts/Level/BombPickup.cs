@@ -15,7 +15,6 @@ namespace Com.LavaEagle.RangerSteve
             objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
         }
 
-        // Sound for when the bomb crate is picked up.
         void OnTriggerEnter2D(Collider2D other)
         {
             // If the player enters the trigger zone...
@@ -43,7 +42,10 @@ namespace Com.LavaEagle.RangerSteve
         void DestroyBombPickup()
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            AudioSource.PlayClipAtPoint(pickupClip, transform.position);
+
+            // Sound for when the bomb crate is picked up.
+            AudioSource.PlayClipAtPoint(pickupClip, new Vector3(transform.position.x, transform.position.y, -19), 1f);
+
             if (PhotonNetwork.isMasterClient)
                 PhotonNetwork.Destroy(transform.root.gameObject);
         }
