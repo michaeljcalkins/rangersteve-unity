@@ -335,7 +335,7 @@ namespace Com.LavaEagle.RangerSteve
             // Weapon
             rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
 
-            remainingJetFuelSlider.gameObject.SetActive(flying);
+            remainingJetFuelSlider.gameObject.SetActive(flying || remainingJetFuelSlider.value < 1);
         }
 
         void FixedUpdate()
