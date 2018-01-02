@@ -10,8 +10,6 @@ namespace Com.LavaEagle.RangerSteve
 
         private GameObject[] bombSpawnPoints;
 
-        private int differentBonus = 0;
-
         void Start()
         {
             GameObject.Find("EnemyHasBombArrow").GetComponent<EnemyHasBombArrowController>().HandleSetTarget();

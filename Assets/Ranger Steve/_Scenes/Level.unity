@@ -766,7 +766,7 @@ MonoBehaviour:
   redScoreText: {fileID: 981589619}
   blueScoreText: {fileID: 764760281}
   roundLengthInSeconds: 300
-  roundLengthPaddingInSeconds: 5
+  roundLengthPaddingInSeconds: 3
   timeToRoundRestart: 10
   endOfRoundTimestamp: 0
   timeRemainingText: {fileID: 571832656}
