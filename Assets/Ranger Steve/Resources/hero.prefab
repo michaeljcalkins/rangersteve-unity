@@ -1123,7 +1123,7 @@ MonoBehaviour:
   flying: 0
   running: 0
   hasBomb: 0
-  groundedLinearDrag: 4.5
+  groundedLinearDrag: 7
   fire: 0
 --- !u!114 &114000011968518014
 MonoBehaviour:
