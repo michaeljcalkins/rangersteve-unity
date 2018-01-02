@@ -19,17 +19,17 @@ namespace Com.LavaEagle.RangerSteve
         /// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
         /// </summary>   
         [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-        public byte MaxPlayersPerRoom = 10;
+        public byte MaxPlayersPerRoom;
+
+        /// <summary>
+        /// This client's version number. users are seprarated from each other by gameversion (which will allows you to make breaking changes.)
+        /// </summary>
+        public string gameVersion;
 
         #endregion
 
 
         #region Private Variables
-
-        /// <summary>
-        /// This client's version number. users are seprarated from each other by gameversion (which will allows you to make breaking changes.)
-        /// </summary>
-        string gameVersion = "6";
 
         /// <summary>
         /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
