@@ -44,7 +44,7 @@ namespace Com.LavaEagle.RangerSteve
             GetComponent<SpriteRenderer>().enabled = false;
 
             // Sound for when the bomb crate is picked up.
-            AudioSource.PlayClipAtPoint(pickupClip, new Vector3(transform.position.x, transform.position.y, -19), 0.02f);
+            AudioSource.PlayClipAtPoint(pickupClip, new Vector3(transform.position.x, transform.position.y, -19), 0.05f);
 
             if (PhotonNetwork.isMasterClient)
                 PhotonNetwork.Destroy(transform.root.gameObject);
