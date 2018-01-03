@@ -98,6 +98,11 @@ namespace Com.LavaEagle.RangerSteve
                 roundState = "active";
             }
 
+            if (remainingSeconds <= roundLengthInSeconds && roundState == "starting")
+            {
+                roundState = "active";
+            }
+
             if (remainingSeconds <= 0 && roundState != "starting")
             {
                 roundState = "ended";
@@ -189,6 +194,7 @@ namespace Com.LavaEagle.RangerSteve
         private void HandleUpdateGameInfo()
         {
             endOfRoundTimestamp = GetEndOfRoundTimestamp();
+            roundState = GetRoundState();
             blueScore = GetBlueScore();
             redScore = GetRedScore();
         }
@@ -213,6 +219,17 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             return 0;
+        }
+
+        private string GetRoundState()
+        {
+            object roomRoundState;
+            if (PhotonNetwork.connected && PhotonNetwork.room.CustomProperties.TryGetValue("roundState", out roomRoundState))
+            {
+                return (string)roomRoundState;
+            }
+
+            return "active";
         }
 
         private int GetEndOfRoundTimestamp()
