@@ -1103,7 +1103,7 @@ MonoBehaviour:
   jumpForce: 2100
   flyingForce: 150
   groundedLinearDrag: 9
-  bombMoveForceModifier: 0.7
+  bombMoveForceModifier: 0.65
   ammunition: ak47Bullet
   amount: 30
   maxAmount: 30
