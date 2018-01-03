@@ -29,11 +29,16 @@ namespace Com.LavaEagle.RangerSteve
         // The longest amount of time in seconds a player can fly.
         public float maxFlyingTime;
 
+        // A little bit of time at the end of your jet fuel where audio is not played.
+        public float deadZoneFlyingTime;
+
         // Amount of force added when the player jumps.
         public float jumpForce;
 
         // Amount of force added when the player flys.
         public float flyingForce;
+
+        public float groundedLinearDrag;
 
         [Header("Weapon")]
 
@@ -100,8 +105,6 @@ namespace Com.LavaEagle.RangerSteve
         public bool running = false;
 
         public bool hasBomb = false;
-
-        public float groundedLinearDrag;
 
         #endregion
 
@@ -368,9 +371,12 @@ namespace Com.LavaEagle.RangerSteve
              */
             if (flying && usedFlyingTime < maxFlyingTime)
             {
-                // Play flying jet sound effect.
-                jetAudioSource.enabled = true;
-                jetAudioSource.loop = true;
+                if (usedFlyingTime < deadZoneFlyingTime)
+                {
+                    // Play flying jet sound effect.
+                    jetAudioSource.enabled = true;
+                    jetAudioSource.loop = true;
+                }
 
                 usedFlyingTime += Time.fixedDeltaTime;
 
