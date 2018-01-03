@@ -203,10 +203,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             this.tag = photonView.isMine ? "Local Player" : "Networked Player";
-        }
 
-        void Start()
-        {
             redArrow = transform.Find("redArrow");
             blueArrow = transform.Find("blueArrow");
             rightJumpjet = transform.Find("rightJumpjet");
@@ -228,6 +225,7 @@ namespace Com.LavaEagle.RangerSteve
             weaponHud = GameObject.Find("Weapon");
             bombHud = GameObject.Find("Bomb");
             objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
+        }
 
         void Start()
         {
