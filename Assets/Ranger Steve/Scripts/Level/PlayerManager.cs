@@ -371,6 +371,7 @@ namespace Com.LavaEagle.RangerSteve
              */
             if (flying && usedFlyingTime < maxFlyingTime)
             {
+                // Prevents sputtering of the jet pack audio
                 if (usedFlyingTime < deadZoneFlyingTime)
                 {
                     // Play flying jet sound effect.
