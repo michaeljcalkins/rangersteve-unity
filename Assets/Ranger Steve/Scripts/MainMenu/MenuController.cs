@@ -4,7 +4,7 @@ using mixpanel;
 
 namespace Com.LavaEagle.RangerSteve
 {
-    public class PlayButtonController : MonoBehaviour
+    public class MenuController : MonoBehaviour
     {
         public void Start()
         {
@@ -27,6 +27,12 @@ namespace Com.LavaEagle.RangerSteve
         {
             Mixpanel.Track("Clicked Newsletter");
             Application.OpenURL("http://eepurl.com/deinnz");
+        }
+
+        public void HandleDownloadThisGameClick()
+        {
+            Mixpanel.Track("Clicked Download This Game");
+            Application.OpenURL("https://github.com/michaeljcalkins/rangersteve-early-access/releases");
         }
 
         public void HandleExitClick()
