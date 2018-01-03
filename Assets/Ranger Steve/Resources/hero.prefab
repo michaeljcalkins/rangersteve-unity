@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  moveForce: 350
+  moveForce: 500
   maxSpeedX: 25
   maxSpeedY: 30
   maxFlyingTime: 2
