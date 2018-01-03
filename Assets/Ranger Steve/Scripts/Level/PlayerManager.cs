@@ -229,8 +229,13 @@ namespace Com.LavaEagle.RangerSteve
             bombHud = GameObject.Find("Bomb");
             objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
 
+        void Start()
+        {
             if (photonView.isMine)
             {
+                health = 100f;
+                hasBomb = false;
+
                 // Hidden until player loads
                 GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(1, 1, 1);
                 bombHud.transform.localScale = new Vector3(1, 1, 1);
