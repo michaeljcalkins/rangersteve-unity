@@ -40,6 +40,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public float groundedLinearDrag;
 
+        public float bombMoveForceModifier;
+
         [Header("Weapon")]
 
         public string ammunition;
@@ -661,8 +663,10 @@ namespace Com.LavaEagle.RangerSteve
             //Use the two store floats to create a new Vector2 variable movement.
             Vector2 movement = new Vector2(h, 0);
 
+            float modifiedMoveForce = hasBomb ? moveForce * bombMoveForceModifier : moveForce;
+
             // ... add a force to the player.
-            GetComponent<Rigidbody2D>().AddForce(movement * moveForce, ForceMode2D.Force);
+            GetComponent<Rigidbody2D>().AddForce(movement * modifiedMoveForce, ForceMode2D.Force);
 
             /**
              * Shoot Weapon
