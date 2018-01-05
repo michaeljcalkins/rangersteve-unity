@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Com.LavaEagle.RangerSteve
 {
@@ -52,6 +55,10 @@ namespace Com.LavaEagle.RangerSteve
         public int maxAmount;
 
         public float fireRate;
+
+        public int[] weaponAmmo;
+
+        public int selectedWeapon;
 
         [SerializeField]
         public string weaponName;
@@ -301,8 +308,13 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // Weapon
-            //rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
+            foreach (Transform child in rightHandPivot.GetChild(0).GetChild(0).transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+            rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeapon).gameObject.SetActive(true);
 
+            // Jet Fuel Slider Visibility
             remainingJetFuelSlider.gameObject.SetActive(flying || remainingJetFuelSlider.value < 1);
         }
 
@@ -468,7 +480,7 @@ namespace Com.LavaEagle.RangerSteve
             usedFlyingTime = 0;
 
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("playerSpawnPoint");
-            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+            spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
@@ -639,9 +651,29 @@ namespace Com.LavaEagle.RangerSteve
             //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
             jump = Input.GetKey(KeyCode.W) && IsGrounded();
 
+            /**
+             * Flying
+             */
             flying = Input.GetMouseButton(1) || Input.GetKey(KeyCode.LeftShift);
 
+            /**
+             * Running
+             */
             running = (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !flying;
+
+            /**
+             * Weapon Selection
+             */
+            if (Input.GetKey(KeyCode.Alpha1)) selectedWeapon = 0;
+            if (Input.GetKey(KeyCode.Alpha2)) selectedWeapon = 1;
+            if (Input.GetKey(KeyCode.Alpha3)) selectedWeapon = 2;
+            if (Input.GetKey(KeyCode.Alpha4)) selectedWeapon = 3;
+            if (Input.GetKey(KeyCode.Alpha5)) selectedWeapon = 4;
+            if (Input.GetKey(KeyCode.Alpha6)) selectedWeapon = 5;
+            if (Input.GetKey(KeyCode.Alpha7)) selectedWeapon = 6;
+            if (Input.GetKey(KeyCode.Alpha8)) selectedWeapon = 7;
+            if (Input.GetKey(KeyCode.Alpha9)) selectedWeapon = 8;
+            if (Input.GetKey(KeyCode.Alpha0)) selectedWeapon = 9;
 
             if (Input.GetKey(KeyCode.R) && !isReloading && amount < maxAmount)
             {
