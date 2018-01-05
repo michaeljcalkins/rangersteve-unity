@@ -59,10 +59,6 @@ namespace Com.LavaEagle.RangerSteve
 
             int MyIndex = Random.Range(0, (nobodyWinsMessages.Length - 1));
             nobodyWinsText.text = nobodyWinsMessages[MyIndex];
-
-            redTeamWinsText.gameObject.SetActive(false);
-            blueTeamWinsText.gameObject.SetActive(false);
-            nobodyWinsText.gameObject.SetActive(false);
         }
 
         void Update()

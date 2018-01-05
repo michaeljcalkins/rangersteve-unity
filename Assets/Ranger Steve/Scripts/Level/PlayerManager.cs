@@ -58,9 +58,6 @@ namespace Com.LavaEagle.RangerSteve
 
         [Header("Score")]
 
-        [SerializeField]
-        public string team;
-
         public int score;
 
         public int kills;
@@ -106,8 +103,6 @@ namespace Com.LavaEagle.RangerSteve
         [HideInInspector]
         public bool running = false;
 
-        public bool hasBomb = false;
-
         #endregion
 
 
@@ -151,12 +146,6 @@ namespace Com.LavaEagle.RangerSteve
         private Text remainingAmmoText;
 
         private Image activeWeaponImage;
-
-        private Transform redArrow;
-
-        private Transform blueArrow;
-
-        private Transform bomb;
 
         private Transform leftJumpjet;
 
@@ -206,11 +195,8 @@ namespace Com.LavaEagle.RangerSteve
 
             this.tag = photonView.isMine ? "Local Player" : "Networked Player";
 
-            redArrow = transform.Find("redArrow");
-            blueArrow = transform.Find("blueArrow");
             rightJumpjet = transform.Find("rightJumpjet");
             leftJumpjet = transform.Find("leftJumpjet");
-            bomb = transform.Find("bomb");
             disabledLegs = transform.Find("disabledLegs");
             runningLegs = transform.Find("runningLegs");
             standingLegs = transform.Find("standingLegs");
@@ -234,7 +220,6 @@ namespace Com.LavaEagle.RangerSteve
             if (photonView.isMine)
             {
                 health = 100f;
-                hasBomb = false;
 
                 // Hidden until player loads
                 GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(1, 1, 1);
@@ -244,8 +229,6 @@ namespace Com.LavaEagle.RangerSteve
 
                 // Hide jet fuel slider while game is loading
                 remainingJetFuelSlider.gameObject.SetActive(false);
-
-                team = playerState.team;
 
                 // Make hurt border start out invisible
                 hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
@@ -265,18 +248,6 @@ namespace Com.LavaEagle.RangerSteve
             standingLegs.gameObject.SetActive(!running);
             rightJumpjet.gameObject.SetActive(flying);
             leftJumpjet.gameObject.SetActive(flying);
-            bomb.gameObject.SetActive(hasBomb);
-
-            if (team == "blue")
-            {
-                blueArrow.gameObject.SetActive(true);
-                redArrow.gameObject.SetActive(false);
-            }
-            else
-            {
-                blueArrow.gameObject.SetActive(false);
-                redArrow.gameObject.SetActive(true);
-            }
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
@@ -304,10 +275,6 @@ namespace Com.LavaEagle.RangerSteve
                 Mathf.Clamp(transform.position.y, minCameraPositionY, maxCameraPositionY),
                 mainCameraDepth
             );
-
-            // Weapon HUD
-            if (bombHud) bombHud.gameObject.SetActive(hasBomb);
-            weaponHud.gameObject.SetActive(!hasBomb);
 
             // Hurt Border
             float hurtBorderPercent = 1f - (health / maxHealth);
@@ -341,7 +308,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // Weapon
-            rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
+            //rightHandPivot.GetChild(0).GetChild(0).gameObject.SetActive(!hasBomb);
 
             remainingJetFuelSlider.gameObject.SetActive(flying || remainingJetFuelSlider.value < 1);
         }
@@ -451,12 +418,10 @@ namespace Com.LavaEagle.RangerSteve
                 stream.SendNext(health);
                 stream.SendNext(running);
                 stream.SendNext(flying);
-                stream.SendNext(team);
                 stream.SendNext(weaponName);
                 stream.SendNext(fire);
                 stream.SendNext(mouseX);
                 stream.SendNext(playerScreenPointX);
-                stream.SendNext(hasBomb);
             }
             else
             {
@@ -465,12 +430,10 @@ namespace Com.LavaEagle.RangerSteve
                 health = (float)stream.ReceiveNext();
                 running = (bool)stream.ReceiveNext();
                 flying = (bool)stream.ReceiveNext();
-                team = (string)stream.ReceiveNext();
                 weaponName = (string)stream.ReceiveNext();
                 fire = (bool)stream.ReceiveNext();
                 mouseX = (float)stream.ReceiveNext();
                 playerScreenPointX = (float)stream.ReceiveNext();
-                hasBomb = (bool)stream.ReceiveNext();
             }
         }
 
@@ -508,11 +471,8 @@ namespace Com.LavaEagle.RangerSteve
         {
             amount = maxAmount;
             health = maxHealth;
-            hasBomb = false;
 
-            string teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
-
-            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag(teamSpawnPointTag);
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("playerSpawnPoint");
             spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
@@ -526,7 +486,6 @@ namespace Com.LavaEagle.RangerSteve
         void Death()
         {
             health = 0;
-            hasBomb = false;
 
             objectiveText.EmitSetMessage();
 
@@ -587,7 +546,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // Only let the player shoot if they have ammo and they haven't exceeded their rate of fire
-            if (!fire || Time.time < nextFire || amount <= 0 || hasBomb || isReloading)
+            if (!fire || Time.time < nextFire || amount <= 0 || isReloading)
             {
                 fire = false;
                 return;
@@ -663,10 +622,8 @@ namespace Com.LavaEagle.RangerSteve
             //Use the two store floats to create a new Vector2 variable movement.
             Vector2 movement = new Vector2(h, 0);
 
-            float modifiedMoveForce = hasBomb ? moveForce * bombMoveForceModifier : moveForce;
-
             // ... add a force to the player.
-            GetComponent<Rigidbody2D>().AddForce(movement * modifiedMoveForce, ForceMode2D.Force);
+            GetComponent<Rigidbody2D>().AddForce(movement * moveForce, ForceMode2D.Force);
 
             /**
              * Shoot Weapon

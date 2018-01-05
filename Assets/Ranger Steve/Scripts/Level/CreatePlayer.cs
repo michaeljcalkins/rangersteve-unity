@@ -29,24 +29,10 @@ namespace Com.LavaEagle.RangerSteve
         public void HandleCreatePlayerObject()
         {
             Vector3 spawnPoint;
-            string team = "";
-            int blueCount = 0;
-            int redCount = 0;
-            string teamSpawnPointTag;
-            GameObject[] livePlayers = GameObject.FindGameObjectsWithTag("Networked Player");
 
             PlayerStateManager playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
 
-            foreach (GameObject livePlayer in livePlayers)
-            {
-                if (livePlayer.GetComponent<PlayerManager>().team == "blue") blueCount++;
-                if (livePlayer.GetComponent<PlayerManager>().team == "red") redCount++;
-            }
-
-            team = blueCount > redCount ? "red" : "blue";
-            teamSpawnPointTag = team == "blue" ? "BluePlayerSpawnPoint" : "RedPlayerSpawnPoint";
-
-            spawnPoints = GameObject.FindGameObjectsWithTag(teamSpawnPointTag);
+            spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
             spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
@@ -59,7 +45,6 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
-            playerState.team = team;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().health = 100;
         }

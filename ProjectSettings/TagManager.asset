@@ -14,13 +14,7 @@ TagManager:
   - Networked Player
   - Local Ammo
   - Networked Ammo
-  - RedPlayerSpawnPoint
-  - BluePlayerSpawnPoint
-  - Goal
-  - DominationScoreZone
-  - DominationPlatform
-  - BombSpawnPoint
-  - BombPickup
+  - PlayerSpawnPoint
   layers:
   - Default
   - TransparentFX
