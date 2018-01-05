@@ -26,9 +26,9 @@ GameObject:
   - component: {fileID: 114003838274849376}
   - component: {fileID: 50940285503501434}
   - component: {fileID: 58939495220974096}
-  - component: {fileID: 114493119283394882}
+  - component: {fileID: 114945826208001906}
   m_Layer: 11
-  m_Name: shotgunBox
+  m_Name: m500Box
   m_TagString: WeaponBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,28 +152,6 @@ MonoBehaviour:
   explosion: {fileID: 100000, guid: ccb250fa361da29418c11e32d471dcb7, type: 2}
   explosionFX: {fileID: 198000012159674136, guid: b5b100e832f95354ba1cefe7d2a6d23d,
     type: 2}
---- !u!114 &114493119283394882
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1508169165224806}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  remainingAmmoText: {fileID: 0}
-  picture_weapon: {fileID: 21300000, guid: df0b2648e808948b5a7ce8ba63aff93d, type: 3}
-  ammunition: {fileID: 1811845865270170, guid: b3a1f7ab6cbaa624ab611ab90bbe8c90, type: 2}
-  spawn_point: {x: 1.3, y: 0.2, z: 0}
-  weapon_animation: 1
-  front: 1
-  amount: 6
-  damage: 16
-  fireRate: 1
-  weaponName: M500
-  bulletSpeed: 2500
 --- !u!114 &114881545725188596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,6 +164,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupClip: {fileID: 8300000, guid: 986fa1b8984964da79d1be0597332fb2, type: 3}
+  isPickedUp: 0
+--- !u!114 &114945826208001906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508169165224806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d53f205406a048feb13e0f89ff78565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponPosition: 4
+  amount: 6
 --- !u!212 &212068667624020742
 SpriteRenderer:
   m_ObjectHideFlags: 1

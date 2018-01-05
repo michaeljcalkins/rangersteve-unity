@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114000013911318324}
   - component: {fileID: 50000013134987768}
   - component: {fileID: 58443539168461896}
-  - component: {fileID: 114747162414652852}
+  - component: {fileID: 114619052506671578}
   m_Layer: 11
   m_Name: desertEagleBox
   m_TagString: WeaponBox
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupClip: {fileID: 8300000, guid: 986fa1b8984964da79d1be0597332fb2, type: 3}
+  isPickedUp: 0
 --- !u!114 &114000013911318324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,25 +165,19 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114747162414652852
+--- !u!114 &114619052506671578
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011848777576}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d53f205406a048feb13e0f89ff78565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  picture_weapon: {fileID: 21300000, guid: 659dd9a3d921a4e9386d8fcbd95436d4, type: 3}
-  ammunition: {fileID: 100000, guid: e9e79e47fa2c74c0f875e46b07f6123c, type: 2}
-  spawn_point: {x: 1.336, y: 0.211, z: 0}
-  weapon_animation: 1
-  front: 1
+  weaponPosition: 3
   amount: 9
-  fireRate: 0.24
-  weaponName: DesertEagle
 --- !u!212 &212000011513166520
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -213,7 +208,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85952329
-  m_SortingLayer: 0
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 1939f4661191f664bb008b55d72b05da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

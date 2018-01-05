@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114003838274849376}
   - component: {fileID: 50940285503501434}
   - component: {fileID: 58939495220974096}
-  - component: {fileID: 114493119283394882}
+  - component: {fileID: 114473396916777440}
   m_Layer: 11
   m_Name: launcherBox
   m_TagString: WeaponBox
@@ -152,25 +152,19 @@ MonoBehaviour:
   explosion: {fileID: 100000, guid: ccb250fa361da29418c11e32d471dcb7, type: 2}
   explosionFX: {fileID: 198000012159674136, guid: b5b100e832f95354ba1cefe7d2a6d23d,
     type: 2}
---- !u!114 &114493119283394882
+--- !u!114 &114473396916777440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508169165224806}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d53f205406a048feb13e0f89ff78565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  picture_weapon: {fileID: 21300000, guid: 773bc61875f120845be1bfc904fa7eb5, type: 3}
-  ammunition: {fileID: 100000, guid: 4caeebec48a6c4644a28ed60d2f6150d, type: 2}
-  spawn_point: {x: 1.3, y: 0.2, z: 0}
-  weapon_animation: 1
-  front: 1
-  amount: 3
-  fireRate: 0.5
-  weaponName: GrenadeLauncher
+  weaponPosition: 8
+  amount: 4
 --- !u!114 &114881545725188596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -183,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupClip: {fileID: 8300000, guid: 986fa1b8984964da79d1be0597332fb2, type: 3}
+  isPickedUp: 0
 --- !u!212 &212068667624020742
 SpriteRenderer:
   m_ObjectHideFlags: 1

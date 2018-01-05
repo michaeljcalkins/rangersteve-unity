@@ -47,21 +47,8 @@ namespace Com.LavaEagle.RangerSteve
 
         [Header("Weapon")]
 
-        public string ammunition;
-
-        // Remaining ammo to shoot for this gun
-        public int amount;
-
-        public int maxAmount;
-
-        public float fireRate;
-
-        public int[] weaponAmmo;
-
-        public int selectedWeapon;
-
         [SerializeField]
-        public string weaponName;
+        public int selectedWeaponPosition;
 
         [Header("Score")]
 
@@ -116,8 +103,6 @@ namespace Com.LavaEagle.RangerSteve
         #region Private Variables
 
         private PlayerStateManager playerState;
-
-        private bool isReloading;
 
         [SerializeField]
         private bool fire;
@@ -180,7 +165,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private bool isSpriteFacingRight = true;
 
-        private GameObject weaponHud;
+        private GameObject weaponHUD;
 
         #endregion
 
@@ -212,8 +197,7 @@ namespace Com.LavaEagle.RangerSteve
             playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
             hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
-            remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
-            weaponHud = GameObject.Find("Weapon");
+            weaponHUD = GameObject.Find("WeaponHUD");
         }
 
         void Start()
@@ -236,8 +220,6 @@ namespace Com.LavaEagle.RangerSteve
                 // Turn cursor into crosshair and centers the middle of image on mouse
                 cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
                 Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
-
-                remainingAmmoText.text = amount.ToString();
             }
 
             Physics2D.IgnoreLayerCollision(9, 9);
@@ -284,18 +266,14 @@ namespace Com.LavaEagle.RangerSteve
             currentHealthText.text = health.ToString();
 
             // Remaining Ammo Text
-            if (isReloading)
-            {
-                remainingAmmoText.text = "Reloading...";
-            }
-            else if (amount <= 0)
-            {
-                remainingAmmoText.text = "0 / " + maxAmount.ToString();
-            }
-            else
-            {
-                remainingAmmoText.text = amount.ToString() + " / " + maxAmount.ToString();
-            }
+            //if (amount <= 0)
+            //{
+            //    remainingAmmoText.text = "0 / " + maxAmount.ToString();
+            //}
+            //else
+            //{
+            //    remainingAmmoText.text = amount.ToString() + " / " + maxAmount.ToString();
+            //}
 
             // Remaining Jet Fuel Slider
             if (health > 0)
@@ -312,7 +290,19 @@ namespace Com.LavaEagle.RangerSteve
             {
                 child.gameObject.SetActive(false);
             }
-            rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeapon).gameObject.SetActive(true);
+
+            if (selectedWeaponPosition > -1)
+            {
+                rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeaponPosition).gameObject.SetActive(true);
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                // HUD
+                Weapon weapon = GetWeaponAtPosition(i);
+                weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
+                weaponHUD.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = weapon.amount.ToString();
+            }
 
             // Jet Fuel Slider Visibility
             remainingJetFuelSlider.gameObject.SetActive(flying || remainingJetFuelSlider.value < 1);
@@ -419,11 +409,10 @@ namespace Com.LavaEagle.RangerSteve
             if (stream.isWriting)
             {
                 // We own this player: send the others our data
-                stream.SendNext(amount);
                 stream.SendNext(health);
                 stream.SendNext(running);
                 stream.SendNext(flying);
-                stream.SendNext(weaponName);
+                stream.SendNext(selectedWeaponPosition);
                 stream.SendNext(fire);
                 stream.SendNext(mouseX);
                 stream.SendNext(playerScreenPointX);
@@ -431,11 +420,10 @@ namespace Com.LavaEagle.RangerSteve
             else
             {
                 // Network player, receive data
-                amount = (int)stream.ReceiveNext();
                 health = (float)stream.ReceiveNext();
                 running = (bool)stream.ReceiveNext();
                 flying = (bool)stream.ReceiveNext();
-                weaponName = (string)stream.ReceiveNext();
+                selectedWeaponPosition = (int)stream.ReceiveNext();
                 fire = (bool)stream.ReceiveNext();
                 mouseX = (float)stream.ReceiveNext();
                 playerScreenPointX = (float)stream.ReceiveNext();
@@ -446,6 +434,25 @@ namespace Com.LavaEagle.RangerSteve
 
 
         #region Custom
+
+        public void AddAmmoToWeapon(int weaponPosition, int amount)
+        {
+            Weapon pickedUpWeapon = rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition).gameObject.GetComponent<Weapon>();
+            pickedUpWeapon.amount += amount;
+            pickedUpWeapon.hasBeenPickedUp = true;
+        }
+
+        private Weapon GetSelectedWeapon()
+        {
+            if (selectedWeaponPosition == -1) return null;
+
+            return rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeaponPosition).gameObject.GetComponent<Weapon>();
+        }
+
+        private Weapon GetWeaponAtPosition(int weaponPosition)
+        {
+            return rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition).gameObject.GetComponent<Weapon>();
+        }
 
         public bool IsPlayerDisabled()
         {
@@ -474,12 +481,19 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         public void HandleRespawn()
         {
-            amount = 0;
-            maxAmount = 0;
+            selectedWeaponPosition = -1;
             health = maxHealth;
             usedFlyingTime = 0;
 
-            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("playerSpawnPoint");
+            for (int i = 0; i < 10; i++)
+            {
+                // HUD
+                Weapon weapon = GetWeaponAtPosition(i);
+                weapon.hasBeenPickedUp = false;
+                weapon.amount = 0;
+            }
+
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
             spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
@@ -530,38 +544,26 @@ namespace Com.LavaEagle.RangerSteve
             bulletInstance.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
 
             Destroy(bulletInstance, 4.0f);
-
-            amount--;
-        }
-
-        void HandleReloadWeapon()
-        {
-            amount = maxAmount;
-            isReloading = false;
         }
 
         void HandleWeaponFire()
         {
-            if (IsPlayerDisabled()) return;
-
-            if (amount <= 0 && !isReloading)
-            {
-                isReloading = true;
-                Invoke("HandleReloadWeapon", 2f);
-            }
+            Weapon selectedWeapon = GetSelectedWeapon();
 
             // Only let the player shoot if they have ammo and they haven't exceeded their rate of fire
-            if (!fire || Time.time < nextFire || amount <= 0 || isReloading)
+            if (!fire || Time.time < nextFire || !selectedWeapon || selectedWeapon.amount <= 0 || IsPlayerDisabled())
             {
                 fire = false;
                 return;
             }
 
-            nextFire = Time.time + fireRate;
+            nextFire = Time.time + selectedWeapon.fireRate;
+
+            selectedWeapon.amount--;
 
             // Add force in the direction described
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, ammunition);
+            this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, selectedWeapon.ammunitionName);
         }
 
         [PunRPC]
@@ -569,7 +571,7 @@ namespace Com.LavaEagle.RangerSteve
         {
             health -= damage;
 
-            // never allow negative health
+            // Never allow negative health.
             health = health < 0 ? 0 : health;
 
             print("Player damaged " + damage.ToString() + ", remaining health " + health.ToString());
@@ -664,22 +666,16 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Weapon Selection
              */
-            if (Input.GetKey(KeyCode.Alpha1)) selectedWeapon = 0;
-            if (Input.GetKey(KeyCode.Alpha2)) selectedWeapon = 1;
-            if (Input.GetKey(KeyCode.Alpha3)) selectedWeapon = 2;
-            if (Input.GetKey(KeyCode.Alpha4)) selectedWeapon = 3;
-            if (Input.GetKey(KeyCode.Alpha5)) selectedWeapon = 4;
-            if (Input.GetKey(KeyCode.Alpha6)) selectedWeapon = 5;
-            if (Input.GetKey(KeyCode.Alpha7)) selectedWeapon = 6;
-            if (Input.GetKey(KeyCode.Alpha8)) selectedWeapon = 7;
-            if (Input.GetKey(KeyCode.Alpha9)) selectedWeapon = 8;
-            if (Input.GetKey(KeyCode.Alpha0)) selectedWeapon = 9;
-
-            if (Input.GetKey(KeyCode.R) && !isReloading && amount < maxAmount)
-            {
-                isReloading = true;
-                Invoke("HandleReloadWeapon", 2f);
-            }
+            if (Input.GetKey(KeyCode.Alpha1)) selectedWeaponPosition = 0;
+            if (Input.GetKey(KeyCode.Alpha2)) selectedWeaponPosition = 1;
+            if (Input.GetKey(KeyCode.Alpha3)) selectedWeaponPosition = 2;
+            if (Input.GetKey(KeyCode.Alpha4)) selectedWeaponPosition = 3;
+            if (Input.GetKey(KeyCode.Alpha5)) selectedWeaponPosition = 4;
+            if (Input.GetKey(KeyCode.Alpha6)) selectedWeaponPosition = 5;
+            if (Input.GetKey(KeyCode.Alpha7)) selectedWeaponPosition = 6;
+            if (Input.GetKey(KeyCode.Alpha8)) selectedWeaponPosition = 7;
+            if (Input.GetKey(KeyCode.Alpha9)) selectedWeaponPosition = 8;
+            if (Input.GetKey(KeyCode.Alpha0)) selectedWeaponPosition = 9;
         }
 
         private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)

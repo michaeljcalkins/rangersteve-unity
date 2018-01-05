@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114003838274849376}
   - component: {fileID: 50940285503501434}
   - component: {fileID: 58939495220974096}
-  - component: {fileID: 114493119283394882}
+  - component: {fileID: 114619738875184014}
   m_Layer: 11
   m_Name: ak47Box
   m_TagString: WeaponBox
@@ -152,7 +152,7 @@ MonoBehaviour:
   explosion: {fileID: 100000, guid: ccb250fa361da29418c11e32d471dcb7, type: 2}
   explosionFX: {fileID: 198000012159674136, guid: b5b100e832f95354ba1cefe7d2a6d23d,
     type: 2}
---- !u!114 &114493119283394882
+--- !u!114 &114619738875184014
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -160,18 +160,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1508169165224806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d53f205406a048feb13e0f89ff78565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pictureWeapon: {fileID: 0}
-  ammunition: ak47Bullet
-  spawnPoint: {x: 0, y: 0, z: 0}
-  bulletSpeed: 5000
-  weaponAnimation: 0
-  front: 1
+  weaponPosition: 0
   amount: 30
-  fireRate: 0.14
-  weaponName: AK-47
 --- !u!114 &114881545725188596
 MonoBehaviour:
   m_ObjectHideFlags: 1

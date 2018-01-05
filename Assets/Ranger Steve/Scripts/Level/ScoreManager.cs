@@ -103,7 +103,6 @@ namespace Com.LavaEagle.RangerSteve
 
             if (roundState == "ended" && roundState != "restarting" && PhotonNetwork.isMasterClient)
             {
-                print("Restarting round.");
                 roundState = "restarting";
                 Invoke("EmitRestartRound", timeToRoundRestart);
             }

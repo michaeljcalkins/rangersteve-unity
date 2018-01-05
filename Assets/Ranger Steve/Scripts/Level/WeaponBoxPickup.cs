@@ -14,40 +14,15 @@ namespace Com.LavaEagle.RangerSteve
             // If the player enters the trigger zone...
             if (other.tag == "Local Player" && other.GetComponent<PhotonView>().isMine && !isPickedUp)
             {
-                Com.LavaEagle.RangerSteve.PlayerManager player = other.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>();
-
-                // Don't let them pick up the box if at 100
-                if (player.amount >= 100)
-                {
-                    return;
-                }
+                PlayerManager player = other.GetComponent<PlayerManager>();
 
                 isPickedUp = true;
 
                 GetComponent<SpriteRenderer>().enabled = false;
-                //other.transform.GetChild(0).gameObject.AddComponent(GetComponent<Weapon>().GetType());
 
-                Weapon weaponInfo = GetComponent<Weapon>();
+                WeaponBox weaponBox = GetComponent<WeaponBox>();
 
-                if (player.ammunition == weaponInfo.ammunition)
-                {
-                    player.amount += weaponInfo.amount;
-                }
-                else
-                {
-                    // weapon is new to player reset ammo amount
-                    player.amount = weaponInfo.amount;
-                }
-
-                // Don't let player have more than 100
-                if (player.amount >= 100)
-                {
-                    player.amount = 100;
-                }
-
-                player.ammunition = weaponInfo.ammunition;
-                player.fireRate = weaponInfo.fireRate;
-                player.weaponName = weaponInfo.weaponName;
+                player.AddAmmoToWeapon(weaponBox.weaponPosition, weaponBox.amount);
 
                 photonView.RPC("DestroyWeaponBox", PhotonTargets.All);
             }

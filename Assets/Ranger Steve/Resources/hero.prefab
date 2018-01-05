@@ -123,6 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4921049807998868}
   - component: {fileID: 212047566973779472}
+  - component: {fileID: 114969716505650726}
   m_Layer: 9
   m_Name: Skorpion
   m_TagString: Untagged
@@ -204,6 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4148043654943956}
   - component: {fileID: 212083456918525730}
+  - component: {fileID: 114767876565823574}
   m_Layer: 9
   m_Name: GrenadeLauncher
   m_TagString: Untagged
@@ -236,6 +238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4394145774196406}
   - component: {fileID: 212574619687136318}
+  - component: {fileID: 114318717486753678}
   m_Layer: 9
   m_Name: AK47
   m_TagString: Untagged
@@ -252,6 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4673301750099276}
   - component: {fileID: 212569197450815660}
+  - component: {fileID: 114623253712957726}
   m_Layer: 9
   m_Name: P90
   m_TagString: Untagged
@@ -268,6 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4983709839700620}
   - component: {fileID: 212614712941682926}
+  - component: {fileID: 114270504470147000}
   m_Layer: 9
   m_Name: Bomb
   m_TagString: Untagged
@@ -315,6 +320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4290919447233224}
   - component: {fileID: 212694160907192430}
+  - component: {fileID: 114547892236492426}
   m_Layer: 9
   m_Name: M500
   m_TagString: Untagged
@@ -366,6 +372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4719055148195476}
   - component: {fileID: 212588129760500022}
+  - component: {fileID: 114474233582600838}
   m_Layer: 9
   m_Name: RPG
   m_TagString: Untagged
@@ -415,6 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4965558431974660}
   - component: {fileID: 212851482008792330}
+  - component: {fileID: 114409046202279630}
   m_Layer: 9
   m_Name: FG42
   m_TagString: Untagged
@@ -446,6 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4856333303964018}
   - component: {fileID: 212538174764427530}
+  - component: {fileID: 114143710492283966}
   m_Layer: 9
   m_Name: Barrett
   m_TagString: Untagged
@@ -479,6 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4588775218890622}
   - component: {fileID: 212525257394947688}
+  - component: {fileID: 114431252019286682}
   m_Layer: 9
   m_Name: DesertEagle
   m_TagString: Untagged
@@ -545,7 +555,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.922619, y: -3.4933746, z: 0}
+  m_LocalPosition: {x: -49.432735, y: 9.362514, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011514293230}
@@ -625,8 +635,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1501400521529566}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.458, y: -0.12661864, z: 0}
-  m_LocalScale: {x: 0.640958, y: 0.640958, z: 0}
+  m_LocalPosition: {x: 0.466, y: -0.154, z: 0}
+  m_LocalScale: {x: 0.78313786, y: 0.78313786, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 4
@@ -781,8 +791,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971482650652612}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.268, y: -0.127, z: 0}
-  m_LocalScale: {x: 0.564408, y: 0.564408, z: 0}
+  m_LocalPosition: {x: 0.283, y: -0.128, z: 0}
+  m_LocalScale: {x: 0.7056466, y: 0.7056466, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 3
@@ -794,8 +804,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1425117205363650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.088, y: -0.063, z: 0}
-  m_LocalScale: {x: 0.52201635, y: 0.52201635, z: 0}
+  m_LocalPosition: {x: 0.095, y: -0.063, z: 0}
+  m_LocalScale: {x: 0.61552984, y: 0.61552984, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 7
@@ -807,8 +817,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1643813109054726}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.275, y: 0.217, z: 0}
-  m_LocalScale: {x: 0.64095587, y: 0.64095587, z: 0}
+  m_LocalPosition: {x: 0.3217, y: 0.1776, z: 0}
+  m_LocalScale: {x: 0.83034, y: 0.83034, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 2
@@ -833,8 +843,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1821544309930648}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.583, y: -0.052, z: 0}
-  m_LocalScale: {x: 0.640958, y: 0.640958, z: 0}
+  m_LocalPosition: {x: 0.694, y: -0.032, z: 0}
+  m_LocalScale: {x: 0.8286236, y: 0.8286236, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 1
@@ -845,13 +855,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1013037253500828}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3323702, y: -0.11167055, z: 0}
-  m_LocalScale: {x: 0.42907363, y: 0.42907363, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.026176924, w: 0.99965733}
+  m_LocalPosition: {x: 0.353, y: -0.124, z: 0}
+  m_LocalScale: {x: 0.545234, y: 0.545234, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3}
 --- !u!4 &4927287546274372
 Transform:
   m_ObjectHideFlags: 1
@@ -872,8 +882,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1676640499142084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.371, y: -0.059, z: 0}
-  m_LocalScale: {x: 0.52201897, y: 0.52201897, z: 0}
+  m_LocalPosition: {x: 0.424, y: -0.047, z: 0}
+  m_LocalScale: {x: 0.66613996, y: 0.66613996, z: 0}
   m_Children: []
   m_Father: {fileID: 4295885977136050}
   m_RootOrder: 6
@@ -1104,13 +1114,7 @@ MonoBehaviour:
   flyingForce: 150
   groundedLinearDrag: 9
   bombMoveForceModifier: 0.65
-  ammunition: 
-  amount: 0
-  maxAmount: 0
-  fireRate: 0
-  weaponAmmo: 
-  selectedWeapon: 0
-  weaponName: 
+  selectedWeaponPosition: -1
   score: 0
   kills: 0
   deaths: 0
@@ -1156,6 +1160,23 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114143710492283966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1821544309930648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
 --- !u!114 &114149992576234404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1221,6 +1242,23 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114270504470147000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1427236656811470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: 
+  bulletSpeed: 0
+  damage: 0
+  amount: 0
+  fireRate: 0
+  hasBeenPickedUp: 0
 --- !u!114 &114289628258640756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1286,6 +1324,74 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114318717486753678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1367491660031738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
+--- !u!114 &114409046202279630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676640499142084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
+--- !u!114 &114431252019286682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971482650652612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
+--- !u!114 &114474233582600838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1643813109054726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
 --- !u!114 &114521930259840896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1312,6 +1418,23 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114547892236492426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1501400521529566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
 --- !u!114 &114548738651054558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1325,6 +1448,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
+--- !u!114 &114623253712957726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1425117205363650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
+--- !u!114 &114767876565823574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1233221216329218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: 
+  bulletSpeed: 0
+  damage: 0
+  amount: 0
+  fireRate: 0
+  hasBeenPickedUp: 0
 --- !u!114 &114877651106238030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1351,6 +1508,23 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114969716505650726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1013037253500828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammunitionName: ak47Bullet
+  bulletSpeed: 6000
+  damage: 24
+  amount: 0
+  fireRate: 0.14
+  hasBeenPickedUp: 0
 --- !u!114 &114986635943981256
 MonoBehaviour:
   m_ObjectHideFlags: 1

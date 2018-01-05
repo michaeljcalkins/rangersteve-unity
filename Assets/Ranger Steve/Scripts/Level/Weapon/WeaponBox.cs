@@ -1,17 +1,11 @@
 using UnityEngine;
-using System.Collections;
 
-public class NewMonoBehaviour : MonoBehaviour
+namespace Com.LavaEagle.RangerSteve
 {
-	// Use this for initialization
-	void Start()
-	{
+    public class WeaponBox : MonoBehaviour
+    {
+        public int weaponPosition;
 
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
+        public int amount;
+    }
 }
