@@ -57,15 +57,12 @@ namespace Com.LavaEagle.RangerSteve
                 Invoke("HandleUpdateGameInfo", 1f);
             }
 
-            int MyIndex = Random.Range(0, (nobodyWinsMessages.Length - 1));
-            nobodyWinsText.text = nobodyWinsMessages[MyIndex];
+            //int MyIndex = Random.Range(0, (nobodyWinsMessages.Length - 1));
+            //nobodyWinsText.text = nobodyWinsMessages[MyIndex];
         }
 
         void Update()
         {
-            redScoreText.text = redScore.ToString();
-            blueScoreText.text = blueScore.ToString();
-
             int currentTime = GetCurrentTime();
             int remainingSeconds = (endOfRoundTimestamp - currentTime) + roundLengthPaddingInSeconds;
 
@@ -102,15 +99,6 @@ namespace Com.LavaEagle.RangerSteve
             if (remainingSeconds <= 0 && roundState != "starting")
             {
                 roundState = "ended";
-                redTeamWinsText.gameObject.SetActive(redScore > blueScore);
-                redTeamWinsText.gameObject.SetActive(blueScore > redScore);
-                nobodyWinsText.gameObject.SetActive(blueScore == redScore);
-            }
-            else
-            {
-                redTeamWinsText.gameObject.SetActive(false);
-                blueTeamWinsText.gameObject.SetActive(false);
-                nobodyWinsText.gameObject.SetActive(false);
             }
 
             if (roundState == "ended" && roundState != "restarting" && PhotonNetwork.isMasterClient)

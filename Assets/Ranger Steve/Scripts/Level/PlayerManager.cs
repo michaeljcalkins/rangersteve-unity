@@ -108,8 +108,6 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Private Variables
 
-        private ObjectiveTextController objectiveText;
-
         private PlayerStateManager playerState;
 
         private bool isReloading;
@@ -175,8 +173,6 @@ namespace Com.LavaEagle.RangerSteve
 
         private bool isSpriteFacingRight = true;
 
-        private GameObject bombHud;
-
         private GameObject weaponHud;
 
         #endregion
@@ -211,8 +207,6 @@ namespace Com.LavaEagle.RangerSteve
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
             remainingAmmoText = GameObject.Find("RemainingAmmoText").GetComponent<Text>();
             weaponHud = GameObject.Find("Weapon");
-            bombHud = GameObject.Find("Bomb");
-            objectiveText = GameObject.Find("ObjectiveText").GetComponent<ObjectiveTextController>();
         }
 
         void Start()
@@ -223,7 +217,6 @@ namespace Com.LavaEagle.RangerSteve
 
                 // Hidden until player loads
                 GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(1, 1, 1);
-                bombHud.transform.localScale = new Vector3(1, 1, 1);
 
                 remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
 
@@ -469,8 +462,10 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         public void HandleRespawn()
         {
-            amount = maxAmount;
+            amount = 0;
+            maxAmount = 0;
             health = maxHealth;
+            usedFlyingTime = 0;
 
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("playerSpawnPoint");
             spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
@@ -486,8 +481,6 @@ namespace Com.LavaEagle.RangerSteve
         void Death()
         {
             health = 0;
-
-            objectiveText.EmitSetMessage();
 
             transform.localScale = new Vector3(0, 0, 0);
 
