@@ -265,16 +265,6 @@ namespace Com.LavaEagle.RangerSteve
             // Health Text
             currentHealthText.text = health.ToString();
 
-            // Remaining Ammo Text
-            //if (amount <= 0)
-            //{
-            //    remainingAmmoText.text = "0 / " + maxAmount.ToString();
-            //}
-            //else
-            //{
-            //    remainingAmmoText.text = amount.ToString() + " / " + maxAmount.ToString();
-            //}
-
             // Remaining Jet Fuel Slider
             if (health > 0)
             {
@@ -666,16 +656,26 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Weapon Selection
              */
-            if (Input.GetKey(KeyCode.Alpha1)) selectedWeaponPosition = 0;
-            if (Input.GetKey(KeyCode.Alpha2)) selectedWeaponPosition = 1;
-            if (Input.GetKey(KeyCode.Alpha3)) selectedWeaponPosition = 2;
-            if (Input.GetKey(KeyCode.Alpha4)) selectedWeaponPosition = 3;
-            if (Input.GetKey(KeyCode.Alpha5)) selectedWeaponPosition = 4;
-            if (Input.GetKey(KeyCode.Alpha6)) selectedWeaponPosition = 5;
-            if (Input.GetKey(KeyCode.Alpha7)) selectedWeaponPosition = 6;
-            if (Input.GetKey(KeyCode.Alpha8)) selectedWeaponPosition = 7;
-            if (Input.GetKey(KeyCode.Alpha9)) selectedWeaponPosition = 8;
-            if (Input.GetKey(KeyCode.Alpha0)) selectedWeaponPosition = 9;
+            int potentialWeaponPosition = -1;
+            if (Input.GetKey(KeyCode.Alpha1)) potentialWeaponPosition = 0;
+            if (Input.GetKey(KeyCode.Alpha2)) potentialWeaponPosition = 1;
+            if (Input.GetKey(KeyCode.Alpha3)) potentialWeaponPosition = 2;
+            if (Input.GetKey(KeyCode.Alpha4)) potentialWeaponPosition = 3;
+            if (Input.GetKey(KeyCode.Alpha5)) potentialWeaponPosition = 4;
+            if (Input.GetKey(KeyCode.Alpha6)) potentialWeaponPosition = 5;
+            if (Input.GetKey(KeyCode.Alpha7)) potentialWeaponPosition = 6;
+            if (Input.GetKey(KeyCode.Alpha8)) potentialWeaponPosition = 7;
+            if (Input.GetKey(KeyCode.Alpha9)) potentialWeaponPosition = 8;
+            if (Input.GetKey(KeyCode.Alpha0)) potentialWeaponPosition = 9;
+
+            if (potentialWeaponPosition > -1)
+            {
+                Weapon selectedWeapon = GetWeaponAtPosition(potentialWeaponPosition);
+                if (selectedWeapon.hasBeenPickedUp)
+                {
+                    selectedWeaponPosition = potentialWeaponPosition;
+                }
+            }
         }
 
         private float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
