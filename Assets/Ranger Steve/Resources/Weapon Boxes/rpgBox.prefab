@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d53f205406a048feb13e0f89ff78565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPosition: 3
+  weaponPosition: 2
   amount: 3
 --- !u!212 &212000011513166520
 SpriteRenderer:
