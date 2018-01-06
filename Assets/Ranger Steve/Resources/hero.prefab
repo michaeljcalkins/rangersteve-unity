@@ -555,7 +555,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -49.432735, y: 9.362514, z: 0}
+  m_LocalPosition: {x: -51.418644, y: 6.9479275, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011514293230}
@@ -1171,11 +1171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
+  ammunitionName: barretBullet
   amount: 0
-  fireRate: 0.14
+  fireRate: 2
   hasBeenPickedUp: 0
 --- !u!114 &114149992576234404
 MonoBehaviour:
@@ -1253,11 +1251,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: 
-  bulletSpeed: 0
-  damage: 0
+  ammunitionName: bomb
   amount: 0
-  fireRate: 0
+  fireRate: 0.8
   hasBeenPickedUp: 0
 --- !u!114 &114289628258640756
 MonoBehaviour:
@@ -1336,8 +1332,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
   amount: 0
   fireRate: 0.14
   hasBeenPickedUp: 0
@@ -1352,11 +1346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
+  ammunitionName: fg42Bullet
   amount: 0
-  fireRate: 0.14
+  fireRate: 0.5
   hasBeenPickedUp: 0
 --- !u!114 &114431252019286682
 MonoBehaviour:
@@ -1369,11 +1361,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
+  ammunitionName: desertEagleBullet
   amount: 0
-  fireRate: 0.14
+  fireRate: 0.267
   hasBeenPickedUp: 0
 --- !u!114 &114474233582600838
 MonoBehaviour:
@@ -1386,11 +1376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
+  ammunitionName: rocket
   amount: 0
-  fireRate: 0.14
+  fireRate: 5
   hasBeenPickedUp: 0
 --- !u!114 &114521930259840896
 MonoBehaviour:
@@ -1430,8 +1418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
   amount: 0
   fireRate: 0.14
   hasBeenPickedUp: 0
@@ -1459,11 +1445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
+  ammunitionName: p90Bullet
   amount: 0
-  fireRate: 0.14
+  fireRate: 0.12
   hasBeenPickedUp: 0
 --- !u!114 &114767876565823574
 MonoBehaviour:
@@ -1476,11 +1460,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: 
-  bulletSpeed: 0
-  damage: 0
+  ammunitionName: grenade
   amount: 0
-  fireRate: 0
+  fireRate: 0.4
   hasBeenPickedUp: 0
 --- !u!114 &114877651106238030
 MonoBehaviour:
@@ -1519,11 +1501,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ffbabd2f0c2c4bbbf5ace32b070a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammunitionName: ak47Bullet
-  bulletSpeed: 6000
-  damage: 24
+  ammunitionName: skorpionBullet
   amount: 0
-  fireRate: 0.14
+  fireRate: 0.08
   hasBeenPickedUp: 0
 --- !u!114 &114986635943981256
 MonoBehaviour:

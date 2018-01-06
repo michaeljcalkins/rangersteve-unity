@@ -531,7 +531,7 @@ namespace Com.LavaEagle.RangerSteve
             Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angleBetweenPlayerAndMouse));
             GameObject bulletInstance = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), spawnPos, bulletRotation);
 
-            // Rely on the prefab for the bullet info
+            // Rely on the prefab for the bullet info so it can't be modified by the player shooting
             int bulletSpeed = bulletInstance.GetComponent<Ammo>().bulletSpeed;
 
             // Get the direction that the bullet will travel in

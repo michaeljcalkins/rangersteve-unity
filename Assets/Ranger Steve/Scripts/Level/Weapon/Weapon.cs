@@ -6,10 +6,6 @@ namespace Com.LavaEagle.RangerSteve
     {
         public string ammunitionName;
 
-        public int bulletSpeed;
-
-        public int damage;
-
         public int amount;
 
         public float fireRate;

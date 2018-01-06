@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using mixpanel;
+using UnityEngine.Analytics;
 
 namespace Com.LavaEagle.RangerSteve
 {
@@ -13,31 +13,31 @@ namespace Com.LavaEagle.RangerSteve
 
         public void HandlePlayNowClick()
         {
-            Mixpanel.Track("Clicked Play");
+            Analytics.CustomEvent("Clicked Play");
             SceneManager.LoadScene("Launcher");
         }
 
         public void HandleDiscordClick()
         {
-            Mixpanel.Track("Clicked Discord");
+            Analytics.CustomEvent("Clicked Discord");
             Application.OpenURL("https://discord.gg/GqKgsmy");
         }
 
         public void HandleNewsletterClick()
         {
-            Mixpanel.Track("Clicked Newsletter");
+            Analytics.CustomEvent("Clicked Newsletter");
             Application.OpenURL("http://eepurl.com/deinnz");
         }
 
         public void HandleDownloadThisGameClick()
         {
-            Mixpanel.Track("Clicked Download This Game");
+            Analytics.CustomEvent("Clicked Download This Game");
             Application.OpenURL("https://github.com/michaeljcalkins/rangersteve-early-access/releases");
         }
 
         public void HandleExitClick()
         {
-            Mixpanel.Track("Clicked Exit");
+            Analytics.CustomEvent("Clicked Exit");
             Application.Quit();
         }
     }

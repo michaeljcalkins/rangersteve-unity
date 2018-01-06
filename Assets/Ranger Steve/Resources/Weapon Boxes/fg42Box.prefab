@@ -21,11 +21,11 @@ GameObject:
   - component: {fileID: 4469483344576702}
   - component: {fileID: 212068667624020742}
   - component: {fileID: 61508255307734040}
-  - component: {fileID: 114881545725188596}
   - component: {fileID: 114065617510685506}
   - component: {fileID: 114003838274849376}
   - component: {fileID: 50940285503501434}
   - component: {fileID: 58939495220974096}
+  - component: {fileID: 114881545725188596}
   - component: {fileID: 114840262905172722}
   m_Layer: 11
   m_Name: fg42Box
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73e86781a6314e5e9da831a05776ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupClip: {fileID: 8300000, guid: 986fa1b8984964da79d1be0597332fb2, type: 3}
+  pickupClip: {fileID: 8300000, guid: 221160c225cc34403ad9b258afd373e5, type: 3}
   isPickedUp: 0
 --- !u!212 &212068667624020742
 SpriteRenderer:

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114359044683477574}
   - component: {fileID: 114120195771532928}
   m_Layer: 0
-  m_Name: m4a1Bullet
+  m_Name: fg42Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 0}
-  damage: 14
-  bulletSpeed: 5000
+  damage: 38
+  bulletSpeed: 6500
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

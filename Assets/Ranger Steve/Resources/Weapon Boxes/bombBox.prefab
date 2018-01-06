@@ -21,11 +21,11 @@ GameObject:
   - component: {fileID: 4000014166213012}
   - component: {fileID: 212000011513166520}
   - component: {fileID: 61000010029369990}
-  - component: {fileID: 114000012424797438}
   - component: {fileID: 114000012049136736}
   - component: {fileID: 114000013911318324}
   - component: {fileID: 50000012617304234}
   - component: {fileID: 58081814723238370}
+  - component: {fileID: 114000012424797438}
   - component: {fileID: 114415678292606766}
   m_Layer: 11
   m_Name: bombBox
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73e86781a6314e5e9da831a05776ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupClip: {fileID: 8300000, guid: 986fa1b8984964da79d1be0597332fb2, type: 3}
+  pickupClip: {fileID: 8300000, guid: 221160c225cc34403ad9b258afd373e5, type: 3}
   isPickedUp: 0
 --- !u!114 &114000013911318324
 MonoBehaviour:
