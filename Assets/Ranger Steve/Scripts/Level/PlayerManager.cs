@@ -64,16 +64,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public ScoreManager scoreManager;
 
-        [Header("Camera Boundaries")]
-
-        public float minCameraPositionX;
-
-        public float maxCameraPositionX;
-
-        public float minCameraPositionY;
-
-        public float maxCameraPositionY;
-
         [Space(10)]
 
         public Vector3 spawnPoint;
@@ -110,8 +100,6 @@ namespace Com.LavaEagle.RangerSteve
         private CursorMode cursorMode = CursorMode.Auto;
 
         private float nextFire = 0;
-
-        private Camera mainCamera;
 
         private Slider remainingJetFuelSlider;
 
@@ -193,7 +181,6 @@ namespace Com.LavaEagle.RangerSteve
             jetAudioSource = GetComponent<AudioSource>();
             leaderboard = GameObject.Find("Leaderboard");
             currentHealthText = GameObject.Find("CurrentHealthText").GetComponent<Text>();
-            mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
             hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
@@ -251,12 +238,6 @@ namespace Com.LavaEagle.RangerSteve
                 PhotonNetwork.LeaveRoom();
                 PhotonNetwork.LoadLevel("MainMenu");
             }
-
-            mainCamera.transform.position = new Vector3(
-                Mathf.Clamp(transform.position.x, minCameraPositionX, maxCameraPositionX),
-                Mathf.Clamp(transform.position.y, minCameraPositionY, maxCameraPositionY),
-                mainCameraDepth
-            );
 
             // Hurt Border
             float hurtBorderPercent = 1f - (health / maxHealth);
@@ -637,10 +618,15 @@ namespace Com.LavaEagle.RangerSteve
 
             facingRight = mouseX > playerScreenPointX;
 
+            /**
+             * Linear Drag
+             */
             GetComponent<Rigidbody2D>().drag = IsGrounded() ? groundedLinearDrag : 0;
 
+            /**
+             * Jumping
+             */
             // If the jump button is pressed and the player is grounded then the player should jump.
-            //jump = Input.GetKeyDown(KeyCode.W) && IsGrounded();
             jump = Input.GetKey(KeyCode.W) && IsGrounded();
 
             /**
