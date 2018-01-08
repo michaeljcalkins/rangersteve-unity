@@ -155,6 +155,8 @@ namespace Com.LavaEagle.RangerSteve
 
         private GameObject weaponHUD;
 
+        private Camera mainCamera;
+
         #endregion
 
 
@@ -185,6 +187,14 @@ namespace Com.LavaEagle.RangerSteve
             hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
             weaponHUD = GameObject.Find("WeaponHUD");
+            mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+
+            // Hide until player loads
+            GameObject[] HUDGameObjects = GameObject.FindGameObjectsWithTag("HUD");
+            foreach (GameObject HUDGameObject in HUDGameObjects)
+            {
+                HUDGameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
 
         void Start()
@@ -239,7 +249,18 @@ namespace Com.LavaEagle.RangerSteve
                 PhotonNetwork.LoadLevel("MainMenu");
             }
 
-            // Hurt Border
+            /**
+             * Camera Follows Player
+             */
+            mainCamera.transform.position = new Vector3(
+                transform.position.x,
+                transform.position.y,
+                mainCameraDepth
+            );
+
+            /**
+             * Hurt Border
+             */
             float hurtBorderPercent = 1f - (health / maxHealth);
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(hurtBorderPercent);
 

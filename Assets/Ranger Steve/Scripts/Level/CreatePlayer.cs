@@ -21,7 +21,11 @@ namespace Com.LavaEagle.RangerSteve
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
 
             // Hide until player loads
-            GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(0, 0, 0);
+            GameObject[] HUDGameObjects = GameObject.FindGameObjectsWithTag("HUD");
+            foreach (GameObject HUDGameObject in HUDGameObjects)
+            {
+                HUDGameObject.transform.localScale = new Vector3(0, 0, 0);
+            }
         }
 
         public void HandleCreatePlayerObject()
@@ -44,7 +48,6 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
-            player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().health = 100;
         }
     }
 }

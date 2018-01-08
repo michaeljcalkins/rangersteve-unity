@@ -1906,7 +1906,7 @@ GameObject:
   - component: {fileID: 417722700}
   m_Layer: 5
   m_Name: TopHUD
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2205,7 +2205,7 @@ GameObject:
   - component: {fileID: 513433193}
   m_Layer: 5
   m_Name: JumpJetHUD
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2490,7 +2490,7 @@ GameObject:
   - component: {fileID: 612442283}
   m_Layer: 5
   m_Name: Leaderboard
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2559,7 +2559,7 @@ GameObject:
   - component: {fileID: 651075182}
   m_Layer: 5
   m_Name: HurtBorderImage
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2822,7 +2822,7 @@ GameObject:
   - component: {fileID: 691629359}
   m_Layer: 5
   m_Name: RoundStartCountdownText
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3022,7 +3022,7 @@ GameObject:
   - component: {fileID: 723351739}
   m_Layer: 5
   m_Name: WeaponHUD
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5273,7 +5273,7 @@ GameObject:
   - component: {fileID: 1242163446}
   m_Layer: 5
   m_Name: AlertMessageText
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5657,7 +5657,7 @@ GameObject:
   - component: {fileID: 1321909006}
   m_Layer: 5
   m_Name: RemainingJetFuelSlider
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8156,7 +8156,7 @@ GameObject:
   - component: {fileID: 1887738267}
   m_Layer: 5
   m_Name: HealthHUD
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

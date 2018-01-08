@@ -15,6 +15,7 @@ TagManager:
   - Local Ammo
   - Networked Ammo
   - PlayerSpawnPoint
+  - HUD
   layers:
   - Default
   - TransparentFX
