@@ -228,6 +228,22 @@ namespace Com.LavaEagle.RangerSteve
             rightJumpjet.gameObject.SetActive(flying);
             leftJumpjet.gameObject.SetActive(flying);
 
+            /**
+             * Weapons
+             */
+            for (int i = 0; i < 10; i++)
+            {
+                // HUD
+                Weapon weapon = GetWeaponAtPosition(i);
+                weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
+                weaponHUD.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = weapon.amount.ToString();
+
+                print(selectedWeaponPosition);
+
+                // Weapon
+                rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(i == selectedWeaponPosition);
+            }
+
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
                 return;
@@ -276,25 +292,6 @@ namespace Com.LavaEagle.RangerSteve
             else
             {
                 remainingJetFuelSlider.value = 0;
-            }
-
-            // Weapon
-            foreach (Transform child in rightHandPivot.GetChild(0).GetChild(0).transform)
-            {
-                child.gameObject.SetActive(false);
-            }
-
-            if (selectedWeaponPosition > -1)
-            {
-                rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeaponPosition).gameObject.SetActive(true);
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                // HUD
-                Weapon weapon = GetWeaponAtPosition(i);
-                weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
-                weaponHUD.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = weapon.amount.ToString();
             }
 
             // Jet Fuel Slider Visibility
