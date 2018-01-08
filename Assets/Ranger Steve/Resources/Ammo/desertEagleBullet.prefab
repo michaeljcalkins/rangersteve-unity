@@ -123,6 +123,8 @@ MonoBehaviour:
   explosion: {fileID: 0}
   damage: 28
   bulletSpeed: 5700
+  hitMarkerSoundEffect: {fileID: 8300000, guid: b1d649ceb1c7a43138e64694b92cc821,
+    type: 3}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

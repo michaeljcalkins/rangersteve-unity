@@ -12,19 +12,25 @@ Network Description */
 
 public class Bomb : Photon.MonoBehaviour
 {
-    public float bombRadius = 6.5f;
     // Radius within which enemies are killed.
-    public float bombForce = 100f;
+    public float bombRadius = 6.5f;
+
     // bomb throwing force
-    public AudioClip boom;
+    public float bombForce = 100f;
+
     // Audioclip of explosion.
-    public AudioClip fuse;
+    public AudioClip boom;
+
     // Audioclip of fuse.
+    public AudioClip fuse;
+
     public float fuseTime = 1.5f;
-    public GameObject explosion;
+
     // Prefab of explosion effect.
-    public ParticleSystem explosionFX;
+    public GameObject explosion;
+
     // Reference to the particle system of the explosion effect.
+    public ParticleSystem explosionFX;
 
     void Start()
     {

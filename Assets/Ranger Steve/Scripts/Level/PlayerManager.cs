@@ -257,6 +257,7 @@ namespace Com.LavaEagle.RangerSteve
                 transform.position.y,
                 mainCameraDepth
             );
+            mainCamera.orthographicSize = 19;
 
             /**
              * Hurt Border

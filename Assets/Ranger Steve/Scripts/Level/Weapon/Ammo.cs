@@ -11,7 +11,16 @@ namespace Com.LavaEagle.RangerSteve
 
         public int bulletSpeed;
 
+        public AudioClip hitMarkerSoundEffect;
+
         bool flag;
+
+        CreatePlayer createPlayer;
+
+        private void Awake()
+        {
+            createPlayer = GameObject.Find("CreatePlayerManager").GetComponent<CreatePlayer>();
+        }
 
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -27,8 +36,6 @@ namespace Com.LavaEagle.RangerSteve
 
             flag = true;
 
-            //print(other.tag + " and " + tag);
-
             // Local player shot weapon box.
             if (other.tag == "WeaponBox")
             {
@@ -38,7 +45,10 @@ namespace Com.LavaEagle.RangerSteve
 
             if (other.tag == "Networked Player" && this.tag == "Local Ammo")
             {
-                //print("Networked player shot by local ammo.");
+                // Play the explosion sound effect.
+                AudioSource.PlayClipAtPoint(hitMarkerSoundEffect, createPlayer.player.transform.position, 1f);
+
+                // Send damage to remote player
                 float weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
                 other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
 
