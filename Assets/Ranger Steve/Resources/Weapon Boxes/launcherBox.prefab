@@ -146,12 +146,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombRadius: 6.5
   bombForce: 100
-  boom: {fileID: 8300000, guid: 8b4e61c51941a46d1aac273472c814fd, type: 3}
+  damage: 0
+  bulletSpeed: 0
+  boom: {fileID: 8300000, guid: 24a4eac50b6cc49fab0c3eaf04eeb041, type: 3}
   fuse: {fileID: 8300000, guid: 238da4efc08184aee919af254edb2ef1, type: 3}
   fuseTime: 1.5
   explosion: {fileID: 100000, guid: ccb250fa361da29418c11e32d471dcb7, type: 2}
   explosionFX: {fileID: 198000012159674136, guid: b5b100e832f95354ba1cefe7d2a6d23d,
     type: 2}
+  numberOfGroundHits: 0
+  flag: 0
 --- !u!114 &114473396916777440
 MonoBehaviour:
   m_ObjectHideFlags: 1

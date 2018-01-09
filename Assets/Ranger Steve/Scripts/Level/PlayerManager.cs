@@ -238,8 +238,6 @@ namespace Com.LavaEagle.RangerSteve
                 weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
                 weaponHUD.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = weapon.amount.ToString();
 
-                print(selectedWeaponPosition);
-
                 // Weapon
                 rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(i == selectedWeaponPosition);
             }
@@ -273,7 +271,19 @@ namespace Com.LavaEagle.RangerSteve
                 transform.position.y,
                 mainCameraDepth
             );
-            mainCamera.orthographicSize = 19;
+
+            switch (selectedWeaponPosition)
+            {
+                case 1:
+                    mainCamera.orthographicSize = 26;
+                    break;
+                case 6:
+                    mainCamera.orthographicSize = 22;
+                    break;
+                default:
+                    mainCamera.orthographicSize = 19;
+                    break;
+            }
 
             /**
              * Hurt Border
@@ -536,6 +546,32 @@ namespace Com.LavaEagle.RangerSteve
             Destroy(bulletInstance, 4.0f);
         }
 
+        [PunRPC]
+        void FireBomb(Vector3 startingPos, Vector3 mousePos, string ammunitionName)
+        {
+            // Initial position of the bullet
+            Vector3 spawnPos = transform.Find("rightHandPivot/bulletStartingPos").transform.position;
+
+            // Get the angle between the points for rotation
+            float angleBetweenPlayerAndMouse = AngleBetweenTwoPoints(transform.position, mousePos);
+
+            // Create the prefab instance
+            Quaternion bulletRotation = Quaternion.Euler(new Vector3(0f, 0f, angleBetweenPlayerAndMouse));
+            GameObject bulletInstance = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), spawnPos, bulletRotation);
+
+            // Rely on the prefab for the bullet info so it can't be modified by the player shooting
+            int bulletSpeed = bulletInstance.GetComponent<Bomb>().bulletSpeed;
+
+            // Get the direction that the bullet will travel in
+            Vector3 mouseDir = mousePos - transform.position;
+            mouseDir.z = 0.0f;
+            mouseDir = mouseDir.normalized;
+            bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
+
+            // Used to determine if damage should happen in the Ammo collision script
+            bulletInstance.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
+        }
+
         void HandleWeaponFire()
         {
             Weapon selectedWeapon = GetSelectedWeapon();
@@ -553,7 +589,14 @@ namespace Com.LavaEagle.RangerSteve
 
             // Add force in the direction described
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, selectedWeapon.ammunitionName);
+            if (selectedWeaponPosition != 9 && selectedWeaponPosition != 8)
+            {
+                this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, selectedWeapon.ammunitionName);
+            }
+            else
+            {
+                this.photonView.RPC("FireBomb", PhotonTargets.All, transform.position, mousePos, selectedWeapon.ammunitionName);
+            }
         }
 
         [PunRPC]

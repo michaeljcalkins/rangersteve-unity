@@ -1,113 +1,126 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-/* Network Description
-
-object must have time to create objects before their removal 
-(objects(bombBox,bazookaBox,etc.) generating the object(explosion,explosionFX) if it is removed and all of its generating objects are also removed). 
-Prior to its removal, they must have time to draw the yellow circle (0.5f).
-Otherwise eyes will not have time to see the object in the form of yellow circle
-
-Network Description */
-
-public class Bomb : Photon.MonoBehaviour
+namespace Com.LavaEagle.RangerSteve
 {
-    // Radius within which enemies are killed.
-    public float bombRadius = 6.5f;
-
-    // bomb throwing force
-    public float bombForce = 100f;
-
-    // Audioclip of explosion.
-    public AudioClip boom;
-
-    // Audioclip of fuse.
-    public AudioClip fuse;
-
-    public float fuseTime = 1.5f;
-
-    // Prefab of explosion effect.
-    public GameObject explosion;
-
-    // Reference to the particle system of the explosion effect.
-    public ParticleSystem explosionFX;
-
-    void Start()
+    public class Bomb : Photon.MonoBehaviour
     {
-        Vector2 direction = new Vector2(transform.right.x * 1.2f, 0.5f) * bombForce;
-        GetComponent<Rigidbody2D>().AddForce(direction); // throw bomb
-        StartCoroutine(BombDetonation());
-    }
+        // Radius within which enemies are killed.
+        public float bombRadius = 6.5f;
 
-    IEnumerator BombDetonation()
-    {
-        // Play the fuse audioclip.
-        AudioSource.PlayClipAtPoint(fuse, transform.position);
+        // bomb throwing force
+        public float bombForce = 100f;
 
-        // Wait for 2 seconds.
-        yield return new WaitForSeconds(fuseTime);
+        public int damage;
 
-        // Explode the bomb.
-        if (photonView.isMine)
-            photonView.RPC("Explode", PhotonTargets.All, transform.position);
-    }
+        public int bulletSpeed;
 
-    void Update()
-    {
-        if (tag == "Grenade" && GetComponent<Rigidbody2D>().velocity.x != 0) // The second condition corrects the fix of the turn of the grenade during the respawn
-            transform.right = GetComponent<Rigidbody2D>().velocity;
-    }
+        // Audioclip of explosion.
+        public AudioClip boom;
 
-    [PunRPC]
-    public void Explode(Vector3 pos, PhotonMessageInfo info)
-    {
-        // Play the explosion sound effect.
-        AudioSource.PlayClipAtPoint(boom, pos);
+        // Prefab of explosion effect.
+        public GameObject explosion;
 
-        // Find all the colliders on the Enemies layer within the bombRadius.
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(pos, bombRadius);
+        public int numberOfGroundHits = 0;
 
-        // For each collider...
-        foreach (Collider2D en in enemies)
+        public bool flag;
+
+        void Update()
         {
-            if (en == null)
-                continue;
+            // The second condition corrects the fix of the turn of the grenade during the respawn
+            if (tag == "Grenade" && GetComponent<Rigidbody2D>().velocity.x != 0)
+                transform.right = GetComponent<Rigidbody2D>().velocity;
+        }
 
-            if (en.transform.tag == "WeaponBox" && en.GetComponent<PhotonView>().viewID != GetComponent<PhotonView>().viewID && en.GetComponent<Rigidbody2D>().simulated)
-            { //sekond if - so as not to explode yourself
-                if (info.sender.IsLocal)
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (
+                other.tag == "Local Player" ||
+                flag
+            )
+            {
+                return;
+            }
+
+            if (other.tag == "Ground" && numberOfGroundHits <= 2)
+            {
+                numberOfGroundHits++;
+                return;
+            }
+
+            flag = true;
+
+            transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+            if (other.tag == "Ground" && numberOfGroundHits >= 2)
+            {
+                print("Ground explosion");
+                photonView.RPC("Explode", PhotonTargets.All, transform.position);
+            }
+
+            if (other.tag == "WeaponBox")
+            {
+                print("WeaponBox explosion");
+                photonView.RPC("Explode", PhotonTargets.All, transform.position);
+            }
+
+            if (other.tag == "Networked Player" && this.tag == "Local Ammo")
+            {
+                print("Networked player explosion");
+                photonView.RPC("Explode", PhotonTargets.All, transform.position);
+            }
+
+            // Hide the sprite and disable the boxcollider so the bullet sound effect has a chance to play fully
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+            if (gameObject.GetComponent<CapsuleCollider2D>())
+            {
+                gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+            }
+        }
+
+        [PunRPC]
+        public void Explode(Vector3 pos, PhotonMessageInfo info)
+        {
+            // Play the explosion sound effect.
+            AudioSource.PlayClipAtPoint(boom, pos);
+
+            PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
+
+            // Find all the colliders on the Enemies layer within the bombRadius.
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(pos, bombRadius);
+
+            // For each collider...
+            foreach (Collider2D en in enemies)
+            {
+                if (en == null)
+                    continue;
+
+                if (en.transform.tag == "WeaponBox" && en.GetComponent<PhotonView>().viewID != GetComponent<PhotonView>().viewID && en.GetComponent<Rigidbody2D>().simulated)
+                { //sekond if - so as not to explode yourself
+                    if (info.sender.IsLocal)
+                    {
+                        en.GetComponent<Rigidbody2D>().simulated = false;
+                        en.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, en.transform.position);
+                    }
+                }
+
+                // Check if it has a rigidbody (since there is only one per enemy, on the parent).
+                Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
+
+                if (rb == null) continue;
+
+                if (rb.tag == "Local Player")
                 {
-                    en.GetComponent<Rigidbody2D>().simulated = false;
-                    en.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, en.transform.position);
+                    rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleDamage(100);
+                }
+
+                if (rb.tag == "Networked Player")
+                {
+                    en.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, 100f);
                 }
             }
 
-            // Check if it has a rigidbody (since there is only one per enemy, on the parent).
-            Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
-            if (rb != null && rb.tag == "Local Player")
-            {
-                print("Player is dead!!@#$@#");
-                rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleDamage(100);
-                //rb.GetComponent<PhotonView>().RPC("Death", PhotonTargets.All);
-            }
+            Destroy(gameObject);
         }
-
-        if (photonView.isMine && GetComponent<SpriteRenderer>().enabled)
-        {
-            // Set the explosion effect's position to the bomb's position and play the particle system.
-            PhotonNetwork.Instantiate(explosionFX.name, pos, Quaternion.identity, 0);
-            // Instantiate the explosion prefab.
-            PhotonNetwork.Instantiate(explosion.name, pos, Quaternion.identity, 0);
-
-            // Destroy the bomb.
-            Invoke("Destroy_object", 0.5f);
-        }
-        GetComponent<Rigidbody2D>().simulated = false;
-        GetComponent<SpriteRenderer>().enabled = false;
-    }
-
-    void Destroy_object()
-    {
-        PhotonNetwork.Destroy(gameObject);
     }
 }

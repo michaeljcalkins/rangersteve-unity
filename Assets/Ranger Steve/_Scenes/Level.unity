@@ -1363,6 +1363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 284093541}
   - component: {fileID: 284093539}
+  - component: {fileID: 284093540}
   m_Layer: 0
   m_Name: WeaponBoxSpawner
   m_TagString: Untagged
@@ -1376,7 +1377,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 284093538}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bab042c2c2d4f4380bfd78fa79fc7381, type: 3}
   m_Name: 
@@ -1394,6 +1395,21 @@ MonoBehaviour:
   - {fileID: 1508169165224806, guid: 14a25235a0bc148ac990d5ed4ac97ad0, type: 2}
   - {fileID: 1508169165224806, guid: e1fb3c2568c1cf44fbbd7a954982d4ea, type: 2}
   - {fileID: 1000011848777576, guid: 8b310ac53f25f3c44b6604f2e85d37b7, type: 2}
+--- !u!114 &284093540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 284093538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab042c2c2d4f4380bfd78fa79fc7381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupDeliveryDelayTime: 1000
+  maxNumberOfBoxes: 20
+  weaponBoxes:
+  - {fileID: 1508169165224806, guid: e1fb3c2568c1cf44fbbd7a954982d4ea, type: 2}
 --- !u!4 &284093541
 Transform:
   m_ObjectHideFlags: 0
@@ -1468,7 +1484,7 @@ MonoBehaviour:
   blueScoreText: {fileID: 0}
   roundLengthInSeconds: 180
   roundLengthPaddingInSeconds: 5
-  timeToRoundRestart: 10
+  timeToRoundRestart: 3
   endOfRoundTimestamp: 0
   timeRemainingText: {fileID: 571832656}
   roundStartCountdownText: {fileID: 691629360}

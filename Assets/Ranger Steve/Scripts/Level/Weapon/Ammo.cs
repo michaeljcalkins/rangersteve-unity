@@ -27,8 +27,7 @@ namespace Com.LavaEagle.RangerSteve
             if (
                 flag || // This tells us we are already dealing with this collision.
                 (other.tag == "Local Player" && tag == "Local Ammo") || // Bullet hit self
-                (other.tag == "Networked Player" && tag == "Networked Ammo") ||
-                other.tag == "DominationScoreZone" // Bullet hit the score zone
+                (other.tag == "Networked Player" && tag == "Networked Ammo")
             )
             {
                 return;
