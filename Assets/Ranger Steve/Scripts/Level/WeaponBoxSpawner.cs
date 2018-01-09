@@ -9,11 +9,14 @@ namespace Com.LavaEagle.RangerSteve
 {
     public class WeaponBoxSpawner : Photon.MonoBehaviour
     {
-        public float pickupDeliveryDelayTime;
+        public float secondsToSpawnWeaponBox;
+
         public int maxNumberOfBoxes;
+
         public GameObject[] weaponBoxes;
 
         private GameObject[] weaponSpawnPoints;
+
         private int different_bonus = 0;
 
         void Start()
@@ -22,13 +25,13 @@ namespace Com.LavaEagle.RangerSteve
 
             // Start the first delivery.
             if (PhotonNetwork.isMasterClient) // spawn weapons boxes can only master client(scene objects)
-                InvokeRepeating("Test", 5f, pickupDeliveryDelayTime);
+                InvokeRepeating("Test", 0, secondsToSpawnWeaponBox);
         }
 
         void OnMasterClientSwitched(PhotonPlayer newMasterClient)
         {
             // if the master client out of the room then pass the baton to spawn weapons boxes to another player
-            InvokeRepeating("Test", 5f, pickupDeliveryDelayTime);
+            InvokeRepeating("Test", 0, secondsToSpawnWeaponBox);
         }
 
         void Test()

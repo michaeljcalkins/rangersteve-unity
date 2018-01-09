@@ -229,7 +229,22 @@ namespace Com.LavaEagle.RangerSteve
             leftJumpjet.gameObject.SetActive(flying);
 
             /**
-             * Weapons
+             * Right Hand Weapon 
+             */
+            for (int i = 0; i < 10; i++)
+            {
+                // Weapon
+                rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(i == selectedWeaponPosition);
+            }
+
+
+            if (!photonView.isMine && PhotonNetwork.connected == true)
+            {
+                return;
+            }
+
+            /**
+             * Weapon HUD
              */
             for (int i = 0; i < 10; i++)
             {
@@ -237,14 +252,6 @@ namespace Com.LavaEagle.RangerSteve
                 Weapon weapon = GetWeaponAtPosition(i);
                 weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
                 weaponHUD.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = weapon.amount.ToString();
-
-                // Weapon
-                rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(i == selectedWeaponPosition);
-            }
-
-            if (!photonView.isMine && PhotonNetwork.connected == true)
-            {
-                return;
             }
 
             /**

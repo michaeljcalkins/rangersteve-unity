@@ -9,17 +9,10 @@ namespace Com.LavaEagle.RangerSteve
     {
         #region Public Variables
 
-        [Header("Score")]
-        public int redScore = 0;
-        public int blueScore = 0;
-        public int scoreGivenPerGoal = 1;
-        public Text redScoreText;
-        public Text blueScoreText;
-
         [Header("Countdown Timer")]
         public int roundLengthInSeconds;
         public int roundLengthPaddingInSeconds;
-        public int timeToRoundRestart = 10;
+        public int timeToRoundRestart;
         public int endOfRoundTimestamp;
         public Text timeRemainingText;
         public Text roundStartCountdownText;
@@ -27,10 +20,6 @@ namespace Com.LavaEagle.RangerSteve
         [Header("Round Status")]
         // starting active paused ended restarting
         public string roundState = "starting";
-        public Text blueTeamWinsText;
-        public Text redTeamWinsText;
-        public Text nobodyWinsText;
-        public string[] nobodyWinsMessages;
 
         #endregion
 
@@ -47,8 +36,6 @@ namespace Com.LavaEagle.RangerSteve
 
                 Hashtable customPropertiesToSet = new Hashtable();
                 customPropertiesToSet.Add("endOfRoundTimestamp", endOfRoundTimestamp);
-                customPropertiesToSet.Add("blueScore", blueScore);
-                customPropertiesToSet.Add("redScore", redScore);
                 customPropertiesToSet.Add("roundState", roundState);
                 PhotonNetwork.room.SetCustomProperties(customPropertiesToSet);
             }
@@ -140,35 +127,6 @@ namespace Com.LavaEagle.RangerSteve
             photonView.RPC("HandleRestartRound", PhotonTargets.All);
         }
 
-        [PunRPC]
-        public void HandleUpdateScores()
-        {
-            blueScore = GetBlueScore();
-            redScore = GetRedScore();
-        }
-
-        public void HandleAddRedScore()
-        {
-            print("Adding " + scoreGivenPerGoal + " to Red.");
-
-            Hashtable score = new Hashtable();
-            score["redScore"] = redScore + scoreGivenPerGoal;
-            PhotonNetwork.room.SetCustomProperties(score);
-
-            photonView.RPC("HandleUpdateScores", PhotonTargets.All);
-        }
-
-        public void HandleAddBlueScore()
-        {
-            print("Adding " + scoreGivenPerGoal + " to Blue.");
-
-            Hashtable score = new Hashtable();
-            score["blueScore"] = blueScore + scoreGivenPerGoal;
-            PhotonNetwork.room.SetCustomProperties(score);
-
-            photonView.RPC("HandleUpdateScores", PhotonTargets.All);
-        }
-
         #endregion
 
 
@@ -178,30 +136,6 @@ namespace Com.LavaEagle.RangerSteve
         {
             endOfRoundTimestamp = GetEndOfRoundTimestamp();
             roundState = GetRoundState();
-            blueScore = GetBlueScore();
-            redScore = GetRedScore();
-        }
-
-        private int GetRedScore()
-        {
-            object score;
-            if (PhotonNetwork.connected && PhotonNetwork.room.CustomProperties.TryGetValue("redScore", out score))
-            {
-                return (int)score;
-            }
-
-            return 0;
-        }
-
-        private int GetBlueScore()
-        {
-            object score;
-            if (PhotonNetwork.connected && PhotonNetwork.room.CustomProperties.TryGetValue("blueScore", out score))
-            {
-                return (int)score;
-            }
-
-            return 0;
         }
 
         private string GetRoundState()
