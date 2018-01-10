@@ -66,9 +66,9 @@ namespace Com.LavaEagle.RangerSteve
 
         [Space(10)]
 
-        public Vector3 spawnPoint;
-
         public Texture2D cursorTexture;
+
+        public Texture2D hitCursorTexture;
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
@@ -91,6 +91,8 @@ namespace Com.LavaEagle.RangerSteve
 
 
         #region Private Variables
+
+        public bool isHitIndicatorVisible = false;
 
         private PlayerStateManager playerState;
 
@@ -442,6 +444,21 @@ namespace Com.LavaEagle.RangerSteve
 
         #region Custom
 
+        public void HandleShowHitIndicator()
+        {
+            isHitIndicatorVisible = true;
+            cursorHotspot = new Vector2(hitCursorTexture.width / 2, hitCursorTexture.height / 2);
+            Cursor.SetCursor(hitCursorTexture, cursorHotspot, cursorMode);
+            Invoke("HandleHideHitIndicator", 0.1f);
+        }
+
+        public void HandleHideHitIndicator()
+        {
+            isHitIndicatorVisible = false;
+            cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+            Cursor.SetCursor(cursorTexture, cursorHotspot, cursorMode);
+        }
+
         public void AddAmmoToWeapon(int weaponPosition, int amount)
         {
             Weapon pickedUpWeapon = rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition).gameObject.GetComponent<Weapon>();
@@ -501,7 +518,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
-            spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
+            Vector3 spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);

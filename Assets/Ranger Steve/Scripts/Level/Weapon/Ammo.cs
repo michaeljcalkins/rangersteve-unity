@@ -17,7 +17,7 @@ namespace Com.LavaEagle.RangerSteve
 
         CreatePlayer createPlayer;
 
-        private void Awake()
+        void Awake()
         {
             createPlayer = GameObject.Find("CreatePlayerManager").GetComponent<CreatePlayer>();
         }
@@ -35,21 +35,24 @@ namespace Com.LavaEagle.RangerSteve
 
             flag = true;
 
+            transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
             // Local player shot weapon box.
             if (other.tag == "WeaponBox")
             {
                 //print("Weapon box destroyed.");
                 other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
+
+                createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
             }
 
             if (other.tag == "Networked Player" && this.tag == "Local Ammo")
             {
-                // Play the explosion sound effect.
-                AudioSource.PlayClipAtPoint(hitMarkerSoundEffect, createPlayer.player.transform.position, 1f);
-
                 // Send damage to remote player
                 float weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
                 other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
+
+                createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
 
                 if (explosion != null)
                 {
