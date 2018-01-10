@@ -36,7 +36,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void Test()
         {
-            if (FindObjectsOfType<WeaponBoxPickup>().Length < maxNumberOfBoxes)
+            if (FindObjectsOfType<WeaponBox>().Length < maxNumberOfBoxes)
                 StartCoroutine(DeliverPickup());
         }
 
@@ -77,7 +77,7 @@ namespace Com.LavaEagle.RangerSteve
 
             PhotonNetwork.InstantiateSceneObject("Weapon Boxes/" + weaponBoxes[pickupIndex].name, dropPos, Quaternion.identity, 0, null);
 
-            if (FindObjectsOfType<WeaponBoxPickup>().Length < maxNumberOfBoxes)
+            if (FindObjectsOfType<WeaponBox>().Length < maxNumberOfBoxes)
                 StartCoroutine(DeliverPickup());
         }
     }
