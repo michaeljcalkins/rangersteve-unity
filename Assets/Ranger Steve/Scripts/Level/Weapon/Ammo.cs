@@ -26,8 +26,7 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (
                 flag || // This tells us we are already dealing with this collision.
-                (other.tag == "Local Player" && tag == "Local Ammo") || // Bullet hit self
-                (other.tag == "Networked Player" && tag == "Networked Ammo")
+                (other.tag == "Local Player" && tag == "Local Ammo") // Bullet hit self
             )
             {
                 return;
@@ -46,10 +45,10 @@ namespace Com.LavaEagle.RangerSteve
                 createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
             }
 
-            if (other.tag == "Networked Player" && this.tag == "Local Ammo")
+            if (other.tag == "Networked Player" && tag == "Local Ammo")
             {
                 // Send damage to remote player
-                float weaponDamage = this.GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
+                float weaponDamage = GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
                 other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
 
                 createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
