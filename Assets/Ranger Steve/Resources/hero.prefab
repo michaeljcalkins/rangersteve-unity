@@ -1137,6 +1137,7 @@ MonoBehaviour:
   totalDamageDealt: 0
   leaderboard: {fileID: 0}
   scoreManager: {fileID: 0}
+  defaultCameraOrthoGraphicSize: 17.8
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   hitCursorTexture: {fileID: 2800000, guid: 5c2fa3de06f8f4aa0acb724193d47831, type: 3}
   jump: 0

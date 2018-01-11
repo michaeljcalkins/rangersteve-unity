@@ -66,6 +66,8 @@ namespace Com.LavaEagle.RangerSteve
 
         [Space(10)]
 
+        public float defaultCameraOrthoGraphicSize;
+
         public Texture2D cursorTexture;
 
         public Texture2D hitCursorTexture;
@@ -295,7 +297,7 @@ namespace Com.LavaEagle.RangerSteve
                     mainCamera.orthographicSize = 22;
                     break;
                 default:
-                    mainCamera.orthographicSize = 19;
+                    mainCamera.orthographicSize = defaultCameraOrthoGraphicSize;
                     break;
             }
 
