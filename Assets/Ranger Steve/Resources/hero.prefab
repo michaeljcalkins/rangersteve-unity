@@ -517,7 +517,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012203530956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.161, z: 0}
+  m_LocalPosition: {x: 0, y: -1.103, z: 0}
   m_LocalScale: {x: 0.04067736, y: 0.04284526, z: 0}
   m_Children: []
   m_Father: {fileID: 4000014055351816}
@@ -556,7 +556,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.48, y: 0, z: 0}
+  m_LocalPosition: {x: -13.49912, y: -3.1151814, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011514293230}
@@ -949,7 +949,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.9903629}
+  m_Offset: {x: -0.009973004, y: -0.9903629}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -960,7 +960,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.15716076}
+  m_Size: {x: 0.7938806, y: 0.15716076}
   m_EdgeRadius: 0
 --- !u!70 &70112615231772182
 CapsuleCollider2D:
@@ -1122,13 +1122,14 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   moveForce: 400
-  maxSpeedX: 25
+  maxSpeedX: 20
   maxSpeedY: 30
   maxFlyingTime: 2
   deadZoneFlyingTime: 1.98
   jumpForce: 2400
   flyingForce: 150
   groundedLinearDrag: 9
+  flyingLinearDrag: 0
   bombMoveForceModifier: 0.65
   selectedWeaponPosition: -1
   score: 0

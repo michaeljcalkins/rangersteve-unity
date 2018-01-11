@@ -43,6 +43,8 @@ namespace Com.LavaEagle.RangerSteve
 
         public float groundedLinearDrag;
 
+        public float flyingLinearDrag;
+
         public float bombMoveForceModifier;
 
         [Header("Weapon")]
@@ -693,8 +695,10 @@ namespace Com.LavaEagle.RangerSteve
             //Use the two store floats to create a new Vector2 variable movement.
             Vector2 movement = new Vector2(h, 0);
 
+            float modifiedMoveForce = IsGrounded() ? moveForce : moveForce * 0.8f;
+
             // ... add a force to the player.
-            GetComponent<Rigidbody2D>().AddForce(movement * moveForce, ForceMode2D.Force);
+            GetComponent<Rigidbody2D>().AddForce(movement * modifiedMoveForce, ForceMode2D.Force);
 
             /**
              * Shoot Weapon
@@ -714,7 +718,7 @@ namespace Com.LavaEagle.RangerSteve
             /**
              * Linear Drag
              */
-            GetComponent<Rigidbody2D>().drag = IsGrounded() ? groundedLinearDrag : 0;
+            GetComponent<Rigidbody2D>().drag = IsGrounded() ? groundedLinearDrag : flyingLinearDrag;
 
             /**
              * Jumping
