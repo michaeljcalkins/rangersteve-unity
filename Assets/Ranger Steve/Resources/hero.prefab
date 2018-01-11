@@ -19,14 +19,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000014055351816}
-  - component: {fileID: 114000010411600318}
   - component: {fileID: 50000012889579592}
+  - component: {fileID: 58301354867164184}
   - component: {fileID: 70112615231772182}
+  - component: {fileID: 61659191336951978}
   - component: {fileID: 82000014053965200}
   - component: {fileID: 114000011968518014}
   - component: {fileID: 114289628258640756}
   - component: {fileID: 114548738651054558}
-  - component: {fileID: 61659191336951978}
+  - component: {fileID: 114000010411600318}
   m_Layer: 9
   m_Name: hero
   m_TagString: Player
@@ -555,7 +556,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -51.418644, y: 6.9479275, z: 0}
+  m_LocalPosition: {x: -2.48, y: 0, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011514293230}
@@ -921,6 +922,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!58 &58301354867164184
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011565703296}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.1611039, y: 0.7459797}
+  serializedVersion: 2
+  m_Radius: 0.21281569
 --- !u!61 &61659191336951978
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -958,8 +974,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03560384, y: -0.25516707}
-  m_Size: {x: 0.49661, y: 1.6290164}
+  m_Offset: {x: 0.014590323, y: -0.25516707}
+  m_Size: {x: 0.64370453, y: 1.6290164}
   m_Direction: 0
 --- !u!82 &82000014053965200
 AudioSource:
@@ -1121,7 +1137,6 @@ MonoBehaviour:
   totalDamageDealt: 0
   leaderboard: {fileID: 0}
   scoreManager: {fileID: 0}
-  spawnPoint: {x: -297.67963, y: 1.7657961, z: 0}
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   hitCursorTexture: {fileID: 2800000, guid: 5c2fa3de06f8f4aa0acb724193d47831, type: 3}
   jump: 0

@@ -46,8 +46,19 @@ namespace Com.LavaEagle.RangerSteve
             if (other.tag == "Networked Player" && tag == "Local Ammo")
             {
                 // Send damage to remote player
-                float weaponDamage = GetComponent<Com.LavaEagle.RangerSteve.Ammo>().damage;
-                other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
+                float weaponDamage = GetComponent<Ammo>().damage;
+
+                if (other is CircleCollider2D)
+                {
+                    // Headshot hit
+                    float headshotDamage = weaponDamage * 1.5f;
+                    other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, headshotDamage);
+                }
+                else
+                {
+                    // Normal hit
+                    other.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, weaponDamage);
+                }
 
                 createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
 
