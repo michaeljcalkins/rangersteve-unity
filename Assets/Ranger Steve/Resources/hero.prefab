@@ -1126,7 +1126,7 @@ MonoBehaviour:
   maxSpeedY: 30
   maxFlyingTime: 2
   deadZoneFlyingTime: 1.98
-  jumpForce: 2100
+  jumpForce: 2400
   flyingForce: 150
   groundedLinearDrag: 9
   bombMoveForceModifier: 0.65
