@@ -1486,7 +1486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4617754a45fa49a5ad44b5387b78b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundLengthInSeconds: 180
+  roundLengthInSeconds: 300
   roundLengthPaddingInSeconds: 5
   timeToRoundRestart: 3
   endOfRoundTimestamp: 0
