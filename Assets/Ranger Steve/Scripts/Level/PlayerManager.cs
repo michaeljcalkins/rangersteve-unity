@@ -253,7 +253,12 @@ namespace Com.LavaEagle.RangerSteve
                 // HUD
                 Weapon weapon = GetWeaponAtPosition(i);
                 weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
-                weaponHUD.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text = weapon.amount.ToString();
+
+                // Remaining Ammo
+                weaponHUD.transform.GetChild(i).transform.GetChild(2).GetComponent<Text>().text = weapon.amount.ToString();
+
+                // Background Highlight
+                weaponHUD.transform.GetChild(i).transform.GetChild(0).gameObject.SetActive(selectedWeaponPosition == i);
             }
 
             /**

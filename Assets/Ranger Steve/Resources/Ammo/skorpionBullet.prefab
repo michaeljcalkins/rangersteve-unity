@@ -122,9 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 0}
   damage: 10
-  bulletSpeed: 6000
-  hitMarkerSoundEffect: {fileID: 8300000, guid: b1d649ceb1c7a43138e64694b92cc821,
-    type: 3}
+  bulletSpeed: 6200
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

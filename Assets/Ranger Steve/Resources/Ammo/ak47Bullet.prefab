@@ -10,8 +10,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 6100000}
   - component: {fileID: 5000000}
-  - component: {fileID: 11400000}
   - component: {fileID: 82000010912599010}
+  - component: {fileID: 11400000}
   - component: {fileID: 114426618772175294}
   - component: {fileID: 114920838087193850}
   m_Layer: 15
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 0}
-  damage: 24
+  damage: 14
   bulletSpeed: 6000
   hitMarkerSoundEffect: {fileID: 8300000, guid: b1d649ceb1c7a43138e64694b92cc821,
     type: 3}

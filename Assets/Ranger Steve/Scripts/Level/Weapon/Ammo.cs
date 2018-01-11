@@ -11,8 +11,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public int bulletSpeed;
 
-        public AudioClip hitMarkerSoundEffect;
-
         bool flag;
 
         CreatePlayer createPlayer;
