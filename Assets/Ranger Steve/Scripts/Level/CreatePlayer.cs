@@ -47,7 +47,8 @@ namespace Com.LavaEagle.RangerSteve
                 return;
             }
 
-            player.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().enabled = true;
+            player.GetComponent<PlayerManager>().enabled = true;
+            GameObject.Find("LoadingScreen").gameObject.SetActive(false);
         }
     }
 }
