@@ -29,10 +29,10 @@ namespace Com.LavaEagle.RangerSteve
             Application.OpenURL("http://eepurl.com/deinnz");
         }
 
-        public void HandleDownloadThisGameClick()
+        public void HandleFacebookClick()
         {
-            Analytics.CustomEvent("Clicked Download This Game");
-            Application.OpenURL("https://github.com/michaeljcalkins/rangersteve-early-access/releases");
+            Analytics.CustomEvent("Clicked Facebook");
+            Application.OpenURL("https://www.facebook.com/rangersteveio");
         }
 
         public void HandleExitClick()

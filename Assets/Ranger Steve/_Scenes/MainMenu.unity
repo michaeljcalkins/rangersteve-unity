@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 181401553}
   - component: {fileID: 181401552}
   m_Layer: 5
-  m_Name: DownloadButton
+  m_Name: FacebookButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -331,8 +331,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 150, y: -100}
-  m_SizeDelta: {x: 300, y: 35}
+  m_AnchoredPosition: {x: 239.43, y: -100}
+  m_SizeDelta: {x: 478.87, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &181401552
 MonoBehaviour:
@@ -374,7 +374,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 193273791}
-        m_MethodName: HandleDownloadThisGameClick
+        m_MethodName: HandleFacebookClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -916,7 +916,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 223, y: -100}
+  m_AnchoredPosition: {x: 223, y: -100.000015}
   m_SizeDelta: {x: 446, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &778375937
@@ -1116,8 +1116,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000019073486, y: 0}
-  m_SizeDelta: {x: -0.0000038146973, y: 0}
+  m_AnchoredPosition: {x: -130.65, y: 0}
+  m_SizeDelta: {x: -261.3, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1124991337
 MonoBehaviour:
@@ -1165,7 +1165,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: DOWNLOAD THIS  GAME
+  m_Text: FACEBOOK
 --- !u!222 &1124991339
 CanvasRenderer:
   m_ObjectHideFlags: 0
