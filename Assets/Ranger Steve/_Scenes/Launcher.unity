@@ -138,7 +138,7 @@ MonoBehaviour:
   connectingText: {fileID: 2076915380}
   Loglevel: 0
   MaxPlayersPerRoom: 10
-  gameVersion: 12
+  gameVersion: 13
 --- !u!4 &393678415
 Transform:
   m_ObjectHideFlags: 0
