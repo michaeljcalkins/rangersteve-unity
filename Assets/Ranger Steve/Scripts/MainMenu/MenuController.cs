@@ -11,6 +11,12 @@ namespace Com.LavaEagle.RangerSteve
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
+        public void HandlePreorderClick()
+        {
+            Analytics.CustomEvent("Clicked Pre-order");
+            Application.OpenURL("https://www.humblebundle.com/g/rangersteve");
+        }
+
         public void HandlePlayNowClick()
         {
             Analytics.CustomEvent("Clicked Play");
