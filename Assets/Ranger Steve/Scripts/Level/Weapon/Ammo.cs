@@ -24,7 +24,8 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (
                 flag || // This tells us we are already dealing with this collision.
-                (other.tag == "Local Player" && tag == "Local Ammo") // Bullet hit self
+                (other.tag == "Local Player" && tag == "Local Ammo") || // Bullet hit self
+                other.tag == "WeaponBox"
             )
             {
                 return;
@@ -34,16 +35,7 @@ namespace Com.LavaEagle.RangerSteve
 
             transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
-            // Local player shot weapon box.
-            if (other.tag == "WeaponBox")
-            {
-                //print("Weapon box destroyed.");
-                other.gameObject.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, other.transform.position);
-
-                createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
-            }
-
-            if (other.tag == "Networked Player" && tag == "Local Ammo")
+            if (other.tag == "Networked Player" && tag == "Local Ammo" && other.GetComponent<PhotonView>().isMine)
             {
                 // Send damage to remote player
                 float weaponDamage = GetComponent<Ammo>().damage;

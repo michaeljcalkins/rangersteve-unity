@@ -111,7 +111,7 @@ namespace Com.LavaEagle.RangerSteve
 
                 if (rb.tag == "Local Player")
                 {
-                    rb.GetComponent<Com.LavaEagle.RangerSteve.PlayerManager>().HandleDamage(100);
+                    rb.GetComponent<PlayerManager>().HandleDamage(100);
                 }
 
                 if (rb.tag == "Networked Player")
