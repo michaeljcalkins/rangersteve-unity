@@ -21,10 +21,9 @@ GameObject:
   - component: {fileID: 4000014166213012}
   - component: {fileID: 212000011513166520}
   - component: {fileID: 61000010029369990}
-  - component: {fileID: 114000012049136736}
-  - component: {fileID: 114000013911318324}
-  - component: {fileID: 50000013134987768}
   - component: {fileID: 58443539168461896}
+  - component: {fileID: 50000013134987768}
+  - component: {fileID: 114000013911318324}
   - component: {fileID: 114425568658024932}
   m_Layer: 11
   m_Name: rpgBox
@@ -106,25 +105,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.2500002, y: 2.2760086}
   m_EdgeRadius: 0
---- !u!114 &114000012049136736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011848777576}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d060b6f2711747368c4bc5aae24049b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bombRadius: 6.5
-  bombForce: 100
-  damage: 0
-  bulletSpeed: 0
-  boom: {fileID: 8300000, guid: 8b4e61c51941a46d1aac273472c814fd, type: 3}
-  explosion: {fileID: 100000, guid: ccb250fa361da29418c11e32d471dcb7, type: 2}
-  numberOfGroundHits: 0
-  flag: 0
 --- !u!114 &114000013911318324
 MonoBehaviour:
   m_ObjectHideFlags: 1
