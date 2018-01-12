@@ -35,7 +35,7 @@ namespace Com.LavaEagle.RangerSteve
 
             transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
-            if (other.tag == "Networked Player" && tag == "Local Ammo" && other.GetComponent<PhotonView>().isMine)
+            if (other.tag == "Networked Player" && tag == "Local Ammo")
             {
                 // Send damage to remote player
                 float weaponDamage = GetComponent<Ammo>().damage;

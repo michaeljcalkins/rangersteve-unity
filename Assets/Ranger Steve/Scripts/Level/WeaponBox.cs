@@ -47,7 +47,10 @@ namespace Com.LavaEagle.RangerSteve
         {
             GetComponent<SpriteRenderer>().enabled = false;
             AudioSource.PlayClipAtPoint(pickupClip, transform.position);
-            PhotonNetwork.Destroy(transform.root.gameObject);
+            if (PhotonNetwork.isMasterClient)
+            {
+                PhotonNetwork.Destroy(transform.root.gameObject);
+            }
         }
     }
 }
