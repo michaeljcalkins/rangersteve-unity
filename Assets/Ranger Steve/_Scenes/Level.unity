@@ -1616,6 +1616,7 @@ MonoBehaviour:
   - {fileID: 1000011848777576, guid: 4b3f3e55965aa56458d06a599c4a3656, type: 2}
   - {fileID: 1508169165224806, guid: 612c0c98f04404d0dbe57e304853b379, type: 2}
   - {fileID: 1508169165224806, guid: 82ab2d022cc804ae78ce9a6b7ef333c7, type: 2}
+  - {fileID: 1508169165224806, guid: e1fb3c2568c1cf44fbbd7a954982d4ea, type: 2}
 --- !u!4 &284093541
 Transform:
   m_ObjectHideFlags: 0
@@ -2571,6 +2572,7 @@ MonoBehaviour:
   shakeAmount: 0.7
   decreaseFactor: 1
   originalPos: {x: 0, y: 0, z: 0}
+  localPlayer: {fileID: 0}
 --- !u!1 &513433192
 GameObject:
   m_ObjectHideFlags: 0

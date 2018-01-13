@@ -57,13 +57,6 @@ namespace Com.LavaEagle.RangerSteve
                 }
 
                 createPlayer.player.GetComponent<PlayerManager>().HandleShowHitIndicator();
-
-                if (explosion != null)
-                {
-                    // Some ammunition does not leave explosions after the collision 
-                    // They have an explosion = null
-                    PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
-                }
             }
 
             // Hide the sprite and disable the boxcollider so the bullet sound effect has a chance to play fully

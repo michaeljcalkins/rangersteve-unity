@@ -7,20 +7,22 @@ namespace Com.LavaEagle.RangerSteve
         // Radius within which enemies are killed.
         public float bombRadius = 6.5f;
 
-        // bomb throwing force
+        // Bomb throwing force
         public float bombForce = 100f;
 
         public int damage;
 
         public int bulletSpeed;
 
+        public float shakeAmount;
+
+        public float shakeDuration;
+
         // Audioclip of explosion.
         public AudioClip boom;
 
         // Prefab of explosion effect.
         public GameObject explosion;
-
-        public int numberOfGroundHits = 0;
 
         public bool flag;
 
@@ -35,15 +37,10 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (
                 other.tag == "Local Player" ||
+                other.tag == "WeaponBox" ||
                 flag
             )
             {
-                return;
-            }
-
-            if (other.tag == "Ground" && numberOfGroundHits <= 2)
-            {
-                numberOfGroundHits++;
                 return;
             }
 
@@ -51,22 +48,12 @@ namespace Com.LavaEagle.RangerSteve
 
             transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
-            if (other.tag == "Ground" && numberOfGroundHits >= 2)
+            if (
+                other.tag == "Ground" ||
+                other.tag == "Networked Player" && this.tag == "Local Ammo"
+            )
             {
-                print("Ground explosion");
-                photonView.RPC("Explode", PhotonTargets.All, transform.position);
-            }
-
-            if (other.tag == "WeaponBox")
-            {
-                print("WeaponBox explosion");
-                photonView.RPC("Explode", PhotonTargets.All, transform.position);
-            }
-
-            if (other.tag == "Networked Player" && this.tag == "Local Ammo")
-            {
-                print("Networked player explosion");
-                photonView.RPC("Explode", PhotonTargets.All, transform.position);
+                Explode(transform.position);
             }
 
             // Hide the sprite and disable the boxcollider so the bullet sound effect has a chance to play fully
@@ -78,12 +65,12 @@ namespace Com.LavaEagle.RangerSteve
             }
         }
 
-        [PunRPC]
-        public void Explode(Vector3 pos, PhotonMessageInfo info)
+        public void Explode(Vector3 pos)
         {
             // Play the explosion sound effect.
             AudioSource.PlayClipAtPoint(boom, pos);
 
+            // Show an explosion
             PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
 
             // Find all the colliders on the Enemies layer within the bombRadius.
@@ -94,15 +81,6 @@ namespace Com.LavaEagle.RangerSteve
             {
                 if (en == null)
                     continue;
-
-                if (en.transform.tag == "WeaponBox" && en.GetComponent<PhotonView>().viewID != GetComponent<PhotonView>().viewID && en.GetComponent<Rigidbody2D>().simulated)
-                { //sekond if - so as not to explode yourself
-                    if (info.sender.IsLocal)
-                    {
-                        en.GetComponent<Rigidbody2D>().simulated = false;
-                        en.GetComponent<PhotonView>().RPC("Explode", PhotonTargets.All, en.transform.position);
-                    }
-                }
 
                 // Check if it has a rigidbody (since there is only one per enemy, on the parent).
                 Rigidbody2D rb = en.GetComponent<Rigidbody2D>();

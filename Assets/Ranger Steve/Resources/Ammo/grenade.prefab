@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 70789568016160420}
   - component: {fileID: 5000000}
   - component: {fileID: 82156633575563244}
-  - component: {fileID: 11400000}
   - component: {fileID: 114479287439261300}
   - component: {fileID: 114099782511003356}
+  - component: {fileID: 11400000}
   m_Layer: 8
   m_Name: grenade
   m_TagString: Grenade
@@ -71,11 +71,10 @@ MonoBehaviour:
   bombForce: 1000
   damage: 100
   bulletSpeed: 2000
+  shakeAmount: 0.3
+  shakeDuration: 0.1
   boom: {fileID: 8300000, guid: 44ae963896b81486db1996b4f647c25c, type: 3}
-  fuse: {fileID: 8300000, guid: e54e76bb1a930ef468fdfaec6af2d29a, type: 3}
-  fuseTime: 1.5
   explosion: {fileID: 100000, guid: 5ee10db824bffaf40b95d2d7bb33470c, type: 2}
-  numberOfGroundHits: 0
   flag: 0
 --- !u!212 &21200000
 SpriteRenderer:
@@ -297,7 +296,7 @@ MonoBehaviour:
     DrawErrorGizmo: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 0
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:

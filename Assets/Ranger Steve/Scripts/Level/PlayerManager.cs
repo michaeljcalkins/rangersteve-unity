@@ -609,13 +609,19 @@ namespace Com.LavaEagle.RangerSteve
             GameObject bulletInstance = (GameObject)Instantiate(Resources.Load("Ammo/" + ammunitionName), spawnPos, bulletRotation);
 
             // Rely on the prefab for the bullet info so it can't be modified by the player shooting
-            int bulletSpeed = bulletInstance.GetComponent<Bomb>().bulletSpeed;
+            Bomb bomb = bulletInstance.GetComponent<Bomb>();
+
+            int bulletSpeed = bomb.bulletSpeed;
 
             // Get the direction that the bullet will travel in
             Vector3 mouseDir = mousePos - transform.position;
             mouseDir.z = 0.0f;
             mouseDir = mouseDir.normalized;
             bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
+
+            // Shake camera
+            mainCamera.GetComponent<CameraShake>().shakeAmount = bomb.shakeAmount;
+            mainCamera.GetComponent<CameraShake>().shakeDuration = bomb.shakeDuration;
 
             // Used to determine if damage should happen in the Ammo collision script
             bulletInstance.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
@@ -770,7 +776,6 @@ namespace Com.LavaEagle.RangerSteve
                 // scroll down
                 GetPreviousAvailableWeapon(selectedWeaponPosition);
             }
-
 
             /**
              * Horizontal Movement
