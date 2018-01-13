@@ -585,9 +585,12 @@ namespace Com.LavaEagle.RangerSteve
             mouseDir = mouseDir.normalized;
             bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
 
-            // Shake camera
-            mainCamera.GetComponent<CameraShake>().shakeAmount = ammo.shakeAmount;
-            mainCamera.GetComponent<CameraShake>().shakeDuration = ammo.shakeDuration;
+            if (photonView.isMine)
+            {
+                // Shake camera
+                mainCamera.GetComponent<CameraShake>().shakeAmount = ammo.shakeAmount;
+                mainCamera.GetComponent<CameraShake>().shakeDuration = ammo.shakeDuration;
+            }
 
             // Used to determine if damage should happen in the Ammo collision script
             bulletInstance.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
@@ -619,9 +622,12 @@ namespace Com.LavaEagle.RangerSteve
             mouseDir = mouseDir.normalized;
             bulletInstance.GetComponent<Rigidbody2D>().AddForce(mouseDir * bulletSpeed);
 
-            // Shake camera
-            mainCamera.GetComponent<CameraShake>().shakeAmount = bomb.shakeAmount;
-            mainCamera.GetComponent<CameraShake>().shakeDuration = bomb.shakeDuration;
+            if (photonView.isMine)
+            {
+                // Shake camera
+                mainCamera.GetComponent<CameraShake>().shakeAmount = bomb.shakeAmount;
+                mainCamera.GetComponent<CameraShake>().shakeDuration = bomb.shakeDuration;
+            }
 
             // Used to determine if damage should happen in the Ammo collision script
             bulletInstance.tag = photonView.isMine ? "Local Ammo" : "Networked Ammo";
