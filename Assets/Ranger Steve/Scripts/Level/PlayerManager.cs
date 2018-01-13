@@ -473,6 +473,12 @@ namespace Com.LavaEagle.RangerSteve
             Weapon pickedUpWeapon = rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition).gameObject.GetComponent<Weapon>();
             pickedUpWeapon.amount += amount;
             pickedUpWeapon.hasBeenPickedUp = true;
+
+            // If it's the first gun you pick up auto assign it.
+            if (selectedWeaponPosition == -1)
+            {
+                selectedWeaponPosition = weaponPosition;
+            }
         }
 
         private Weapon GetSelectedWeapon()
