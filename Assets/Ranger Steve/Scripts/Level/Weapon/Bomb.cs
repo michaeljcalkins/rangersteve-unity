@@ -74,7 +74,7 @@ namespace Com.LavaEagle.RangerSteve
             AudioSource.PlayClipAtPoint(boom, pos);
 
             // Show an explosion
-            PhotonNetwork.Instantiate(explosion.name, transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)), 0);
+            Instantiate(Resources.Load(explosion.name), transform.position, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
 
             // Find all the colliders on the Enemies layer within the bombRadius.
             Collider2D[] enemies = Physics2D.OverlapCircleAll(pos, bombRadius);
