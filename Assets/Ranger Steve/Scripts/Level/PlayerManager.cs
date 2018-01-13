@@ -644,7 +644,7 @@ namespace Com.LavaEagle.RangerSteve
 
             // Add force in the direction described
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (selectedWeaponPosition != 9 && selectedWeaponPosition != 8)
+            if (selectedWeaponPosition != 9 && selectedWeaponPosition != 8 && selectedWeaponPosition != 2)
             {
                 this.photonView.RPC("FireBullet", PhotonTargets.All, transform.position, mousePos, selectedWeapon.ammunitionName);
             }

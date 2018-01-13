@@ -57,7 +57,10 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             // Hide the sprite and disable the boxcollider so the bullet sound effect has a chance to play fully
-            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            if (gameObject.GetComponent<SpriteRenderer>())
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            }
 
             if (gameObject.GetComponent<CapsuleCollider2D>())
             {
