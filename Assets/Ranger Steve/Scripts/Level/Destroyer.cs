@@ -24,7 +24,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 if (findChild)
                 {
-                    PhotonNetwork.Destroy(transform.Find(namedChild).gameObject);
+                    Destroy(transform.Find(namedChild).gameObject);
                 }
                 else
                 {
@@ -38,14 +38,14 @@ namespace Com.LavaEagle.RangerSteve
         {
             yield return new WaitForSeconds(awakeDestroyDelay);
             if (photonView.isMine)
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
         }
 
         void DestroyChildGameObject()
         {
             // Destroy this child gameobject, this can be called from an Animation Event.
             if (transform.Find(namedChild).gameObject != null)
-                PhotonNetwork.Destroy(transform.Find(namedChild).gameObject);
+                Destroy(transform.Find(namedChild).gameObject);
         }
 
         void DisableChildGameObject()
@@ -59,7 +59,7 @@ namespace Com.LavaEagle.RangerSteve
         {
             // Destroy this gameobject, this can be called from an Animation Event.
             if (photonView.isMine)
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
         }
     }
 }
