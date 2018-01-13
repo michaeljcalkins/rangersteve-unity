@@ -43,9 +43,6 @@ namespace Com.LavaEagle.RangerSteve
             {
                 Invoke("HandleUpdateGameInfo", 1f);
             }
-
-            //int MyIndex = Random.Range(0, (nobodyWinsMessages.Length - 1));
-            //nobodyWinsText.text = nobodyWinsMessages[MyIndex];
         }
 
         void Update()
@@ -91,6 +88,7 @@ namespace Com.LavaEagle.RangerSteve
             if (roundState == "ended" && roundState != "restarting" && PhotonNetwork.isMasterClient)
             {
                 roundState = "restarting";
+                GameObject.Find("AlertMessageText").GetComponent<AlertMessageController>().EmitSetMessage("Round is restarting", "yellow", 3f);
                 Invoke("EmitRestartRound", timeToRoundRestart);
             }
         }
