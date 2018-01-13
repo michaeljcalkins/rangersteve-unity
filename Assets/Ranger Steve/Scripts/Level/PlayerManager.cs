@@ -698,9 +698,79 @@ namespace Com.LavaEagle.RangerSteve
             }
         }
 
+        void GetNextAvailableWeapon(int originalPosition)
+        {
+            // scroll up
+            if (originalPosition == -1 && selectedWeaponPosition == 9)
+            {
+                selectedWeaponPosition = -1;
+                return;
+            }
+
+            if (selectedWeaponPosition == 9)
+            {
+                selectedWeaponPosition = 0;
+            }
+            else
+            {
+                selectedWeaponPosition++;
+            }
+
+            Weapon weapon = GetWeaponAtPosition(selectedWeaponPosition);
+            if (weapon.hasBeenPickedUp || originalPosition == selectedWeaponPosition)
+            {
+                return;
+            }
+
+            GetNextAvailableWeapon(originalPosition);
+        }
+
+        void GetPreviousAvailableWeapon(int originalPosition)
+        {
+            // scroll up
+            if (originalPosition == -1 && selectedWeaponPosition == 0)
+            {
+                selectedWeaponPosition = -1;
+                return;
+            }
+
+            if (selectedWeaponPosition == 0)
+            {
+                selectedWeaponPosition = 9;
+            }
+            else
+            {
+                selectedWeaponPosition--;
+            }
+
+            Weapon weapon = GetWeaponAtPosition(selectedWeaponPosition);
+            if (weapon.hasBeenPickedUp || originalPosition == selectedWeaponPosition)
+            {
+                return;
+            }
+
+            GetPreviousAvailableWeapon(originalPosition);
+        }
+
         private void HandleInputs()
         {
             if (health == 0 || IsPlayerDisabled()) return;
+
+            /**
+             * Change Weapons Middle Mouse Scroll
+             */
+            float scrollDirection = Input.GetAxis("Mouse ScrollWheel");
+            if (scrollDirection > 0f)
+            {
+                // scroll up
+                GetNextAvailableWeapon(selectedWeaponPosition);
+            }
+            else if (scrollDirection < 0f)
+            {
+                // scroll down
+                GetPreviousAvailableWeapon(selectedWeaponPosition);
+            }
+
 
             /**
              * Horizontal Movement
