@@ -48,6 +48,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             player.GetComponent<PlayerManager>().enabled = true;
+            Camera.main.GetComponent<CameraShake>().localPlayer = player;
             GameObject.Find("LoadingScreen").gameObject.SetActive(false);
         }
     }

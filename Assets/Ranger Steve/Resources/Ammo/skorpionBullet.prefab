@@ -10,8 +10,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 6100000}
   - component: {fileID: 5000000}
-  - component: {fileID: 11400000}
   - component: {fileID: 82000010912599010}
+  - component: {fileID: 11400000}
   - component: {fileID: 114359044683477574}
   - component: {fileID: 114367029199262630}
   m_Layer: 0
@@ -123,6 +123,8 @@ MonoBehaviour:
   explosion: {fileID: 0}
   damage: 10
   bulletSpeed: 6200
+  shakeAmount: 0.15
+  shakeDuration: 0.1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

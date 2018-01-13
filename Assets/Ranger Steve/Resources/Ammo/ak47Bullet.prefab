@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6100000}
   - component: {fileID: 5000000}
   - component: {fileID: 82000010912599010}
-  - component: {fileID: 11400000}
   - component: {fileID: 114426618772175294}
   - component: {fileID: 114920838087193850}
+  - component: {fileID: 11400000}
   m_Layer: 15
   m_Name: ak47Bullet
   m_TagString: Untagged
@@ -123,8 +123,8 @@ MonoBehaviour:
   explosion: {fileID: 0}
   damage: 14
   bulletSpeed: 6000
-  hitMarkerSoundEffect: {fileID: 8300000, guid: b1d649ceb1c7a43138e64694b92cc821,
-    type: 3}
+  shakeAmount: 0.15
+  shakeDuration: 0.1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

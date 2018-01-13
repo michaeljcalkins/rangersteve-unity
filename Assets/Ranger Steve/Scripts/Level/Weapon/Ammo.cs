@@ -11,6 +11,10 @@ namespace Com.LavaEagle.RangerSteve
 
         public int bulletSpeed;
 
+        public float shakeAmount;
+
+        public float shakeDuration;
+
         bool flag;
 
         CreatePlayer createPlayer;

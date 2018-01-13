@@ -10,8 +10,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 6100000}
   - component: {fileID: 5000000}
-  - component: {fileID: 11400000}
   - component: {fileID: 82000010912599010}
+  - component: {fileID: 11400000}
   - component: {fileID: 114359044683477574}
   - component: {fileID: 114014037238224576}
   m_Layer: 0
@@ -123,8 +123,8 @@ MonoBehaviour:
   explosion: {fileID: 0}
   damage: 80
   bulletSpeed: 7000
-  hitMarkerSoundEffect: {fileID: 8300000, guid: b1d649ceb1c7a43138e64694b92cc821,
-    type: 3}
+  shakeAmount: 0.3
+  shakeDuration: 0.1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
