@@ -10,6 +10,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 21200000}
   - component: {fileID: 5800000}
+  - component: {fileID: 58941425447928468}
   - component: {fileID: 5000000}
   - component: {fileID: 82156633575563244}
   - component: {fileID: 11400000}
@@ -95,7 +96,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1de6861158247bf44bfaff29b137f5ca, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -115,13 +116,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombRadius: 6.5
   bombForce: 1000
-  damage: 0
-  bulletSpeed: 2000
+  damage: 100
+  bulletSpeed: 1000
+  shakeAmount: 0
+  shakeDuration: 0
   boom: {fileID: 8300000, guid: 8b4e61c51941a46d1aac273472c814fd, type: 3}
-  fuse: {fileID: 8300000, guid: 238da4efc08184aee919af254edb2ef1, type: 3}
-  fuseTime: 1.5
-  explosion: {fileID: 100000, guid: ccb250fa361da29418c11e32d471dcb7, type: 2}
-  numberOfGroundHits: 0
+  explosion: {fileID: 100000, guid: 95eadc4c85f3845c4b686b01a71b58a7, type: 2}
   flag: 0
 --- !u!114 &11400002
 MonoBehaviour:
@@ -3418,6 +3418,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
+--- !u!58 &58941425447928468
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 1de6861158247bf44bfaff29b137f5ca, type: 2}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.02}
+  serializedVersion: 2
+  m_Radius: 1.26
 --- !u!82 &82156633575563244
 AudioSource:
   m_ObjectHideFlags: 1
@@ -3581,7 +3596,7 @@ MonoBehaviour:
     DrawErrorGizmo: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 0
     InterpolateRotateTowardsSpeed: 180
     InterpolateLerpSpeed: 5
   m_ScaleModel:

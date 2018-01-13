@@ -1268,7 +1268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammunitionName: bomb
   amount: 0
-  fireRate: 0.8
+  fireRate: 2
   hasBeenPickedUp: 0
 --- !u!114 &114289628258640756
 MonoBehaviour:

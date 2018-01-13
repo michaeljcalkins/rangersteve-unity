@@ -10,8 +10,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 6100000}
   - component: {fileID: 5000000}
-  - component: {fileID: 11400000}
   - component: {fileID: 82000010912599010}
+  - component: {fileID: 11400000}
   - component: {fileID: 114359044683477574}
   m_Layer: 0
   m_Name: rocket
@@ -202,6 +202,8 @@ MonoBehaviour:
   explosion: {fileID: 100000, guid: 6b28157e23b01a64c824e9ef19211616, type: 2}
   damage: 100
   bulletSpeed: 4000
+  shakeAmount: 0.3
+  shakeDuration: 0.1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
