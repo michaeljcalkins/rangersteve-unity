@@ -22,7 +22,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.GetComponent<PhotonView>().isMine)
+            if (other.GetComponent<PhotonView>() && !other.GetComponent<PhotonView>().isMine)
                 return;
 
             // Play kill trigger splash animation here

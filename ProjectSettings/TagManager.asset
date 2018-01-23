@@ -4,8 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
-  - Obstacle
   - WeaponBox
   - Grenade
   - WeaponSpawnPoint
@@ -16,6 +14,8 @@ TagManager:
   - Networked Ammo
   - PlayerSpawnPoint
   - HUD
+  - PlatformSpawnPoint
+  - Platform
   layers:
   - Default
   - TransparentFX

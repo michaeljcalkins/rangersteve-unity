@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 50000012889579592}
   - component: {fileID: 58301354867164184}
   - component: {fileID: 70112615231772182}
-  - component: {fileID: 61659191336951978}
   - component: {fileID: 82000014053965200}
   - component: {fileID: 114000011968518014}
   - component: {fileID: 114289628258640756}
@@ -556,7 +555,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011565703296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -206.99129, y: 0.47210255, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4000011514293230}
@@ -934,34 +933,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1611039, y: 0.7459797}
+  m_Offset: {x: 0.1611039, y: 0.7671513}
   serializedVersion: 2
-  m_Radius: 0.21281569
---- !u!61 &61659191336951978
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011565703296}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.009973004, y: -0.9903629}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.7938806, y: 0.15716076}
-  m_EdgeRadius: 0
+  m_Radius: 0.23398726
 --- !u!70 &70112615231772182
 CapsuleCollider2D:
   m_ObjectHideFlags: 1
@@ -1138,7 +1112,7 @@ MonoBehaviour:
   totalDamageDealt: 0
   leaderboard: {fileID: 0}
   scoreManager: {fileID: 0}
-  defaultCameraOrthographicSize: 17.8
+  defaultCameraOrthographicSize: 20
   cursorTexture: {fileID: 2800000, guid: 72e26a8b457c849f0aa90bd80a0552c1, type: 3}
   hitCursorTexture: {fileID: 2800000, guid: 5c2fa3de06f8f4aa0acb724193d47831, type: 3}
   jump: 0
@@ -1871,7 +1845,7 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212342075293238420
 SpriteRenderer:
@@ -2039,7 +2013,7 @@ SpriteRenderer:
   m_Size: {x: 2.79, y: 2.61}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
 --- !u!212 &212525257394947688
 SpriteRenderer:
@@ -2585,5 +2559,5 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 0.9}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0

@@ -10,12 +10,10 @@ namespace Com.LavaEagle.RangerSteve
         public GameObject player;
 
         // Array of empty objects that are used as location indicators of potential spawn points
-        public GameObject[] spawnPoints;
+        private GameObject[] spawnPoints;
 
         void Start()
         {
-            Invoke("HandleCreatePlayerObject", 1f);
-
             // Hide until player loads and can control it
             Image hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);

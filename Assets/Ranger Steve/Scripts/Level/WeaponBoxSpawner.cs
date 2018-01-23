@@ -44,6 +44,7 @@ namespace Com.LavaEagle.RangerSteve
         {
             // Grab a random y coordinate
             Vector3 weaponSpawnPoint = Vector3.zero;
+            weaponSpawnPoints = GameObject.FindGameObjectsWithTag("WeaponSpawnPoint");
 
             // If there is a spawn point array and the array is not empty, pick a spawn point at random
             if (weaponSpawnPoints != null && weaponSpawnPoints.Length > 0)

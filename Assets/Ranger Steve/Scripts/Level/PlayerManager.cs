@@ -177,7 +177,7 @@ namespace Com.LavaEagle.RangerSteve
                 LocalPlayerInstance = this.gameObject;
             }
 
-            this.tag = photonView.isMine ? "Local Player" : "Networked Player";
+            tag = photonView.isMine ? "Local Player" : "Networked Player";
 
             rightJumpjet = transform.Find("rightJumpjet");
             leftJumpjet = transform.Find("leftJumpjet");
@@ -242,7 +242,6 @@ namespace Com.LavaEagle.RangerSteve
                 // Weapon
                 rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(i == selectedWeaponPosition);
             }
-
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
             {
