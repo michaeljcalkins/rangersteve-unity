@@ -2,10 +2,8 @@
 
 namespace Com.LavaEagle.RangerSteve
 {
-    [RequireComponent(typeof(PhotonView))]
     public class PlatformSpawner : Photon.MonoBehaviour
     {
-
         public GameObject[] platforms;
 
         public int numberOfPlatformsToSpawn;
@@ -18,6 +16,8 @@ namespace Com.LavaEagle.RangerSteve
         {
             createPlayer = GameObject.Find("CreatePlayerManager").GetComponent<CreatePlayer>();
 
+            createPlayer.HandleCreatePlayerObject();
+
             if (PhotonNetwork.isMasterClient)
             {
                 for (int i = 0; i < numberOfPlatformsToSpawn; i++)
@@ -26,7 +26,10 @@ namespace Com.LavaEagle.RangerSteve
                 }
             }
 
-            Invoke("HandleCreatePlayerObject", 3f);
+            if (createPlayer.player)
+            {
+                createPlayer.player.GetComponent<PlayerManager>().HandleRespawn();
+            }
         }
 
         void HandleCreatePlayerObject()

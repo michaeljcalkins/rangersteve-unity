@@ -30,13 +30,12 @@ namespace Com.LavaEagle.RangerSteve
         {
             Vector3 spawnPoint;
 
-            PlayerStateManager playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
-
-            spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
-            spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+            //spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+            //spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
-            Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
+            //Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
+            Vector3 dropPos = new Vector3(0, 0);
             player = PhotonNetwork.Instantiate(Resources.Load("hero").name, dropPos, Quaternion.identity, 0);
 
             if (!player)

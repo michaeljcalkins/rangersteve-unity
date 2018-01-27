@@ -98,8 +98,6 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool isHitIndicatorVisible = false;
 
-        private PlayerStateManager playerState;
-
         [SerializeField]
         private bool fire;
 
@@ -189,7 +187,6 @@ namespace Com.LavaEagle.RangerSteve
             jetAudioSource = GetComponent<AudioSource>();
             leaderboard = GameObject.Find("Leaderboard");
             currentHealthText = GameObject.Find("CurrentHealthText").GetComponent<Text>();
-            playerState = GameObject.Find("PlayerStateManager").GetComponent<PlayerStateManager>();
             hurtBorderImage = GameObject.Find("HurtBorderImage").GetComponent<Image>();
             scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
             weaponHUD = GameObject.Find("WeaponHUD");
@@ -520,7 +517,6 @@ namespace Com.LavaEagle.RangerSteve
             rightHandPivot.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
 
-        [PunRPC]
         public void HandleRespawn()
         {
             selectedWeaponPosition = -1;
