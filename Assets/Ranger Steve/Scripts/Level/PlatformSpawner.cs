@@ -26,13 +26,17 @@ namespace Com.LavaEagle.RangerSteve
         void Test()
         {
             if (FindObjectsOfType<Platform>().Length < maxNumber)
-                StartCoroutine(Spawn());
+                Spawn();
         }
 
-        public IEnumerator Spawn()
+        public void Spawn()
         {
+            int blockSize = 2;
+
             GameObject lowerBoundary = GameObject.Find("LowerPlatformSpawnBoundary");
             GameObject upperBoundary = GameObject.Find("UpperPlatformSpawnBoundary");
+
+            int numberOfBlocks = Random.Range(3, 15);
 
             float x = Random.Range(lowerBoundary.transform.position.x, upperBoundary.transform.position.x);
             float y = Random.Range(lowerBoundary.transform.position.y, upperBoundary.transform.position.y);
@@ -41,7 +45,13 @@ namespace Com.LavaEagle.RangerSteve
 
             PhotonNetwork.InstantiateSceneObject("MapTiles/Metal/Center", spawnPoint, Quaternion.identity, 0, null);
 
-            return null;
+            for (int i = 0; i < numberOfBlocks; i++)
+            {
+                int upOrDown = Random.Range(-1, 1);
+                spawnPoint = spawnPoint + new Vector3(blockSize, blockSize * upOrDown, 0);
+                print(spawnPoint);
+                PhotonNetwork.InstantiateSceneObject("MapTiles/Metal/Center", spawnPoint, Quaternion.identity, 0, null);
+            }
 
             //// Grab a random y coordinate
             //Vector3 spawnPoint = Vector3.zero;
