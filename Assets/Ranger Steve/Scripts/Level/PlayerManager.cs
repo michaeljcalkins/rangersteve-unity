@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Com.LavaEagle.RangerSteve
 {
@@ -22,6 +19,11 @@ namespace Com.LavaEagle.RangerSteve
 
         // Amount of force added to move the player left and right.
         public float moveForce;
+
+        // In flight this modifies the moove force.
+        public float verticalBoostForceDampener;
+
+        public float horizontalBoostForceDampener;
 
         // The fastest the player can travel in the x axis.
         public float maxSpeedX;
@@ -44,8 +46,6 @@ namespace Com.LavaEagle.RangerSteve
         public float groundedLinearDrag;
 
         public float flyingLinearDrag;
-
-        public float bombMoveForceModifier;
 
         [Header("Weapon")]
 
@@ -105,7 +105,7 @@ namespace Com.LavaEagle.RangerSteve
 
         private float nextFire = 0;
 
-        private Slider remainingJetFuelSlider;
+        private Text boostText;
 
         private Image hurtBorderImage;
 
@@ -206,13 +206,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 health = 100f;
 
-                // Hidden until player loads
-                GameObject.Find("RemainingJetFuelSlider").transform.localScale = new Vector3(1, 1, 1);
-
-                remainingJetFuelSlider = GameObject.Find("RemainingJetFuelSlider").GetComponent<Slider>();
-
-                // Hide jet fuel slider while game is loading
-                remainingJetFuelSlider.gameObject.SetActive(false);
+                boostText = GameObject.Find("CurrentBoostText").GetComponent<Text>();
 
                 // Make hurt border start out invisible
                 hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
@@ -313,17 +307,15 @@ namespace Com.LavaEagle.RangerSteve
             currentHealthText.text = health.ToString();
 
             // Remaining Jet Fuel Slider
-            if (health > 0)
+            int remainingBoost = Mathf.RoundToInt(100 - (usedFlyingTime / maxFlyingTime) * 100);
+            if (health > 0 && remainingBoost > 0)
             {
-                remainingJetFuelSlider.value = 1 - (usedFlyingTime / maxFlyingTime);
+                boostText.text = remainingBoost.ToString();
             }
             else
             {
-                remainingJetFuelSlider.value = 0;
+                boostText.text = "0";
             }
-
-            // Jet Fuel Slider Visibility
-            remainingJetFuelSlider.gameObject.SetActive(flying || remainingJetFuelSlider.value < 1);
         }
 
         void FixedUpdate()
@@ -778,16 +770,26 @@ namespace Com.LavaEagle.RangerSteve
                 GetPreviousAvailableWeapon(selectedWeaponPosition);
             }
 
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                GetPreviousAvailableWeapon(selectedWeaponPosition);
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                GetNextAvailableWeapon(selectedWeaponPosition);
+            }
+
             /**
              * Horizontal Movement
              */
             // Left and right movement
             float h = Input.GetAxis("Horizontal");
+            h = IsGrounded() ? h : h * horizontalBoostForceDampener;
 
             //Use the two store floats to create a new Vector2 variable movement.
             Vector2 movement = new Vector2(h, 0);
 
-            float modifiedMoveForce = IsGrounded() ? moveForce : moveForce * 0.8f;
+            float modifiedMoveForce = IsGrounded() ? moveForce : moveForce * verticalBoostForceDampener;
 
             // ... add a force to the player.
             GetComponent<Rigidbody2D>().AddForce(movement * modifiedMoveForce, ForceMode2D.Force);

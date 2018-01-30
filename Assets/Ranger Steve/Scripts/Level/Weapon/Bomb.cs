@@ -52,8 +52,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // Send damage to remote player
                 float weaponDamage = GetComponent<Bomb>().damage;
-                print(other.transform.parent.gameObject);
-                other.transform.parent.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
+                //print(other.transform.parent.gameObject);
+                //other.transform.parent.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
             }
 
             if (

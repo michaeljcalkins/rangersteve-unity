@@ -43,8 +43,8 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // Send damage to remote player
                 float weaponDamage = GetComponent<Ammo>().damage;
-                print(other.transform.parent.gameObject);
-                other.transform.parent.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
+                //print(other.transform.parent.gameObject);
+                //other.transform.parent.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
             }
 
             if (other.tag == "Networked Player" && tag == "Local Ammo")

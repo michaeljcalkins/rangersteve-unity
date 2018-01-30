@@ -19,11 +19,11 @@ namespace Com.LavaEagle.RangerSteve
             hurtBorderImage.GetComponent<CanvasRenderer>().SetAlpha(0);
 
             // Hide until player loads
-            GameObject[] HUDGameObjects = GameObject.FindGameObjectsWithTag("HUD");
-            foreach (GameObject HUDGameObject in HUDGameObjects)
-            {
-                HUDGameObject.transform.localScale = new Vector3(0, 0, 0);
-            }
+            //GameObject[] HUDGameObjects = GameObject.FindGameObjectsWithTag("HUD");
+            //foreach (GameObject HUDGameObject in HUDGameObjects)
+            //{
+            //    HUDGameObject.transform.localScale = new Vector3(0, 0, 0);
+            //}
         }
 
         public void HandleCreatePlayerObject()
