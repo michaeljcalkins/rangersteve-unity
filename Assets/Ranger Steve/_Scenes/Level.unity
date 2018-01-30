@@ -6573,7 +6573,7 @@ GameObject:
   - component: {fileID: 287220727}
   - component: {fileID: 287220726}
   - component: {fileID: 287220725}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: ScoreManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6631,8 +6631,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 287220724}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -119.274994, y: -27.235691, z: 7.8816643}
-  m_LocalScale: {x: 2.9080389, y: 2.9080389, z: 2.9080389}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -18030,7 +18030,7 @@ GameObject:
   - component: {fileID: 804144667}
   m_Layer: 5
   m_Name: HelpButton
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18566,7 +18566,7 @@ GameObject:
   - component: {fileID: 843695531}
   m_Layer: 5
   m_Name: LoadingScreen
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21349,7 +21349,7 @@ GameObject:
   - component: {fileID: 964107717}
   m_Layer: 5
   m_Name: PreorderButton
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29774,7 +29774,7 @@ Transform:
   m_GameObject: {fileID: 1342205478}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.8549101, y: 3.8549116, z: 3.8549116}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -31315,7 +31315,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1403687670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1435.8895, y: 925.46826, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -37217,7 +37217,7 @@ GameObject:
   - component: {fileID: 1628042508}
   m_Layer: 5
   m_Name: TimeHUD
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45620,7 +45620,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2008035661}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

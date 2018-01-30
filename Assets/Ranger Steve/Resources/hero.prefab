@@ -1091,7 +1091,7 @@ MonoBehaviour:
   maxHealth: 100
   moveForce: 400
   verticalBoostForceDampener: 0.8
-  horizontalBoostForceDampener: 0.6
+  horizontalBoostForceDampener: 0.4
   maxSpeedX: 25
   maxSpeedY: 30
   maxFlyingTime: 3
