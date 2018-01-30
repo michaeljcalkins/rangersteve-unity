@@ -58,6 +58,7 @@ namespace Com.LavaEagle.RangerSteve
 
             if (
                 other.tag == "Ground" ||
+                other.tag == "KillZone" ||
                 other.tag == "Networked Player" && this.tag == "Local Ammo"
             )
             {

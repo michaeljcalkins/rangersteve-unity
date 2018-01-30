@@ -786,7 +786,7 @@ namespace Com.LavaEagle.RangerSteve
             float h = Input.GetAxis("Horizontal");
             h = IsGrounded() ? h : h * horizontalBoostForceDampener;
 
-            //Use the two store floats to create a new Vector2 variable movement.
+            // Use the two store floats to create2e2 a new Vector2 variable movement.
             Vector2 movement = new Vector2(h, 0);
 
             float modifiedMoveForce = IsGrounded() ? moveForce : moveForce * verticalBoostForceDampener;

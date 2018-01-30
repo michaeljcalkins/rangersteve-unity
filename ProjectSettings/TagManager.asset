@@ -16,6 +16,7 @@ TagManager:
   - HUD
   - PlatformSpawnPoint
   - Platform
+  - KillZone
   layers:
   - Default
   - TransparentFX
