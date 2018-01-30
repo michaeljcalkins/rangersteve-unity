@@ -231,7 +231,16 @@ namespace Com.LavaEagle.RangerSteve
             for (int i = 0; i < 10; i++)
             {
                 // Weapon
-                rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(i == selectedWeaponPosition);
+                if (i == selectedWeaponPosition)
+                {
+                    Weapon weapon = GetWeaponAtPosition(i);
+                    bool isWeaponVisible = weapon.amount > 0;
+                    rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(isWeaponVisible);
+                }
+                else
+                {
+                    rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+                }
             }
 
             if (!photonView.isMine && PhotonNetwork.connected == true)
@@ -246,7 +255,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // HUD
                 Weapon weapon = GetWeaponAtPosition(i);
-                weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.hasBeenPickedUp);
+                weaponHUD.transform.GetChild(i).gameObject.SetActive(weapon.amount > 0);
 
                 // Remaining Ammo
                 weaponHUD.transform.GetChild(i).transform.GetChild(2).GetComponent<Text>().text = weapon.amount.ToString();
@@ -464,7 +473,6 @@ namespace Com.LavaEagle.RangerSteve
         {
             Weapon pickedUpWeapon = rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition).gameObject.GetComponent<Weapon>();
             pickedUpWeapon.amount += amount;
-            pickedUpWeapon.hasBeenPickedUp = true;
 
             // If it's the first gun you pick up auto assign it.
             if (selectedWeaponPosition == -1)
@@ -477,12 +485,20 @@ namespace Com.LavaEagle.RangerSteve
         {
             if (selectedWeaponPosition == -1) return null;
 
-            return rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeaponPosition).gameObject.GetComponent<Weapon>();
+            Transform weaponTransform = rightHandPivot.GetChild(0).GetChild(0).GetChild(selectedWeaponPosition);
+
+            if (!weaponTransform) return null;
+
+            return weaponTransform.gameObject.GetComponent<Weapon>();
         }
 
         private Weapon GetWeaponAtPosition(int weaponPosition)
         {
-            return rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition).gameObject.GetComponent<Weapon>();
+            Transform weaponTransform = rightHandPivot.GetChild(0).GetChild(0).GetChild(weaponPosition);
+
+            if (!weaponTransform) return null;
+
+            return weaponTransform.gameObject.GetComponent<Weapon>();
         }
 
         public bool IsPlayerDisabled()
@@ -519,7 +535,6 @@ namespace Com.LavaEagle.RangerSteve
             {
                 // HUD
                 Weapon weapon = GetWeaponAtPosition(i);
-                weapon.hasBeenPickedUp = false;
                 weapon.amount = 0;
             }
 
@@ -645,6 +660,11 @@ namespace Com.LavaEagle.RangerSteve
             {
                 this.photonView.RPC("FireBomb", PhotonTargets.All, transform.position, mousePos, selectedWeapon.ammunitionName);
             }
+
+            if (selectedWeapon.amount <= 0)
+            {
+                selectedWeaponPosition = -1;
+            }
         }
 
         [PunRPC]
@@ -716,7 +736,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             Weapon weapon = GetWeaponAtPosition(selectedWeaponPosition);
-            if (weapon.hasBeenPickedUp || originalPosition == selectedWeaponPosition)
+            if (weapon.amount > 0 || originalPosition == selectedWeaponPosition)
             {
                 return;
             }
@@ -726,6 +746,12 @@ namespace Com.LavaEagle.RangerSteve
 
         void GetPreviousAvailableWeapon(int originalPosition)
         {
+            if (selectedWeaponPosition == -1)
+            {
+                GetNextAvailableWeapon(originalPosition);
+                return;
+            }
+
             // scroll up
             if (originalPosition == -1 && selectedWeaponPosition == 0)
             {
@@ -743,7 +769,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             Weapon weapon = GetWeaponAtPosition(selectedWeaponPosition);
-            if (weapon.hasBeenPickedUp || originalPosition == selectedWeaponPosition)
+            if (weapon.amount > 0 || originalPosition == selectedWeaponPosition)
             {
                 return;
             }
@@ -848,7 +874,7 @@ namespace Com.LavaEagle.RangerSteve
             if (potentialWeaponPosition > -1)
             {
                 Weapon selectedWeapon = GetWeaponAtPosition(potentialWeaponPosition);
-                if (selectedWeapon.hasBeenPickedUp)
+                if (selectedWeapon.amount > 0)
                 {
                     selectedWeaponPosition = potentialWeaponPosition;
                 }
