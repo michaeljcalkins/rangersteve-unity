@@ -539,7 +539,7 @@ namespace Com.LavaEagle.RangerSteve
             }
 
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
-            Vector3 spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].transform.position;
+            Vector3 spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
 
             // Pick a random x coordinate
             Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);

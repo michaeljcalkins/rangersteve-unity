@@ -37,10 +37,10 @@ namespace Com.LavaEagle.RangerSteve
         void Test()
         {
             if (FindObjectsOfType<WeaponBox>().Length < maxNumberOfBoxes)
-                StartCoroutine(DeliverPickup());
+                StartCoroutine(Spawn());
         }
 
-        public IEnumerator DeliverPickup()
+        public IEnumerator Spawn()
         {
             // Grab a random y coordinate
             Vector3 weaponSpawnPoint = Vector3.zero;
@@ -61,7 +61,7 @@ namespace Com.LavaEagle.RangerSteve
                 if (en.transform.tag == "WeaponBox")
                 {
                     yield return new WaitForSeconds(0.001f);
-                    StartCoroutine(DeliverPickup());
+                    StartCoroutine(Spawn());
                     yield break;
                 }
             }
@@ -79,7 +79,7 @@ namespace Com.LavaEagle.RangerSteve
             PhotonNetwork.InstantiateSceneObject("Weapon Boxes/" + weaponBoxes[pickupIndex].name, dropPos, Quaternion.identity, 0, null);
 
             if (FindObjectsOfType<WeaponBox>().Length < maxNumberOfBoxes)
-                StartCoroutine(DeliverPickup());
+                StartCoroutine(Spawn());
         }
     }
 }

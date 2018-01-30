@@ -39,12 +39,11 @@ namespace Com.LavaEagle.RangerSteve
 
             transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
-            if (((other.tag == "Ground" && tag == "Local Ammo") || (other.tag == "Ground" && tag == "Networked Ammo")) && PhotonNetwork.isMasterClient)
+            if (other.tag == "Platform" && tag == "Local Ammo" && PhotonNetwork.isMasterClient)
             {
-                // Send damage to remote player
+                // Send damage to remote platform
                 float weaponDamage = GetComponent<Ammo>().damage;
-                //print(other.transform.parent.gameObject);
-                //other.transform.parent.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
+                other.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
             }
 
             if (other.tag == "Networked Player" && tag == "Local Ammo")

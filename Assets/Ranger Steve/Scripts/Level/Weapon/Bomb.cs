@@ -48,18 +48,11 @@ namespace Com.LavaEagle.RangerSteve
 
             transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
-            if (((other.tag == "Ground" && tag == "Local Ammo") || (other.tag == "Ground" && tag == "Networked Ammo")) && PhotonNetwork.isMasterClient)
-            {
-                // Send damage to remote player
-                float weaponDamage = GetComponent<Bomb>().damage;
-                //print(other.transform.parent.gameObject);
-                //other.transform.parent.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
-            }
-
             if (
                 other.tag == "Ground" ||
+                other.tag == "Platform" ||
                 other.tag == "KillZone" ||
-                other.tag == "Networked Player" && this.tag == "Local Ammo"
+                other.tag == "Networked Player"
             )
             {
                 Explode(transform.position);
@@ -98,6 +91,13 @@ namespace Com.LavaEagle.RangerSteve
                 Rigidbody2D rb = en.GetComponent<Rigidbody2D>();
 
                 if (rb == null) continue;
+
+                if (rb.tag == "Platform" && tag == "Local Ammo" && PhotonNetwork.isMasterClient)
+                {
+                    // Send damage to remote player
+                    float weaponDamage = GetComponent<Bomb>().damage;
+                    rb.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
+                }
 
                 if (rb.tag == "Local Player")
                 {

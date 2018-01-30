@@ -1,59 +1,60 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace Com.LavaEagle.RangerSteve
 {
     public class PlatformSpawner : Photon.MonoBehaviour
     {
-        public GameObject[] platforms;
+        public int secondsToSpawn;
 
-        public int numberOfPlatformsToSpawn;
+        public int maxNumber;
 
-        private GameObject[] platformSpawnPoints;
-
-        private CreatePlayer createPlayer;
-
-        void Awake()
+        void Start()
         {
-            createPlayer = GameObject.Find("CreatePlayerManager").GetComponent<CreatePlayer>();
-
-            createPlayer.HandleCreatePlayerObject();
-
             if (PhotonNetwork.isMasterClient)
             {
-                for (int i = 0; i < numberOfPlatformsToSpawn; i++)
-                {
-                    SpawnPlatform();
-                }
-            }
-
-            if (createPlayer.player)
-            {
-                createPlayer.player.GetComponent<PlayerManager>().HandleRespawn();
+                InvokeRepeating("Test", 0, secondsToSpawn);
             }
         }
 
-        void HandleCreatePlayerObject()
+        void OnMasterClientSwitched(PhotonPlayer newMasterClient)
         {
-            createPlayer.HandleCreatePlayerObject();
+            // if the master client out of the room then pass the baton to spawn weapons boxes to another player
+            InvokeRepeating("Test", 0, secondsToSpawn);
         }
 
-        void SpawnPlatform()
+        void Test()
         {
-            platformSpawnPoints = GameObject.FindGameObjectsWithTag("PlatformSpawnPoint");
-            int platformIndex = Random.Range(0, platforms.Length);
+            if (FindObjectsOfType<Platform>().Length < maxNumber)
+                StartCoroutine(Spawn());
+        }
 
-            // Grab a random y coordinate
-            Vector3 spawnPoint = Vector3.zero;
+        public IEnumerator Spawn()
+        {
+            GameObject lowerBoundary = GameObject.Find("LowerPlatformSpawnBoundary");
+            GameObject upperBoundary = GameObject.Find("UpperPlatformSpawnBoundary");
 
-            // If there is a spawn point array and the array is not empty, pick a spawn point at random
-            if (platformSpawnPoints != null && platformSpawnPoints.Length > 0)
-            {
-                spawnPoint = platformSpawnPoints[Random.Range(0, platformSpawnPoints.Length)].transform.position;
-            }
+            float x = Random.Range(lowerBoundary.transform.position.x, upperBoundary.transform.position.x);
+            float y = Random.Range(lowerBoundary.transform.position.y, upperBoundary.transform.position.y);
 
-            platformIndex = Random.Range(0, platforms.Length);
+            Vector3 spawnPoint = new Vector3(x, y);
 
-            PhotonNetwork.InstantiateSceneObject("Platforms/" + platforms[platformIndex].name, spawnPoint, Quaternion.identity, 0, null);
+            PhotonNetwork.InstantiateSceneObject("MapTiles/Metal/Center", spawnPoint, Quaternion.identity, 0, null);
+
+            return null;
+
+            //// Grab a random y coordinate
+            //Vector3 spawnPoint = Vector3.zero;
+
+            //// If there is a spawn point array and the array is not empty, pick a spawn point at random
+            //if (platformSpawnPoints != null && platformSpawnPoints.Length > 0)
+            //{
+            //    spawnPoint = platformSpawnPoints[Random.Range(0, platformSpawnPoints.Length)].transform.position;
+            //}
+
+            //platformIndex = Random.Range(0, platforms.Length);
+
+            //PhotonNetwork.InstantiateSceneObject("Platforms/" + platforms[platformIndex].name, spawnPoint, Quaternion.identity, 0, null);
         }
     }
 }

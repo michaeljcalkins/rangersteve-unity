@@ -20,11 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4159701416064280}
   - component: {fileID: 212345050962020242}
-  - component: {fileID: 114360899632716268}
   - component: {fileID: 61087022621615012}
+  - component: {fileID: 50015079462680422}
+  - component: {fileID: 114988373987544466}
+  - component: {fileID: 114026564464768214}
   m_Layer: 12
   m_Name: Center
-  m_TagString: Ground
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,6 +44,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50015079462680422
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831601423217026}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 2
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 1.7
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 7
 --- !u!61 &61087022621615012
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -67,7 +89,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
---- !u!114 &114360899632716268
+--- !u!114 &114026564464768214
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -75,11 +97,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1831601423217026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e26b6a74c127340bd89efe22d9f6343f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cfb24696edde4d1da842f4108963103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapValue: 1
-  depth: 0
+  health: 100
+--- !u!114 &114988373987544466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831601423217026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!212 &212345050962020242
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -8,6 +8,13 @@ namespace Com.LavaEagle.RangerSteve
         [SerializeField]
         public float health;
 
+        private void Update()
+        {
+            transform.GetComponent<Rigidbody2D>().constraints = health > 0
+                ? RigidbodyConstraints2D.FreezeAll
+                : RigidbodyConstraints2D.None;
+        }
+
         public void HandleDamage(float damage)
         {
             health -= damage;
@@ -20,33 +27,13 @@ namespace Com.LavaEagle.RangerSteve
             if (health <= 0)
             {
                 print("Platform is dead.");
-                Death();
-                return;
+                Invoke("DestroyObject", 4f);
             }
-
-        }
-
-        void Death()
-        {
-            for (int i = 0; i < transform.GetChildCount(); i++)
-            {
-                Transform child = transform.GetChild(i);
-                if (child.tag == "Ground")
-                {
-                    child.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                }
-                else
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
-
-            Invoke("DestroyObject", 4f);
         }
 
         void DestroyObject()
         {
-            PhotonNetwork.Destroy(transform.root.gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
 
         #region Photon
@@ -66,8 +53,6 @@ namespace Com.LavaEagle.RangerSteve
         }
 
         #endregion
-
-
 
     }
 }
