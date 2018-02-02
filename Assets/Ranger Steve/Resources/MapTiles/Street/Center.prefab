@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4159701416064280}
   - component: {fileID: 212345050962020242}
-  - component: {fileID: 114360899632716268}
   - component: {fileID: 61087022621615012}
+  - component: {fileID: 114360899632716268}
   m_Layer: 12
   m_Name: Center
   m_TagString: Ground

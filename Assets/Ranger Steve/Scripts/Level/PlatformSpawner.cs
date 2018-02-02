@@ -47,9 +47,8 @@ namespace Com.LavaEagle.RangerSteve
 
             for (int i = 0; i < numberOfBlocks; i++)
             {
-                int upOrDown = Random.Range(-1, 1);
+                int upOrDown = Random.Range(-1, 2);
                 spawnPoint = spawnPoint + new Vector3(blockSize, blockSize * upOrDown, 0);
-                print(spawnPoint);
                 PhotonNetwork.InstantiateSceneObject("MapTiles/Metal/Center", spawnPoint, Quaternion.identity, 0, null);
             }
 

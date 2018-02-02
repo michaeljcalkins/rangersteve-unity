@@ -92,7 +92,7 @@ namespace Com.LavaEagle.RangerSteve
 
                 if (rb == null) continue;
 
-                if (rb.tag == "Platform" && tag == "Local Ammo" && PhotonNetwork.isMasterClient)
+                if (rb.tag == "Platform" && (tag == "Local Ammo" || tag == "Networked Ammo") && PhotonNetwork.isMasterClient)
                 {
                     // Send damage to remote player
                     float weaponDamage = GetComponent<Bomb>().damage;

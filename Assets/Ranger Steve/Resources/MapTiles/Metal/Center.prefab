@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 50015079462680422}
   - component: {fileID: 114988373987544466}
   - component: {fileID: 114026564464768214}
+  - component: {fileID: 114223832042315010}
   m_Layer: 12
   m_Name: Center
   m_TagString: Platform
@@ -101,6 +102,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &114223832042315010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831601423217026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26b6a74c127340bd89efe22d9f6343f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapValue: 1
+  depth: 0
 --- !u!114 &114988373987544466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,12 +130,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 114026564464768214}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

@@ -9,7 +9,7 @@ public class EditModeGridSnap : MonoBehaviour
 
     void Update()
     {
-        if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor)
+        if (!Application.isPlaying && (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor))
         {
             float snapInverse = 1 / snapValue;
 

@@ -13,6 +13,10 @@ namespace Com.LavaEagle.RangerSteve
             transform.GetComponent<Rigidbody2D>().constraints = health > 0
                 ? RigidbodyConstraints2D.FreezeAll
                 : RigidbodyConstraints2D.None;
+
+            transform.GetComponent<Rigidbody2D>().bodyType = health > 0
+                ? RigidbodyType2D.Kinematic
+                : RigidbodyType2D.Dynamic;
         }
 
         public void HandleDamage(float damage)
@@ -33,7 +37,7 @@ namespace Com.LavaEagle.RangerSteve
 
         void DestroyObject()
         {
-            PhotonNetwork.Destroy(gameObject);
+            PhotonNetwork.Destroy(transform.gameObject);
         }
 
         #region Photon
