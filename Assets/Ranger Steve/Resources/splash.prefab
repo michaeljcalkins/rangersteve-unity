@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f5e5a47c1508049b9a7edff5307220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnAwake: 0
-  awakeDestroyDelay: 0
+  destroyOnAwake: 1
+  awakeDestroyDelay: 3
   findChild: 0
   namedChild: 
 --- !u!212 &21200000
