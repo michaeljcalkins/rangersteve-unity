@@ -26,11 +26,8 @@ namespace Com.LavaEagle.RangerSteve
             // Never allow negative health.
             health = health < 0 ? 0 : health;
 
-            print("Platform damaged " + damage.ToString() + ", remaining health " + health.ToString());
-
             if (health <= 0)
             {
-                print("Platform is dead.");
                 Invoke("DestroyObject", 4f);
             }
         }
