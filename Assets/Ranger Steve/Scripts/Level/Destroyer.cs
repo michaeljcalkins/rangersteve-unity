@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Com.LavaEagle.RangerSteve
 {
-    public class Destroyer : Photon.MonoBehaviour
+    public class Destroyer : MonoBehaviour
     {
         // Whether or not this gameobject should destroyed after a delay, on Awake.
         public bool destroyOnAwake;
@@ -37,8 +37,7 @@ namespace Com.LavaEagle.RangerSteve
         IEnumerator Destroy_(float awakeDestroyDelay)
         {
             yield return new WaitForSeconds(awakeDestroyDelay);
-            if (photonView.isMine)
-                Destroy(gameObject);
+            Destroy(gameObject);
         }
 
         void DestroyChildGameObject()
@@ -58,8 +57,7 @@ namespace Com.LavaEagle.RangerSteve
         void DestroyGameObject()
         {
             // Destroy this gameobject, this can be called from an Animation Event.
-            if (photonView.isMine)
-                Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }
