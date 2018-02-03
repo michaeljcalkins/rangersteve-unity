@@ -9,9 +9,6 @@ namespace Com.LavaEagle.RangerSteve
         [HideInInspector]
         public GameObject player;
 
-        // Array of empty objects that are used as location indicators of potential spawn points
-        private GameObject[] spawnPoints;
-
         void Start()
         {
             // Hide until player loads and can control it
@@ -23,9 +20,10 @@ namespace Com.LavaEagle.RangerSteve
 
         public void HandleCreatePlayerObject()
         {
-            // Keep new player outside of arena until game is ready
-            Vector3 dropPos = new Vector3(0, 0);
-            player = PhotonNetwork.Instantiate(Resources.Load("hero").name, dropPos, Quaternion.identity, 0);
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+            Vector3 spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+
+            player = PhotonNetwork.Instantiate(Resources.Load("hero").name, spawnPoint, Quaternion.identity, 0);
 
             if (!player)
             {
