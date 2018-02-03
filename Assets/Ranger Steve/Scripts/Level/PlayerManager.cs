@@ -230,16 +230,33 @@ namespace Com.LavaEagle.RangerSteve
              */
             for (int i = 0; i < 10; i++)
             {
-                // Weapon
-                if (i == selectedWeaponPosition)
+                if (photonView.isMine)
                 {
-                    Weapon weapon = GetWeaponAtPosition(i);
-                    bool isWeaponVisible = weapon.amount > 0;
-                    rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(isWeaponVisible);
+                    if (i == selectedWeaponPosition)
+                    {
+                        // Current weapon player is holding that has ammo
+                        Weapon weapon = GetWeaponAtPosition(i);
+                        bool isWeaponVisible = weapon.amount > 0;
+                        rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(isWeaponVisible);
+                    }
+                    else
+                    {
+                        rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+                    }
                 }
                 else
                 {
-                    rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+                    if (i == selectedWeaponPosition)
+                    {
+                        // Show the weapon the player currently has selected
+                        // Rely on their selectedWeaponPosition to correlate with weapon.amount
+                        rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        rightHandPivot.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+
+                    }
                 }
             }
 
@@ -533,18 +550,13 @@ namespace Com.LavaEagle.RangerSteve
 
             for (int i = 0; i < 10; i++)
             {
-                // HUD
                 Weapon weapon = GetWeaponAtPosition(i);
                 weapon.amount = 0;
             }
 
             GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
             Vector3 spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
-
-            // Pick a random x coordinate
-            Vector3 dropPos = new Vector3(spawnPoint.x, spawnPoint.y);
-            transform.position = dropPos;
-
+            transform.position = spawnPoint;
             transform.localScale = new Vector3(facingRight ? 1.2f : -1.2f, 1.2f, 1.2f);
         }
 
@@ -670,16 +682,14 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         public void HandleDamage(float damage)
         {
+            print(damage);
             health -= damage;
 
             // Never allow negative health.
             health = health < 0 ? 0 : health;
 
-            print("Player damaged " + damage.ToString() + ", remaining health " + health.ToString());
-
             if (health <= 0)
             {
-                print("Player is dead.");
                 Death();
                 return;
             }
