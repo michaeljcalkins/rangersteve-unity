@@ -137,8 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectingText: {fileID: 2076915380}
   Loglevel: 0
-  MaxPlayersPerRoom: 10
-  gameVersion: 18
+  MaxPlayersPerRoom: 8
+  gameVersion: 19
 --- !u!4 &393678415
 Transform:
   m_ObjectHideFlags: 0

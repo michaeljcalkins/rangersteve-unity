@@ -520,8 +520,7 @@ namespace Com.LavaEagle.RangerSteve
 
         public bool IsPlayerDisabled()
         {
-            string[] disabledPlayerRoundStates = { "ended", "paused", "starting", "restarting" };
-            return disabledPlayerRoundStates.Contains(scoreManager.roundState) || health <= 0;
+            return scoreManager.roundState != "active" || health <= 0;
         }
 
         public void HandleFreezePlayer()

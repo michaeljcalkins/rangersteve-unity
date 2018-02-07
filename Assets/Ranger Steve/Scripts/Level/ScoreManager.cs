@@ -11,7 +11,8 @@ namespace Com.LavaEagle.RangerSteve
 
         [Header("Countdown Timer")]
         public int roundLengthInSeconds;
-        public int roundLengthPaddingInSeconds;
+        public int roundLengthStartPaddingInSeconds;
+        public int roundLengthEndPaddingInSeconds;
         public int timeToRoundRestart;
         public int endOfRoundTimestamp;
         public Text timeRemainingText;
@@ -32,7 +33,7 @@ namespace Com.LavaEagle.RangerSteve
             {
                 roundState = "starting";
                 int currentTime = GetCurrentTime();
-                endOfRoundTimestamp = currentTime + (int)roundLengthInSeconds;
+                endOfRoundTimestamp = currentTime + (int)roundLengthStartPaddingInSeconds + (int)roundLengthInSeconds + (int)roundLengthEndPaddingInSeconds;
 
                 Hashtable customPropertiesToSet = new Hashtable();
                 customPropertiesToSet.Add("endOfRoundTimestamp", endOfRoundTimestamp);
@@ -41,88 +42,59 @@ namespace Com.LavaEagle.RangerSteve
             }
             else
             {
-                Invoke("HandleUpdateGameInfo", 1f);
+                HandleUpdateGameInfo();
             }
         }
 
         void Update()
         {
+            // 313 seconds
+            // first 3 seconds are countdown
+            // last 10 are restart warning
+
             int currentTime = GetCurrentTime();
-            int remainingSeconds = (endOfRoundTimestamp - currentTime) + roundLengthPaddingInSeconds;
+            int remainingSeconds = (endOfRoundTimestamp - currentTime);
+            int totalRoundLength = (int)roundLengthStartPaddingInSeconds + (int)roundLengthInSeconds + (int)roundLengthEndPaddingInSeconds;
 
-            if (remainingSeconds > roundLengthInSeconds)
+            // Show round countdown
+            int secondsUntilStart = remainingSeconds - (roundLengthInSeconds + roundLengthEndPaddingInSeconds);
+            if (secondsUntilStart > 0)
             {
-                timeRemainingText.text = roundLengthInSeconds.ToString();
-            }
-            else
-            {
-                timeRemainingText.text = remainingSeconds <= 0 ? "0" : remainingSeconds.ToString();
-            }
-
-            if (remainingSeconds > roundLengthInSeconds && roundState != "paused")
-            {
-                roundStartCountdownText.text = (remainingSeconds - roundLengthInSeconds).ToString();
-                roundState = "starting";
+                roundStartCountdownText.text = secondsUntilStart.ToString();
             }
             else
             {
                 roundStartCountdownText.text = "";
             }
 
-            string[] disabledPlayerRoundStates = { "ended", "paused", "restarting" };
-            if (remainingSeconds <= roundLengthInSeconds && remainingSeconds > 0 && !disabledPlayerRoundStates.Contains(roundState))
+            // Current time left in round
+            int secondsUntilEnd = remainingSeconds - (roundLengthEndPaddingInSeconds);
+            if (secondsUntilEnd > 0 && secondsUntilEnd < roundLengthInSeconds)
+            {
+                timeRemainingText.text = secondsUntilEnd.ToString();
+            }
+            else
+            {
+                timeRemainingText.text = secondsUntilEnd <= 0 ? "0" : roundLengthInSeconds.ToString();
+            }
+
+            if (remainingSeconds > 310)
+            {
+                roundState = "starting";
+            }
+            else if (remainingSeconds > 10)
             {
                 roundState = "active";
             }
-
-            if (remainingSeconds <= roundLengthInSeconds && roundState == "starting")
+            else if (remainingSeconds <= 10 && remainingSeconds > 0)
             {
-                roundState = "active";
-            }
-
-            if (remainingSeconds <= 0 && roundState != "starting")
-            {
+                roundStartCountdownText.text = "Round is restarting.";
                 roundState = "ended";
             }
-
-            if (roundState == "ended" && roundState != "restarting" && PhotonNetwork.isMasterClient)
+            else
             {
-                roundState = "restarting";
-                GameObject.Find("AlertMessageText").GetComponent<AlertMessageController>().EmitSetMessage("Round is restarting", "yellow", 3f);
-                Invoke("EmitRestartRound", timeToRoundRestart);
+                HandleRestartRound();
             }
-        }
-
-        #endregion
-
-
-        #region Public Custom
-
-        [PunRPC]
-        public void HandleDisablePlayers()
-        {
-            roundState = "paused";
-        }
-
-        [PunRPC]
-        public void HandleEnablePlayers()
-        {
-            roundState = "active";
-        }
-
-        public void EmitDisablePlayers()
-        {
-            photonView.RPC("HandleDisablePlayers", PhotonTargets.All);
-        }
-
-        public void EmitEnablePlayers()
-        {
-            photonView.RPC("HandleEnablePlayers", PhotonTargets.All);
-        }
-
-        public void EmitRestartRound()
-        {
-            photonView.RPC("HandleRestartRound", PhotonTargets.All);
         }
 
         #endregion
