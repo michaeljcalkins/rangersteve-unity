@@ -99,12 +99,12 @@ namespace Com.LavaEagle.RangerSteve
                     rb.gameObject.GetComponent<Platform>().HandleDamage(weaponDamage);
                 }
 
-                if (rb.tag == "Local Player")
+                if (rb.tag == "Local Player" && tag == "Local Ammo")
                 {
                     rb.GetComponent<PlayerManager>().HandleDamage(100);
                 }
 
-                if (rb.tag == "Networked Player")
+                if (rb.tag == "Networked Player" && tag == "Local Ammo")
                 {
                     en.gameObject.GetComponent<PhotonView>().RPC("HandleDamage", PhotonTargets.All, 100f);
                 }

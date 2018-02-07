@@ -682,7 +682,6 @@ namespace Com.LavaEagle.RangerSteve
         [PunRPC]
         public void HandleDamage(float damage)
         {
-            print(damage);
             health -= damage;
 
             // Never allow negative health.
