@@ -91,12 +91,17 @@ namespace Com.LavaEagle.RangerSteve
         [HideInInspector]
         public bool running = false;
 
+        [HideInInspector]
+        public bool isHitIndicatorVisible = false;
+
+        [SerializeField]
+        [HideInInspector]
+        public string nickname;
+
         #endregion
 
 
         #region Private Variables
-
-        public bool isHitIndicatorVisible = false;
 
         [SerializeField]
         private bool fire;
@@ -452,6 +457,7 @@ namespace Com.LavaEagle.RangerSteve
                 stream.SendNext(fire);
                 stream.SendNext(mouseX);
                 stream.SendNext(playerScreenPointX);
+                stream.SendNext(nickname);
             }
             else
             {
@@ -463,6 +469,7 @@ namespace Com.LavaEagle.RangerSteve
                 fire = (bool)stream.ReceiveNext();
                 mouseX = (float)stream.ReceiveNext();
                 playerScreenPointX = (float)stream.ReceiveNext();
+                nickname = (string)stream.ReceiveNext();
             }
         }
 

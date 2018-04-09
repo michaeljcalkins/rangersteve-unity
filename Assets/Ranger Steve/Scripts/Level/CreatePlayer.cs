@@ -36,6 +36,7 @@ namespace Com.LavaEagle.RangerSteve
 
             // Spawn player in game.
             player.GetComponent<PlayerManager>().enabled = true;
+            player.GetComponent<PlayerManager>().nickname = GameObject.Find("StateManager").GetComponent<StateManager>().nickname;
             player.GetComponent<PlayerManager>().HandleRespawn();
         }
     }

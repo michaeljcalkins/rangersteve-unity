@@ -674,7 +674,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
   cloudProjectId: 789bc18f-c255-4275-ae9d-fed8def9602e
-  projectName: Ranger Steve (2)
+  projectName: Ranger Steve
   organizationId: michaelcalkins
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
